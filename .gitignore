@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+
+# Reporte: intermedios de Quarto
+reporte/*.tex
+reporte/*_files/
+reporte/.quarto/
+reporte/*.log
+
+# Presentación: copia que arma Netlify
+presentation/dist/
+
+# Gráficas que regenera scripts/abogadas/run.py
+grafs/abogadas/**/*.png
+
+# Datos crudos de descarga completa (solo se versionan los tres archivos de entrada)
+data/raw/*
+!data/raw/abogadas/
+data/interim/*
+!data/interim/fgj_carpetas.parquet
+!data/interim/cnpje/
+data/interim/cnpje/*
+!data/interim/cnpje/cnpje_carpetas_delitos.parquet

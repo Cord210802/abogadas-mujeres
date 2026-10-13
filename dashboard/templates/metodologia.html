@@ -1,0 +1,600 @@
+{% extends "base.html" %}
+{% block titulo %}Metodología · cómo se estima el efecto · Denuncia CDMX{% endblock %}
+
+{# Ninguna cifra se escribe a mano: todas vienen de static/data/abogadas.json, que arma
+   dashboard/data_prep_abogadas.py con los resultados de scripts/abogadas/.
+   El texto sigue docs/abogadas/ y METODOLOGIA.md (parte B). #}
+{% macro n(x) %}{{ "{:,}".format(x|round|int) }}{% endmacro %}
+{% macro d1(x) %}{{ "%.1f"|format(x) }}{% endmacro %}
+{% macro d2(x) %}{{ "%.2f"|format(x) }}{% endmacro %}
+{% macro sp(x) %}{{ ("%+.0f"|format(x * 100)).replace("-", "−") }}%{% endmacro %}
+{% set NOMBRE_MES = {"01":"enero","02":"febrero","03":"marzo","04":"abril","05":"mayo","06":"junio","07":"julio","08":"agosto","09":"septiembre","10":"octubre","11":"noviembre","12":"diciembre"} %}
+{% macro mes(x) %}{{ NOMBRE_MES[x[5:7]] }} de {{ x[:4] }}{% endmacro %}
+{% macro mesc(x) %}{{ NOMBRE_MES[x[5:7]][:3] }}{% endmacro %}
+{% set m = c.metodologia %}
+{% set ej = m.ejemplo %}
+{% set mes0 = ej.serie | selectattr("programa") | first %}
+{% set ult = ej.iteraciones | last %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}"></script>
+{% endblock %}
+
+{% block contenido %}
+<p class="antetitulo">Metodología · cómo se construye el número</p>
+<h1 class="titulo-pagina">Nadie puede observar qué habría pasado sin el programa. Esta página explica cómo se estima.</h1>
+<p class="bajada">El resultado del estudio es un solo número: {{ sp(c.efecto.vf.efecto) }} carpetas de
+violencia familiar en las agencias que recibieron abogadas. Aquí se recorre, paso a paso y sin
+dar por sabida la econometría, de dónde sale. Cada paso tiene una explicación sencilla; el
+detalle técnico está plegado, para quien lo quiera abrir.</p>
+
+<nav class="pills pegado indice-8" id="indice">
+  <button data-ir="p1" class="activo">1 · Pregunta</button>
+  <button data-ir="p2">2 · Comparación</button>
+  <button data-ir="p3">3 · Tendencias</button>
+  <button data-ir="p4">4 · Estimador</button>
+  <button data-ir="p5">5 · Modelo</button>
+  <button data-ir="p6">6 · Cálculo</button>
+  <button data-ir="p7">7 · Resultado</button>
+  <button data-ir="p8">8 · Supuestos</button>
+</nav>
+
+<!-- ============================================================ 1. LA PREGUNTA -->
+<h2 class="seccion-titulo" id="p1"><span class="n">1</span>La pregunta: ¿el programa causó más denuncias?</h2>
+<p class="acto-veredicto no-concluye">Para saber si las abogadas causaron un aumento habría que
+comparar la misma agencia, el mismo mes, con y sin programa. Eso es imposible de observar. Todo
+el método consiste en estimar de forma creíble el número que falta.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-2">
+    <h3>Los dos mundos de una sola celda</h3>
+    <p class="sub-h3">Agencia {{ ej.unidad }}, {{ mes(ej.entrada) }}: el mes en que llegaron las abogadas.</p>
+    <div class="mundos">
+      <div class="caja-mundo observado">
+        <span class="etq-mundo">Mundo observado</span>
+        <p class="cond">{{ ej.unidad }} · {{ mes(ej.entrada) }} · <strong>con</strong> programa</p>
+        <span class="cifra-mundo">{{ mes0.observado }}</span>
+        <span class="unidad-mundo">carpetas de violencia familiar</span>
+      </div>
+      <div class="vs">vs</div>
+      <div class="caja-mundo oculto">
+        <span class="etq-mundo">Mundo que nadie puede ver</span>
+        <p class="cond">{{ ej.unidad }} · {{ mes(ej.entrada) }} · <strong>sin</strong> programa</p>
+        <span class="cifra-mundo interrogante">?</span>
+        <span class="unidad-mundo">el <span class="termino" data-tip="Lo que habría pasado sin el programa. Es el número que el método estima.">contrafactual</span></span>
+      </div>
+    </div>
+    <p class="tarjeta-pie">La misma agencia no puede estar a la vez con y sin abogadas. Por eso el
+      contrafactual se estima, nunca se observa.</p>
+  </div>
+
+  <div class="tarjeta span-2">
+    <h3>Lo que sí se puede hacer</h3>
+    <p class="sub-h3">Tres formas de llenar el "?", de peor a mejor.</p>
+    <ol class="historia">
+      <li><strong>Comparar con el pasado de la misma agencia.</strong> Falla si algo más cambió
+        ese año, y en 2019 cambiaron el gobierno, la Procuraduría y hubo grandes marchas.</li>
+      <li><strong>Comparar con agencias que nunca lo recibieron.</strong> No existen: las
+        {{ c.resumen.unidades }} unidades territoriales recibieron abogadas.</li>
+      <li><strong>Comparar con las agencias que todavía no lo recibían.</strong> El programa
+        tardó cinco meses en llegar a todas, y ese retraso es la única comparación disponible.</li>
+    </ol>
+    <p class="tarjeta-pie">El estudio usa la tercera.</p>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · resultados potenciales</summary>
+  <p>Para cada agencia <em>i</em> y mes <em>t</em> se definen dos resultados potenciales
+    (Rubin, 1974): <span class="formula">Y<sub>it</sub>(1)</span> con programa y
+    <span class="formula">Y<sub>it</sub>(0)</span> sin programa. El efecto es su diferencia,
+    pero solo se observa uno de los dos:</p>
+  <p class="formula bloque">Y<sub>it</sub> = D<sub>it</sub> · Y<sub>it</sub>(1) + (1 − D<sub>it</sub>) · Y<sub>it</sub>(0)</p>
+  <p>donde <span class="formula">D<sub>it</sub> = 1</span> si la agencia ya tiene abogadas. A esto
+    se le llama el problema fundamental de la inferencia causal (Holland, 1986).</p>
+</details>
+
+<p class="puente">Si no hay agencias que se queden sin el programa, ¿contra qué se compara?</p>
+
+<!-- ============================================================ 2. LA COMPARACIÓN -->
+<h2 class="seccion-titulo" id="p2"><span class="n">2</span>La comparación: las que todavía no lo tenían</h2>
+<p class="acto-veredicto confirma">Las abogadas no llegaron a todas las agencias el mismo día,
+sino en {{ c.despliegue.cohortes|length }} tandas entre marzo y agosto de 2019. Mientras quedan agencias sin programa, ellas
+hacen de grupo de comparación. Una misma agencia es comparación en un mes y tratada al siguiente.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <h3>Quién está tratado y quién sirve de comparación, mes a mes</h3>
+    <p class="sub-h3">Cada fila es una tanda de unidades (una agencia o un par de agencias que comparten abogadas); cada columna, un mes de 2019.</p>
+    <div class="linea-tiempo">
+      <div class="lt-cabeza">
+        <span></span>
+        {% for f in m.identificacion[:6] %}<span class="lt-mes">{{ mesc(f.mes) }}</span>{% endfor %}
+      </div>
+      {% for cohorte, unidades in c.despliegue.cohortes.items() %}
+      <div class="lt-fila">
+        <span class="lt-etq">{{ unidades }} agencia{{ '' if unidades == 1 else 's' }}<i>entra{{ '' if unidades == 1 else 'n' }} en {{ mesc(cohorte) }}</i></span>
+        {% for f in m.identificacion[:6] %}
+          <span class="lt-celda {{ 'tratada' if f.mes >= cohorte else 'control' }}">
+            {{ 'con abogadas' if f.mes >= cohorte else 'sin programa' }}</span>
+        {% endfor %}
+      </div>
+      {% endfor %}
+      <div class="lt-fila lt-total">
+        <span class="lt-etq">Quedan para comparar</span>
+        {% for f in m.identificacion[:6] %}
+          <span class="lt-celda conteo {{ 'ok' if f.unidades_sin_programa >= m.minimo_sin_programa else 'insuficiente' }}">
+            {{ f.unidades_sin_programa }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="tarjeta-pie">Desde agosto de 2019 no queda ninguna agencia sin programa: a partir de
+      ahí el efecto ya no se puede medir con este diseño.</p>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · adopción escalonada</summary>
+  <p>Este diseño se llama <strong>adopción escalonada</strong> (<em>staggered adoption</em>). La
+    comparación válida en cada mes es entre agencias ya tratadas y agencias
+    <em>todavía no tratadas</em> (Athey e Imbens, 2022). Formalmente, el conjunto de comparación
+    del mes <em>t</em> es <span class="formula">U<sub>t</sub> = { i : E<sub>i</sub> &gt; t }</span>,
+    con <span class="formula">E<sub>i</sub></span> el mes de entrada de la agencia <em>i</em>.</p>
+</details>
+
+<p class="puente">Comparar exige una condición. ¿Cuál?</p>
+
+<!-- ============================================================ 3. EL SUPUESTO -->
+<h2 class="seccion-titulo" id="p3"><span class="n">3</span>El supuesto: todas reaccionan igual en porcentaje</h2>
+<p class="acto-veredicto no-confirma">No hace falta que las agencias sean iguales: unas son
+enormes y otras chicas. Lo que hace falta suponer es que, sin el programa, todas habrían
+subido o bajado en la <strong>misma proporción</strong> ante lo que le pasa a la ciudad.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-2">
+    <h3>Dos agencias muy distintas, la misma reacción</h3>
+    <p class="sub-h3">Ejemplo ilustrativo: un mes en que la ciudad sube 10%.</p>
+    <div class="paralelas">
+      <div class="par-fila">
+        <span class="par-etq">Agencia grande</span>
+        <span class="par-antes">100</span>
+        <span class="par-flecha">+10% →</span>
+        <span class="par-despues">110</span>
+      </div>
+      <div class="par-fila">
+        <span class="par-etq">Agencia chica</span>
+        <span class="par-antes">20</span>
+        <span class="par-flecha">+10% →</span>
+        <span class="par-despues">22</span>
+      </div>
+    </div>
+    <p class="tarjeta-pie">Los niveles son distintos (100 y 20) y eso no importa. Lo que se supone
+      es que el <em>cambio</em> porcentual habría sido el mismo sin el programa.</p>
+  </div>
+
+  <div class="tarjeta span-2">
+    <h3>Por qué en porcentaje y no en unidades</h3>
+    <p class="sub-h3">Si el supuesto fuera "todas suben 10 carpetas", una agencia de 20 tendría
+      que crecer 50% y una de 100 solo 10%.</p>
+    <ul class="historia">
+      <li>Las denuncias son <strong>conteos</strong>: crecen y caen de forma proporcional al
+        tamaño de cada agencia.</li>
+      <li>Un cambio de la ciudad, como una campaña o una marcha, mueve a todas en proporción, no
+        en la misma cantidad de carpetas.</li>
+      <li>Por eso el modelo del paso 5 <strong>multiplica</strong> en lugar de sumar.</li>
+    </ul>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · tendencias paralelas multiplicativas</summary>
+  <p>El supuesto de diferencias en diferencias, en su versión multiplicativa, es que el cociente
+    entre dos meses es el mismo para todas las agencias:</p>
+  <p class="formula bloque">E[Y<sub>it</sub>(0)] / E[Y<sub>is</sub>(0)] = b<sub>t</sub> / b<sub>s</sub>&nbsp;&nbsp;para toda agencia i</p>
+  <p>Equivale a tendencias paralelas en el logaritmo de la media. Es un supuesto, no un
+    hecho verificado: la parte C del estudio lo somete a pruebas (adelantos, placebos y balance).</p>
+</details>
+
+<p class="puente">Con esa lógica, ¿por qué no usar la regresión de siempre?</p>
+
+<!-- ============================================================ 4. EL ESTIMADOR -->
+<h2 class="seccion-titulo" id="p4"><span class="n">4</span>El estimador: aprender el mundo sin programa y predecirlo</h2>
+<p class="acto-veredicto confirma">La regresión clásica de efectos fijos termina usando agencias
+<strong>que ya recibieron el programa</strong> como comparación de las que lo reciben después.
+Cuando el efecto cambia entre tandas, eso sesga el resultado. La solución es separar los pasos:
+el mundo sin programa se aprende <strong>solo</strong> con observaciones sin programa.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <h3>Las mismas dos agencias, dos formas de compararlas</h3>
+    <p class="sub-h3">La agencia A recibe abogadas en marzo; la agencia B, en mayo. Marcado, lo que
+      cada método usa como punto de comparación.</p>
+    <div class="dos-vias">
+      <div class="via mala">
+        <span class="via-etq">Regresión tradicional (TWFE)</span>
+        <div class="mini-lt">
+          <div class="mini-fila"><span class="mini-etq">Agencia A<i>entra en marzo</i></span>
+            <span class="mini-celda control">feb</span>
+            <span class="mini-celda tratada">mar</span>
+            <span class="mini-celda tratada usada">abr</span>
+            <span class="mini-celda tratada usada">may</span></div>
+          <div class="mini-fila"><span class="mini-etq">Agencia B<i>entra en mayo</i></span>
+            <span class="mini-celda control">feb</span>
+            <span class="mini-celda control">mar</span>
+            <span class="mini-celda control">abr</span>
+            <span class="mini-celda tratada">may</span></div>
+        </div>
+        <p class="via-texto">Para medir a B, la regresión toma como comparación a A en abril y mayo,
+          cuando A <strong>ya tiene abogadas</strong>. Si el efecto en A va creciendo, la
+          comparación crece con él y el efecto de B sale más chico de lo que es.</p>
+      </div>
+      <div class="via buena">
+        <span class="via-etq">Estimador por imputación</span>
+        <div class="mini-lt">
+          <div class="mini-fila"><span class="mini-etq">Agencia A<i>entra en marzo</i></span>
+            <span class="mini-celda control usada">feb</span>
+            <span class="mini-celda tratada">mar</span>
+            <span class="mini-celda tratada">abr</span>
+            <span class="mini-celda tratada">may</span></div>
+          <div class="mini-fila"><span class="mini-etq">Agencia B<i>entra en mayo</i></span>
+            <span class="mini-celda control usada">feb</span>
+            <span class="mini-celda control usada">mar</span>
+            <span class="mini-celda control usada">abr</span>
+            <span class="mini-celda tratada">may</span></div>
+        </div>
+        <p class="via-texto">El modelo del mundo sin programa se ajusta <strong>solo</strong> con las
+          celdas anteriores a cada llegada. Ninguna celda con abogadas entra al ajuste: sirven
+          únicamente para comparar al final.</p>
+      </div>
+    </div>
+    <div class="leyenda-mini">
+      <span><i class="lm control"></i>sin programa</span>
+      <span><i class="lm tratada"></i>con abogadas</span>
+      <span><i class="lm usada"></i>lo que el método usa como comparación</span>
+    </div>
+    <p class="tarjeta-pie">En este estudio el efecto sí cambia entre tandas:
+      {{ sp(c.por_cohorte[0].efecto) }} en marzo contra {{ sp(c.por_cohorte[2].efecto) }} en mayo.
+      Es justo el caso en que la regresión tradicional falla.</p>
+  </div>
+
+  <div class="tarjeta span-4">
+    <h3>El estimador por imputación, en tres pasos</h3>
+    <p class="sub-h3">Propuesto por Borusyak, Jaravel y Spiess (BJS).</p>
+    <ol class="pasos-bjs">
+      <li>
+        <span class="bjs-n">1</span>
+        <strong>Aprender</strong>
+        <p>Con las {{ n(m.celdas_entrenamiento) }} celdas agencia-mes <em>sin</em> programa se
+          estima cómo se comportan las denuncias.</p>
+      </li>
+      <li>
+        <span class="bjs-n">2</span>
+        <strong>Predecir</strong>
+        <p>Ese modelo dice cuántas carpetas habría tenido cada agencia tratada si las abogadas no
+          hubieran llegado.</p>
+      </li>
+      <li>
+        <span class="bjs-n">3</span>
+        <strong>Comparar</strong>
+        <p>El efecto es lo observado contra lo predicho, sumado en todas las celdas tratadas.</p>
+      </li>
+    </ol>
+    <p class="tarjeta-pie">Al contrafactual estimado se le escribe
+      <span class="formula">Ŷ<sub>it</sub>(0)</span>. La ventaja del método es que no supone nada
+      sobre el tamaño del efecto: puede ser distinto en cada agencia y cada mes.</p>
+  </div>
+</div>
+
+<p class="puente">¿Y cómo se aprende el mundo sin programa?</p>
+
+<!-- ============================================================ 5. EL MODELO -->
+<h2 class="seccion-titulo" id="p5"><span class="n">5</span>El modelo: nivel de la agencia × pulso de la ciudad</h2>
+<p class="acto-veredicto confirma">Las carpetas esperadas sin programa se explican con dos cosas:
+qué tan grande es la agencia y qué tan movido está el mes en toda la ciudad. Se multiplican.</p>
+<p>Ese pulso del mes hace un trabajo extra. En enero de 2019, dos meses antes del lanzamiento, la Fiscalía
+cambió su catálogo de delitos: retiró 43 etiquetas que existían en diciembre de 2018 y dio entrada a 26 nuevas,
+por lo que publica una tabla de equivalencias para comparar delitos entre 2018 y 2019. La etiqueta de violencia
+familiar no es una de las que cambiaron y aparece sin interrupción desde 2016. Y un cambio de catálogo afecta a
+todas las agencias el mismo mes, que es justo lo que el pulso absorbe. Lo que el análisis necesita es que ningún
+cambio de registro haya afectado a unas agencias y no a otras al mismo tiempo que la llegada de sus abogadas.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-2">
+    <h3>La idea en una línea</h3>
+    <p class="sub-h3">Sin fórmulas todavía.</p>
+    <div class="formula-visual">
+      <span class="fv-parte">Carpetas esperadas<br><i>sin programa</i></span>
+      <span class="fv-op">=</span>
+      <span class="fv-parte azul">Nivel propio<br><i>de la agencia</i></span>
+      <span class="fv-op">×</span>
+      <span class="fv-parte azul">Pulso de la ciudad<br><i>ese mes</i></span>
+    </div>
+    <div class="ejemplo-caja">
+      <p class="ej-titulo">Ejemplo ilustrativo</p>
+      <p>Una agencia que normalmente abre <strong>20</strong> carpetas al mes, en un mes en que
+        toda la ciudad está <strong>10% arriba</strong> de lo normal:</p>
+      <p class="formula bloque">20 × 1.10 = 22 carpetas esperadas</p>
+    </div>
+    <p class="tarjeta-pie">El pulso de la ciudad recoge lo que le pasa a todas por igual:
+      estacionalidad, campañas, marchas, días hábiles del mes.</p>
+  </div>
+
+  <div class="tarjeta span-2">
+    <h3>Los números reales de {{ ej.unidad }}</h3>
+    <p class="sub-h3">Del ajuste con las celdas sin programa.</p>
+    <dl class="metricas metricas-centradas">
+      <div class="metrica"><dt>Nivel de la agencia {{ ej.unidad }}</dt><dd>{{ d2(ej.a) }}</dd></div>
+      <div class="metrica"><dt>Pulso de la ciudad en {{ mes(ej.entrada) }}</dt><dd>{{ d2(mes0.b) }}</dd></div>
+      <div class="metrica"><dt>Carpetas esperadas sin programa</dt><dd class="medio">{{ d1(mes0.contrafactual) }}</dd></div>
+      <div class="metrica"><dt>Carpetas observadas</dt><dd class="malo">{{ mes0.observado }}</dd></div>
+    </dl>
+    <p class="tarjeta-pie">El pulso de {{ d2(mes0.b) }} quiere decir que {{ mes(ej.entrada) }} fue un mes
+      {{ "%.0f"|format((1 - mes0.b) * 100) }}% por debajo del promedio del periodo en toda la ciudad.</p>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · el modelo Poisson y por qué se usa</summary>
+  <p>El resultado es un conteo (0, 1, 2, 3… carpetas), así que se modela la media con una
+    regresión <strong>Poisson</strong> con enlace logarítmico:</p>
+  <p class="formula bloque">E[Y<sub>it</sub>(0)] = μ<sub>it</sub> = a<sub>i</sub> · b<sub>t</sub>
+    &nbsp;&nbsp;⟺&nbsp;&nbsp; log μ<sub>it</sub> = α<sub>i</sub> + λ<sub>t</sub></p>
+  <p>donde <span class="formula">a<sub>i</sub> = e<sup>α<sub>i</sub></sup></span> es el efecto fijo
+    de agencia (su nivel típico) y <span class="formula">b<sub>t</sub> = e<sup>λ<sub>t</sub></sup></span>
+    el efecto fijo de mes (el pulso de la ciudad). Escrito así, el modelo es multiplicativo, que es
+    exactamente el supuesto del paso 3.</p>
+  <p><strong>Poisson sin creerle a la Poisson.</strong> No se supone que los datos sigan una
+    distribución Poisson, ni que la varianza sea igual a la media. Para que las estimaciones
+    puntuales sean válidas basta con que la <em>media condicional</em> esté bien especificada,
+    es decir <span class="formula">E[Y<sub>it</sub>(0)] = a<sub>i</sub> b<sub>t</sub></span>. Esto se
+    conoce como pseudo-máxima verosimilitud o QMLE (Gourieroux, Monfort y Trognon, 1984).</p>
+  <p>Los datos sí están <strong>sobredispersos</strong>: en las celdas sin programa varían unas
+    {{ d1(c.inferencia.phi_imputacion.phi) }} veces más de lo que supone una Poisson. Por eso la incertidumbre no se toma
+    de los errores estándar de la Poisson: se estima con permutaciones, bootstrap y jackknife, que dan
+    intervalos distintos porque suponen cosas distintas. Eso es la parte C del estudio.</p>
+</details>
+
+<p class="puente">Falta lo principal: ¿cómo se calculan esos dos números?</p>
+
+<!-- ============================================================ 6. EL CÁLCULO -->
+<h2 class="seccion-titulo" id="p6"><span class="n">6</span>El cálculo: ida y vuelta hasta que deje de moverse</h2>
+<p class="acto-veredicto confirma">El nivel de cada agencia y el pulso de cada mes se necesitan
+mutuamente, así que no se pueden despejar de un jalón. Se calculan por turnos, y en pocas vueltas
+los números dejan de cambiar.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-2">
+    <h3>El algoritmo, en una vuelta</h3>
+    <p class="sub-h3">Se llama ajuste proporcional iterativo (IPF).</p>
+    <div class="ciclo">
+      <div class="ciclo-paso"><span class="cp-n">0</span>Arrancar suponiendo que todos los meses son normales</div>
+      <div class="ciclo-flecha">↓</div>
+      <div class="ciclo-paso azul"><span class="cp-n">A</span>Dado el pulso de los meses, calcular el nivel de cada agencia</div>
+      <div class="ciclo-flecha">↓</div>
+      <div class="ciclo-paso azul"><span class="cp-n">B</span>Dado el nivel de las agencias, calcular el pulso de cada mes</div>
+      <div class="ciclo-flecha ciclo-vuelta">↻ repetir</div>
+      <div class="ciclo-paso fin"><span class="cp-n">✓</span>Parar cuando ya casi no cambian</div>
+    </div>
+    <p class="tarjeta-pie">Las dos fórmulas no son arbitrarias: salen de las condiciones de primer
+      orden del modelo Poisson, es decir, de maximizar su verosimilitud.</p>
+  </div>
+
+  <div class="tarjeta span-2">
+    <h3>Cuántas vueltas hacen falta, de verdad</h3>
+    <p class="sub-h3">Los valores de {{ ej.unidad }} y de {{ mesc(ej.entrada) }}-{{ ej.entrada[:4] }} en cada iteración del ajuste real.</p>
+    <div class="tabla-iteraciones">
+      <table class="tabla">
+        <thead><tr><th>Vueltas</th><th class="d">Nivel<i>{{ ej.unidad }}</i></th><th class="d">Pulso<i>{{ mesc(ej.entrada) }} {{ ej.entrada[:4] }}</i></th><th class="d">Contrafactual<i>nivel × pulso</i></th></tr></thead>
+        <tbody>
+          {% for it in ej.iteraciones %}
+          <tr class="{{ 'fila-final' if loop.last }}">
+            <td>{{ it.iteracion }}</td>
+            <td class="d">{{ "%.4f"|format(it.a) }}</td>
+            <td class="d">{{ "%.4f"|format(it.b) }}</td>
+            <td class="d">{{ "%.3f"|format(it.contrafactual) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="tarjeta-pie">Desde la décima vuelta los números ya no se mueven en cifras visibles.
+      El código repite hasta que el cambio es menor a una diezmilmillonésima.</p>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · las dos fórmulas del IPF</summary>
+  <p>Con las sumas tomadas <strong>solo sobre celdas sin programa</strong>, las condiciones de
+    primer orden de la verosimilitud Poisson dan dos fórmulas cerradas, cada una en función de la
+    otra:</p>
+  <p class="formula bloque">â<sub>i</sub> = ( Σ<sub>t</sub> Y<sub>it</sub> ) / ( Σ<sub>t</sub> b̂<sub>t</sub> )
+    &nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;
+    b̂<sub>t</sub> = ( Σ<sub>i</sub> Y<sub>it</sub> ) / ( Σ<sub>i</sub> â<sub>i</sub> )</p>
+  <p>Se alternan hasta converger. Como la verosimilitud Poisson es cóncava, el máximo es único y
+    no depende del punto de arranque. <strong>BJS es la estrategia de identificación causal; IPF es
+    solo el algoritmo que ajusta el modelo.</strong> Una propiedad útil del ajuste: las sumas
+    predichas por agencia y por mes coinciden exactamente con las observadas.</p>
+</details>
+
+<p class="puente">Con el modelo ajustado, ya se puede llenar el "?" del paso 1.</p>
+
+<!-- ============================================================ 7. EL RESULTADO -->
+<h2 class="seccion-titulo" id="p7"><span class="n">7</span>El resultado: lo observado contra lo esperado</h2>
+<p class="acto-veredicto no-concluye">En las {{ c.por_cohorte | sum(attribute='celdas') }} celdas medibles, las
+agencias con abogadas abrieron {{ sp(c.efecto.vf.efecto) }} carpetas más de las que el modelo
+esperaba sin programa. Es el estimado puntual, no una prueba de causalidad por sí solo.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <h3>Una celda: {{ ej.unidad }} en {{ mes(ej.entrada) }}</h3>
+    <p class="sub-h3">La línea punteada es lo que el modelo esperaba sin programa; la sólida, lo que
+      de verdad pasó.</p>
+    <div class="celda-ejemplo">
+      <div class="lienzo"><canvas id="g-ejemplo"></canvas></div>
+      <div class="celda-cuenta">
+        <div class="cc-fila"><span class="cc-etq">Observado<i>con abogadas</i></span><span class="cc-val obs">{{ mes0.observado }}</span></div>
+        <div class="cc-fila"><span class="cc-etq">Esperado<i>sin programa</i></span><span class="cc-val cf">{{ d1(mes0.contrafactual) }}</span></div>
+        <div class="cc-fila cc-resultado"><span class="cc-etq">Diferencia<i>{{ mes0.observado }} ÷ {{ d1(mes0.contrafactual) }} − 1</i></span><span class="cc-val res">{{ sp(mes0.observado / mes0.contrafactual - 1) }}</span></div>
+        <p class="cc-aviso">Es una sola agencia en un solo mes, no el efecto del programa. En los
+          meses previos, {{ ej.unidad }} ya variaba sin abogadas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tarjeta span-4">
+    <h3>Por qué solo {{ c.resumen.meses_medibles }} meses, y por qué {{ c.por_cohorte | sum(attribute='celdas') }} celdas</h3>
+    <p class="sub-h3">El pulso de la ciudad solo se puede estimar mientras queden suficientes
+      agencias sin programa. En cuanto se acaban, se acaba la medición.</p>
+    <div class="medibles">
+      <div class="medibles-tabla">
+        <table class="tabla">
+          <thead><tr>
+            <th>Mes de 2019</th>
+            <th class="d">Agencias sin programa</th>
+            <th class="d">Carpetas que aportan</th>
+            <th class="d">¿Se puede medir?</th>
+          </tr></thead>
+          <tbody>
+            {% for f in m.identificacion[:5] %}
+            <tr class="{{ '' if f.identificado else 'activo' }}">
+              <td class="mes-celda">{{ NOMBRE_MES[f.mes[5:7]] }}</td>
+              <td class="d">{{ f.unidades_sin_programa }}</td>
+              <td class="d">{{ f.carpetas|round|int }}</td>
+              <td class="d">{{ 'sí' if f.identificado else 'no' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="tarjeta-pie">En junio quedaban {{ m.identificacion[3].unidades_sin_programa }}
+          agencias y {{ m.identificacion[3].carpetas|round|int }} carpetas: el pulso de toda la
+          ciudad tendría un error de
+          ±{{ "%.0f"|format(m.identificacion[3].ee_log_b * 100) }}%, más grande que el efecto que se
+          busca. Por eso se exige un mínimo de {{ m.minimo_sin_programa }} agencias sin programa.</p>
+      </div>
+      <div class="medibles-suma">
+        <p class="ms-titulo">Las celdas que quedan</p>
+        <div class="suma-celdas">
+          {% for co in c.por_cohorte %}
+          <div class="sc-parte">
+            <span class="sc-etq">Entran en {{ mesc(co.cohorte) }}</span>
+            <span class="sc-cuenta">{{ co.unidades }} agencias × {{ (co.celdas / co.unidades)|round|int }} {{ 'mes' if co.celdas / co.unidades < 2 else 'meses' }}</span>
+            <span class="sc-val">{{ co.celdas }}</span>
+          </div>
+          {% endfor %}
+          <div class="sc-parte sc-total">
+            <span class="sc-etq">Total</span>
+            <span class="sc-cuenta">{{ c.efecto.vf.evento | selectattr("e", "ge", 0) | list | length }} meses medibles</span>
+            <span class="sc-val">{{ c.por_cohorte | sum(attribute='celdas') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tarjeta span-4">
+    <h3>El número final: {{ n(c.efecto.vf.observado) }} contra {{ n(c.efecto.vf.contrafactual) }}</h3>
+    <p class="sub-h3">Sumando las {{ c.por_cohorte | sum(attribute='celdas') }} celdas tratadas medibles.</p>
+    <div class="barras-final">
+      <div class="bf-fila">
+        <span class="bf-etq">Carpetas observadas<i>con abogadas</i></span>
+        <div class="bf-barra"><span class="bf-relleno obs" style="width:100%">{{ n(c.efecto.vf.observado) }}</span></div>
+      </div>
+      <div class="bf-fila">
+        <span class="bf-etq">Carpetas esperadas<i>sin programa, según el modelo</i></span>
+        <div class="bf-barra"><span class="bf-relleno cf" style="width:{{ (c.efecto.vf.contrafactual / c.efecto.vf.observado * 100)|round(1) }}%">{{ n(c.efecto.vf.contrafactual) }}</span></div>
+      </div>
+      <div class="bf-resultado">
+        <span class="bf-cuenta">{{ n(c.efecto.vf.observado) }} ÷ {{ n(c.efecto.vf.contrafactual) }} − 1 =</span>
+        <span class="bf-valor">{{ sp(c.efecto.vf.efecto) }}</span>
+      </div>
+    </div>
+    <div class="pie-con-accion">
+      <p class="tarjeta-pie">Este es el estimado puntual. Que se pueda leer como causal depende de
+        los supuestos de abajo; qué tan incierto es se mide en la evaluación, con permutaciones,
+        bootstrap, placebos y pruebas de tendencia previa.</p>
+      <a class="btn" href="{{ url_for('abogadas') }}">Ver la evaluación del programa</a>
+    </div>
+  </div>
+</div>
+
+<details class="detalle">
+  <summary>Ver detalle técnico · el estimador completo</summary>
+  <p>El efecto se estima como un cociente de sumas sobre el conjunto de celdas tratadas
+    medibles:</p>
+  <p class="formula bloque">τ̂ = ( Σ Y<sub>it</sub> ) / ( Σ Ŷ<sub>it</sub>(0) ) − 1
+    = {{ n(c.efecto.vf.observado) }} / {{ n(c.efecto.vf.contrafactual) }} − 1 = {{ sp(c.efecto.vf.efecto) }}</p>
+  <p>Es un promedio ponderado de los efectos de cada celda, donde pesan más las celdas con más
+    carpetas esperadas. Por eso la tanda de marzo, que son las agencias grandes, aporta
+    {{ "%.0f"|format(c.por_cohorte[0].peso * 100) }}% del resultado; sin ella, el efecto queda en
+    {{ ("%+.1f"|format(c.robustez.sin_cohorte_de_marzo * 100)).replace("-", "−") }}%.</p>
+</details>
+
+<!-- ============================================================ 8. LOS SUPUESTOS -->
+<h2 class="seccion-titulo" id="p8"><span class="n">8</span>Los supuestos: qué tiene que ser cierto</h2>
+<p class="acto-veredicto no-confirma">Ninguno de estos tres se puede demostrar con los datos. Son
+las condiciones bajo las cuales el número de arriba se lee como un efecto causal.</p>
+
+<div class="rejilla">
+  <div class="tarjeta span-2 supuesto">
+    <span class="sup-etq">Supuesto 1</span>
+    <h3>Tendencias paralelas multiplicativas</h3>
+    <p>Sin el programa, las agencias tratadas habrían cambiado en la misma proporción que las que
+      todavía no lo tenían.</p>
+    <p class="sup-riesgo"><strong>Riesgo aquí:</strong> las agencias grandes y céntricas entraron
+      primero, junto con el lanzamiento público y las marchas de marzo de 2019. Si algo movió a
+      esas agencias en particular, se confunde con el efecto. Además, las que todavía no tenían
+      programa cambiaron {{ sp(c.diseno.contraste_controles.por_mes[0].interanual_sin_programa) }} en marzo y
+      {{ sp(c.diseno.contraste_controles.por_mes[1].interanual_sin_programa) }} en abril frente a 2018: el efecto es un
+      contraste relativo entre dos grupos que se movieron.</p>
+  </div>
+
+  <div class="tarjeta span-2 supuesto">
+    <span class="sup-etq">Supuesto 2</span>
+    <h3>No anticipación</h3>
+    <p>Antes de que llegaran las abogadas, el programa no afectaba todavía las denuncias de esa
+      agencia.</p>
+    {% set prev = c.efecto.vf.evento | selectattr("e", "lt", 0) | list %}
+    <p class="sup-riesgo"><strong>Cómo se revisa:</strong> midiendo el "efecto" en los meses
+      previos a cada llegada. Solo {{ prev | rejectattr("efecto", "none") | list | length }} de los {{ prev | length }} tienen
+      suficientes agencias sin programa para que el estimador principal los mida; en ellos da
+      {{ ("%+.1f"|format(c.efecto.vf.adelantos_total * 100)).replace("-", "−") }}% en conjunto, y una prueba conjunta no
+      rechaza que no haya tendencia previa (p = {{ d2(c.diseno.tendencias_previas.vf.K6.p_chi2) }}). Los tres meses justo antes de la
+      llegada solo los estima esa prueba, y crecen al acercarse la fecha:
+      {% set ad = c.diseno.tendencias_previas.vf.K3.adelantos_pct %}{{ ("%+.0f"|format(ad[2])).replace("-", "−") }}% en el mes −3, {{ ("%+.0f"|format(ad[1])).replace("-", "−") }}% en el −2 y
+      {{ ("%+.0f"|format(ad[0])).replace("-", "−") }}% en el −1, el último mayor que el efecto estimado. Es la limitación más seria
+      del análisis.</p>
+  </div>
+
+  <div class="tarjeta span-4 supuesto">
+    <span class="sup-etq">Supuesto 3</span>
+    <h3>SUTVA: sin contagio entre agencias y un tratamiento comparable</h3>
+    <div class="sutva">
+      <div>
+        <p><strong>Sin contagio.</strong> Que una agencia tenga abogadas no cambia las denuncias de
+          otra.</p>
+        <p class="sup-riesgo">Si mujeres de una zona sin programa fueran a denunciar a una agencia
+          con abogadas, el efecto se inflaría por partida doble: sube en una y baja en la otra. La
+          caída de las agencias sin programa en marzo y abril es compatible con eso, pero la base no
+          registra dónde vive la mujer, así que no se puede demostrar ni descartar.</p>
+      </div>
+      <div>
+        <p><strong>Un tratamiento comparable.</strong> "Tener abogadas" significa aproximadamente lo
+          mismo en todas las agencias.</p>
+        <p class="sup-riesgo">La evaluación muestra que no del todo: la proporción de atenciones que
+          terminan en carpeta va de {{ "%.0f"|format(c.programa.embudo.min * 100) }}% a
+          {{ "%.0f"|format(c.programa.embudo.max * 100) }}% según la agencia. El resultado se lee
+          entonces como un promedio de versiones distintas del programa.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block fuentes %}Fiscalía General de Justicia de la Ciudad de México y SEMUJERES (atenciones de
+las Abogadas de las Mujeres). Método: Borusyak, Jaravel y Spiess (2024).{% endblock %}
+
+{% block scripts %}
+<script id="datos-metodologia" type="application/json">{{ m.ejemplo | tojson }}</script>
+<script src="{{ url_for('static', filename='js/metodologia.js') }}"></script>
+{% endblock %}

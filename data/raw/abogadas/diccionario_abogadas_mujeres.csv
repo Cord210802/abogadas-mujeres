@@ -1,0 +1,33 @@
+﻿base,etiqueta,descripción de la variable,tipo de variable
+atenciones_de_las_abogadas_de_las_mujeres,id,identificador en la base,número entero
+atenciones_de_las_abogadas_de_las_mujeres,fecha,mes y año de la atención,fecha
+atenciones_de_las_abogadas_de_las_mujeres,anio,año de la atención,número entero
+atenciones_de_las_abogadas_de_las_mujeres,mes,mes de la atención,número entero
+atenciones_de_las_abogadas_de_las_mujeres,hora,hora de la atencion,número entero
+atenciones_de_las_abogadas_de_las_mujeres,agencia,agencia donde la abogada de las muejes dio la atencion,texto
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_sexo,sexo de la usuaria,texto
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_nacionalidad,nacionalidad de la usuaria,texto
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_estado_civil,estado civil de la usuaria,catálogo
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_ent_fed_nacimiento,entidad federativa de nacimiento de la usuaria,catálogo
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_edad,edad de la usuaria,número entero
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_hijas,número da hijas mujeres de la usuaria,número entero
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_hijes,número de hijos hombres de la usuaria,número entero
+atenciones_de_las_abogadas_de_las_mujeres,usuaria_hijos,número de hijas e hijos,número entero
+atenciones_de_las_abogadas_de_las_mujeres,relacion_con_agresora,relacion de la usuaria con la persona agresora,texto
+atenciones_de_las_abogadas_de_las_mujeres,agresora_ocupacion,ocupación de la persona agresora,texto
+atenciones_de_las_abogadas_de_las_mujeres,ci_iniciada,apertura de carpeta de investigación con la abogada de las mujeres,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,delito,delito por el cual se abre la carpeta de investigación,catálogo
+atenciones_de_las_abogadas_de_las_mujeres,representacion,hubo representación de la abogadas de las mujeres,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,violencia_modalidad,modalidad de la violencia,catálogo
+atenciones_de_las_abogadas_de_las_mujeres,solicitud_medidas,solicitud de medidas de protección,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,alto_riesgo,si la usuaria tiene riesgo alto,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,riesgo_feminicida,si la usuaria tiene riesgo feminicida,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_psicoemocional,si la usuaria vive violencia psicoemocional,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_fisica,si la usuaria vive violencia física,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_economica,si la usuaria vive violencia económica,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_patrimonial,si la usuaria vive violencia patrimonial,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_sexual,si la usuaria vive violencia sexual,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_simbolica,si la usuaria vive violencia simbólica,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_obstetrica,si la usuaria vive violencia obstétrica,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_reproductivos,si la usuaria vive violencia en contra de sus derechos sexuales y reproductivos,dicotómica
+atenciones_de_las_abogadas_de_las_mujeres,vio_feminicida,si la usuaria vive violencia feminicida,dicotómica

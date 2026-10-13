@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Abogadas de las Mujeres · Denuncia CDMX{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='system-ui' font-size='19' font-weight='700' fill='%235CC46E' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="Evaluación del programa Abogadas de las Mujeres en la Ciudad de México: si aumentó las denuncias de violencia familiar y si se podía saber.">
+  <meta property="og:title" content="Abogadas de las Mujeres: ¿funcionó?">
+  <meta property="og:description" content="La evaluación del programa, contada en cinco actos, y cómo se construye cada número.">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<header class="barra">
+  <a class="marca" href="{{ url_for('abogadas') }}">Denuncia<span>CDMX</span></a>
+  <nav class="nav-top">
+    <a href="{{ url_for('abogadas') }}" class="{{ 'activo' if activo == 'abogadas' else '' }}">Abogadas de las Mujeres</a>
+    <a href="{{ url_for('metodologia') }}" class="{{ 'activo' if activo == 'metodologia' else '' }}">Metodología</a>
+  </nav>
+</header>
+
+<main class="contenedor">
+  {% block contenido %}{% endblock %}
+
+  <footer>
+    Caso de Titulación · ITAM · Juan Pablo Cordero · Fuentes: {% block fuentes %}Secretaría de las Mujeres de la CDMX,
+    Fiscalía General de Justicia de la CDMX y Censo Nacional de Procuración de Justicia Estatal (INEGI).{% endblock %}
+  </footer>
+</main>
+
+{% block extra %}{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

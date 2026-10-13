@@ -1,0 +1,1645 @@
+{
+ "crudo": {
+  "filas": 121995,
+  "columnas": 28,
+  "sha256": "4b3bb4ffe0bab6ff971f839aa09ff3c998f0515b7c27a60691238ba672cf589a",
+  "filas_identicas_repetidas": 3245,
+  "copias_en_exceso": 1735
+ },
+ "etiquetas_programa": {
+  "n": 79,
+  "territoriales": 67
+ },
+ "edad_fuera_de_rango": 28,
+ "edad_sin_dato": 2018,
+ "hueco_no": {
+  "meses": [
+   "2020-07",
+   "2020-08",
+   "2020-09",
+   "2020-10",
+   "2020-12",
+   "2021-01",
+   "2021-02",
+   "2021-03",
+   "2021-04",
+   "2021-05",
+   "2021-06",
+   "2021-07",
+   "2021-08"
+  ],
+  "n_meses": 13,
+  "atenciones_en_hueco": 36849,
+  "na_en_hueco": 22180,
+  "no_fuera_del_hueco": 0,
+  "na_fuera_del_hueco": 0,
+  "no_en_hueco": 7,
+  "no_en_hueco_por_mes": {
+   "2020-10": 7
+  },
+  "tramos": [
+   {
+    "desde": "2020-07",
+    "hasta": "2020-10"
+   },
+   {
+    "desde": "2020-12",
+    "hasta": "2021-08"
+   }
+  ],
+  "descripcion": "13 meses en dos tramos (jul-oct 2020 y dic 2020-ago 2021) donde el NO casi desaparece y el no se registra como sin dato; noviembre de 2020 no es hueco y octubre de 2020 tiene 7 NO"
+ },
+ "riesgo_primer_mes_capturado": "2020-06",
+ "colima": {
+  "desde": "2021-09",
+  "pct_desde": 81.7,
+  "pct_antes": 0.0
+ },
+ "hijos_inconsistentes": {
+  "filas_con_los_tres": 102486,
+  "pct_total_menor_que_hijas": 30.9,
+  "pct_hijes_igual_hijas_mas_hijos": 98.6
+ },
+ "por_mes": [
+  {
+   "mes": "2019-03",
+   "atenciones": 1569,
+   "si": 509,
+   "no": 1060,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 21
+  },
+  {
+   "mes": "2019-04",
+   "atenciones": 1704,
+   "si": 566,
+   "no": 1138,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 36
+  },
+  {
+   "mes": "2019-05",
+   "atenciones": 4420,
+   "si": 1032,
+   "no": 3388,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 48
+  },
+  {
+   "mes": "2019-06",
+   "atenciones": 5294,
+   "si": 1038,
+   "no": 4256,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 54
+  },
+  {
+   "mes": "2019-07",
+   "atenciones": 4467,
+   "si": 956,
+   "no": 3511,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 55
+  },
+  {
+   "mes": "2019-08",
+   "atenciones": 7215,
+   "si": 1573,
+   "no": 5642,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 56
+  },
+  {
+   "mes": "2019-09",
+   "atenciones": 5301,
+   "si": 1279,
+   "no": 4022,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 56
+  },
+  {
+   "mes": "2019-10",
+   "atenciones": 5629,
+   "si": 1355,
+   "no": 4274,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 55
+  },
+  {
+   "mes": "2019-11",
+   "atenciones": 4888,
+   "si": 1259,
+   "no": 3629,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 55
+  },
+  {
+   "mes": "2019-12",
+   "atenciones": 4771,
+   "si": 1380,
+   "no": 3391,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 56
+  },
+  {
+   "mes": "2020-01",
+   "atenciones": 4639,
+   "si": 1118,
+   "no": 3521,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 55
+  },
+  {
+   "mes": "2020-02",
+   "atenciones": 5047,
+   "si": 1297,
+   "no": 3750,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 56
+  },
+  {
+   "mes": "2020-03",
+   "atenciones": 4197,
+   "si": 1237,
+   "no": 2960,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 55
+  },
+  {
+   "mes": "2020-04",
+   "atenciones": 1768,
+   "si": 569,
+   "no": 1199,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 17
+  },
+  {
+   "mes": "2020-05",
+   "atenciones": 1469,
+   "si": 476,
+   "no": 993,
+   "na": 0,
+   "riesgo_capturado": 0.0,
+   "colima": 0.0,
+   "unidades": 16
+  },
+  {
+   "mes": "2020-06",
+   "atenciones": 1870,
+   "si": 659,
+   "no": 1211,
+   "na": 0,
+   "riesgo_capturado": 0.7877005347593583,
+   "colima": 0.0,
+   "unidades": 16
+  },
+  {
+   "mes": "2020-07",
+   "atenciones": 1968,
+   "si": 705,
+   "no": 0,
+   "na": 1263,
+   "riesgo_capturado": 0.8297764227642277,
+   "colima": 0.0,
+   "unidades": 16
+  },
+  {
+   "mes": "2020-08",
+   "atenciones": 2250,
+   "si": 880,
+   "no": 0,
+   "na": 1370,
+   "riesgo_capturado": 0.7888888888888889,
+   "colima": 0.0,
+   "unidades": 18
+  },
+  {
+   "mes": "2020-09",
+   "atenciones": 2050,
+   "si": 776,
+   "no": 0,
+   "na": 1274,
+   "riesgo_capturado": 0.8614634146341463,
+   "colima": 0.0,
+   "unidades": 17
+  },
+  {
+   "mes": "2020-10",
+   "atenciones": 2005,
+   "si": 790,
+   "no": 7,
+   "na": 1208,
+   "riesgo_capturado": 0.8089775561097257,
+   "colima": 0.0,
+   "unidades": 17
+  },
+  {
+   "mes": "2020-11",
+   "atenciones": 1941,
+   "si": 770,
+   "no": 1171,
+   "na": 0,
+   "riesgo_capturado": 0.8742916022668727,
+   "colima": 0.0,
+   "unidades": 18
+  },
+  {
+   "mes": "2020-12",
+   "atenciones": 1905,
+   "si": 775,
+   "no": 0,
+   "na": 1130,
+   "riesgo_capturado": 0.8377952755905512,
+   "colima": 0.0,
+   "unidades": 17
+  },
+  {
+   "mes": "2021-01",
+   "atenciones": 2241,
+   "si": 903,
+   "no": 0,
+   "na": 1338,
+   "riesgo_capturado": 0.8598839803659081,
+   "colima": 0.0,
+   "unidades": 31
+  },
+  {
+   "mes": "2021-02",
+   "atenciones": 2981,
+   "si": 1105,
+   "no": 0,
+   "na": 1876,
+   "riesgo_capturado": 0.830929218383093,
+   "colima": 0.0,
+   "unidades": 44
+  },
+  {
+   "mes": "2021-03",
+   "atenciones": 3110,
+   "si": 1130,
+   "no": 0,
+   "na": 1980,
+   "riesgo_capturado": 0.827652733118971,
+   "colima": 0.0,
+   "unidades": 42
+  },
+  {
+   "mes": "2021-04",
+   "atenciones": 4393,
+   "si": 1680,
+   "no": 0,
+   "na": 2713,
+   "riesgo_capturado": 0.8561347598452083,
+   "colima": 0.0,
+   "unidades": 42
+  },
+  {
+   "mes": "2021-05",
+   "atenciones": 3600,
+   "si": 1449,
+   "no": 0,
+   "na": 2151,
+   "riesgo_capturado": 0.8522222222222222,
+   "colima": 0.0,
+   "unidades": 41
+  },
+  {
+   "mes": "2021-06",
+   "atenciones": 3517,
+   "si": 1492,
+   "no": 0,
+   "na": 2025,
+   "riesgo_capturado": 0.8714813761728746,
+   "colima": 0.0002843332385555871,
+   "unidades": 47
+  },
+  {
+   "mes": "2021-07",
+   "atenciones": 3489,
+   "si": 1493,
+   "no": 0,
+   "na": 1996,
+   "riesgo_capturado": 0.9504155918601318,
+   "colima": 0.00028661507595299513,
+   "unidades": 47
+  },
+  {
+   "mes": "2021-08",
+   "atenciones": 3340,
+   "si": 1484,
+   "no": 0,
+   "na": 1856,
+   "riesgo_capturado": 0.9859281437125749,
+   "colima": 0.0002994011976047904,
+   "unidades": 50
+  },
+  {
+   "mes": "2021-09",
+   "atenciones": 2967,
+   "si": 1411,
+   "no": 1556,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8190091001011123,
+   "unidades": 46
+  },
+  {
+   "mes": "2021-10",
+   "atenciones": 3157,
+   "si": 1575,
+   "no": 1582,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8077288565093443,
+   "unidades": 48
+  },
+  {
+   "mes": "2021-11",
+   "atenciones": 2719,
+   "si": 1409,
+   "no": 1310,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8164766458256713,
+   "unidades": 49
+  },
+  {
+   "mes": "2021-12",
+   "atenciones": 2629,
+   "si": 1403,
+   "no": 1226,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8193229364777482,
+   "unidades": 48
+  },
+  {
+   "mes": "2022-01",
+   "atenciones": 2185,
+   "si": 1090,
+   "no": 1095,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8109839816933638,
+   "unidades": 47
+  },
+  {
+   "mes": "2022-02",
+   "atenciones": 2349,
+   "si": 1219,
+   "no": 1130,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.8267347807577693,
+   "unidades": 43
+  },
+  {
+   "mes": "2022-03",
+   "atenciones": 2951,
+   "si": 1576,
+   "no": 1375,
+   "na": 0,
+   "riesgo_capturado": 1.0,
+   "colima": 0.82006099627245,
+   "unidades": 44
+  }
+ ],
+ "tipo_sede": {
+  "otra": 587,
+  "sin dato": 1077,
+  "especializada": 20095,
+  "territorial": 100236
+ },
+ "atenciones_por_delito": {
+  "vf_con_carpeta_si": 24108,
+  "vf_filas_con_delito": 24779,
+  "sexuales_con_carpeta_si": 11170,
+  "sexuales_filas_con_delito": 11276,
+  "filas_con_delito_sin_si": 1046
+ },
+ "fgj_territorial_ventana": {
+  "carpetas": 782062,
+  "con_codigo_territorial": 771633,
+  "en_unidades_del_programa": 771633,
+  "vf": 56479,
+  "vf_en_unidades": 56412,
+  "codigos_con_carpetas_en_ventana": 67,
+  "codigos_con_carpetas_2016_2024": 71,
+  "codigos_sin_carpetas_nunca": [
+   "GAM-7"
+  ],
+  "carpetas_regex_anterior": 801094
+ },
+ "vf_ciudad_en_territoriales": {
+  "ene2017_feb2020": 0.5907249636004556,
+  "ene2017_ene2021": 0.593273038582338,
+  "carpetas_territoriales_ene2017_feb2020": 40978,
+  "carpetas_ciudad_ene2017_feb2020": 69369
+ },
+ "agencias_fuera_de_unidades": [
+  {
+   "agencia": "URI-CUH-2",
+   "carpetas": 2435,
+   "vf": 1
+  },
+  {
+   "agencia": "H3",
+   "carpetas": 1397,
+   "vf": 24
+  },
+  {
+   "agencia": "H1",
+   "carpetas": 1319,
+   "vf": 10
+  },
+  {
+   "agencia": "URI-BJ-4",
+   "carpetas": 1294,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-COY-2",
+   "carpetas": 794,
+   "vf": 9
+  },
+  {
+   "agencia": "H2",
+   "carpetas": 687,
+   "vf": 1
+  },
+  {
+   "agencia": "URI-MH-5",
+   "carpetas": 510,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-IZC-2",
+   "carpetas": 339,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-CUJ-1",
+   "carpetas": 247,
+   "vf": 3
+  },
+  {
+   "agencia": "URI-TLH-2",
+   "carpetas": 203,
+   "vf": 0
+  },
+  {
+   "agencia": "STCMZV",
+   "carpetas": 194,
+   "vf": 15
+  },
+  {
+   "agencia": "URI-CUH-7",
+   "carpetas": 173,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-CANACO",
+   "carpetas": 155,
+   "vf": 2
+  },
+  {
+   "agencia": "URI-XO-2",
+   "carpetas": 143,
+   "vf": 0
+  },
+  {
+   "agencia": "B",
+   "carpetas": 113,
+   "vf": 1
+  },
+  {
+   "agencia": "TUR-2",
+   "carpetas": 88,
+   "vf": 1
+  },
+  {
+   "agencia": "STCMP",
+   "carpetas": 81,
+   "vf": 0
+  },
+  {
+   "agencia": "AER",
+   "carpetas": 81,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-IZP-6",
+   "carpetas": 55,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-VC-3",
+   "carpetas": 31,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-AO-4",
+   "carpetas": 20,
+   "vf": 0
+  },
+  {
+   "agencia": "SCTPPMB",
+   "carpetas": 20,
+   "vf": 0
+  },
+  {
+   "agencia": "STCMTS",
+   "carpetas": 14,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-AZ-3",
+   "carpetas": 10,
+   "vf": 0
+  },
+  {
+   "agencia": "URI-IZP-9",
+   "carpetas": 8,
+   "vf": 0
+  }
+ ],
+ "validacion_vf": {
+  "celdas_con_carpetas_del_programa": 809,
+  "celdas_programa_mayor_que_fiscalia": 34,
+  "carpetas_programa_vf": 10748,
+  "vf_fiscalia_mismas_celdas": 24833,
+  "compensadas_mes_vecino": 16,
+  "no_compensadas": 18,
+  "no_compensadas_por_unidad": [
+   {
+    "unidad": "IZP-7",
+    "celdas": 8,
+    "desde": "2019-08",
+    "hasta": "2020-03",
+    "vf_fiscalia": 4,
+    "vf_programa": 95
+   },
+   {
+    "unidad": "MC-1",
+    "celdas": 5,
+    "desde": "2020-07",
+    "hasta": "2020-11",
+    "vf_fiscalia": 17,
+    "vf_programa": 75
+   },
+   {
+    "unidad": "IZP-3",
+    "celdas": 2,
+    "desde": "2019-10",
+    "hasta": "2019-11",
+    "vf_fiscalia": 7,
+    "vf_programa": 20
+   },
+   {
+    "unidad": "AZC-1 Y 3",
+    "celdas": 1,
+    "desde": "2021-01",
+    "hasta": "2021-01",
+    "vf_fiscalia": 0,
+    "vf_programa": 1
+   },
+   {
+    "unidad": "MH-3",
+    "celdas": 1,
+    "desde": "2019-11",
+    "hasta": "2019-11",
+    "vf_fiscalia": 0,
+    "vf_programa": 1
+   },
+   {
+    "unidad": "GAM-3",
+    "celdas": 1,
+    "desde": "2020-02",
+    "hasta": "2020-02",
+    "vf_fiscalia": 8,
+    "vf_programa": 11
+   }
+  ],
+  "no_compensadas_celdas": [
+   {
+    "unidad": "AZC-1 Y 3",
+    "mes": "2021-01",
+    "vf": 0,
+    "carpetas_programa_vf": 1
+   },
+   {
+    "unidad": "GAM-3",
+    "mes": "2020-02",
+    "vf": 8,
+    "carpetas_programa_vf": 11
+   },
+   {
+    "unidad": "IZP-3",
+    "mes": "2019-10",
+    "vf": 4,
+    "carpetas_programa_vf": 9
+   },
+   {
+    "unidad": "IZP-3",
+    "mes": "2019-11",
+    "vf": 3,
+    "carpetas_programa_vf": 11
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2019-08",
+    "vf": 4,
+    "carpetas_programa_vf": 13
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2019-09",
+    "vf": 0,
+    "carpetas_programa_vf": 16
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2019-10",
+    "vf": 0,
+    "carpetas_programa_vf": 21
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2019-11",
+    "vf": 0,
+    "carpetas_programa_vf": 8
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2019-12",
+    "vf": 0,
+    "carpetas_programa_vf": 7
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2020-01",
+    "vf": 0,
+    "carpetas_programa_vf": 7
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2020-02",
+    "vf": 0,
+    "carpetas_programa_vf": 10
+   },
+   {
+    "unidad": "IZP-7",
+    "mes": "2020-03",
+    "vf": 0,
+    "carpetas_programa_vf": 13
+   },
+   {
+    "unidad": "MC-1",
+    "mes": "2020-07",
+    "vf": 17,
+    "carpetas_programa_vf": 30
+   },
+   {
+    "unidad": "MC-1",
+    "mes": "2020-08",
+    "vf": 0,
+    "carpetas_programa_vf": 20
+   },
+   {
+    "unidad": "MC-1",
+    "mes": "2020-09",
+    "vf": 0,
+    "carpetas_programa_vf": 5
+   },
+   {
+    "unidad": "MC-1",
+    "mes": "2020-10",
+    "vf": 0,
+    "carpetas_programa_vf": 4
+   },
+   {
+    "unidad": "MC-1",
+    "mes": "2020-11",
+    "vf": 0,
+    "carpetas_programa_vf": 16
+   },
+   {
+    "unidad": "MH-3",
+    "mes": "2019-11",
+    "vf": 0,
+    "carpetas_programa_vf": 1
+   }
+  ],
+  "lectura_no_compensadas": "falla del empate en agencias que la Fiscalia deja de usar (IZP-7 desde sep-2019, MC-1 en jul-nov 2020): el programa sigue reportando la etiqueta vieja",
+  "celdas_que_cumplen": 775,
+  "cumplen_carpetas_programa_vf": 10347,
+  "cumplen_vf_fiscalia": 24631
+ },
+ "unidades_con_meses_vacios": [
+  {
+   "unidad": "TLP-5",
+   "meses_cero": 38,
+   "vf": 49,
+   "total": 517
+  },
+  {
+   "unidad": "MIL-2",
+   "meses_cero": 25,
+   "vf": 138,
+   "total": 734
+  },
+  {
+   "unidad": "IZP-7",
+   "meses_cero": 17,
+   "vf": 293,
+   "total": 4358
+  },
+  {
+   "unidad": "BJ-5",
+   "meses_cero": 9,
+   "vf": 263,
+   "total": 4657
+  },
+  {
+   "unidad": "IZC-1",
+   "meses_cero": 9,
+   "vf": 895,
+   "total": 7278
+  },
+  {
+   "unidad": "AZC-1 Y 3",
+   "meses_cero": 8,
+   "vf": 971,
+   "total": 22171
+  },
+  {
+   "unidad": "IZP-3",
+   "meses_cero": 8,
+   "vf": 75,
+   "total": 3073
+  },
+  {
+   "unidad": "COY-4",
+   "meses_cero": 8,
+   "vf": 845,
+   "total": 7520
+  },
+  {
+   "unidad": "AO-1 Y 2",
+   "meses_cero": 7,
+   "vf": 1979,
+   "total": 25384
+  },
+  {
+   "unidad": "IZP-2",
+   "meses_cero": 6,
+   "vf": 352,
+   "total": 5083
+  },
+  {
+   "unidad": "MC-1",
+   "meses_cero": 4,
+   "vf": 1487,
+   "total": 6146
+  },
+  {
+   "unidad": "XO-1",
+   "meses_cero": 1,
+   "vf": 899,
+   "total": 7419
+  },
+  {
+   "unidad": "COY-3",
+   "meses_cero": 1,
+   "vf": 579,
+   "total": 7945
+  },
+  {
+   "unidad": "VC-1",
+   "meses_cero": 1,
+   "vf": 376,
+   "total": 6543
+  }
+ ],
+ "unidades": {
+  "n": 57,
+  "codigos_fgj": 72,
+  "cohortes": [
+   {
+    "mes": "2019-03",
+    "unidades": 21
+   },
+   {
+    "mes": "2019-04",
+    "unidades": 15
+   },
+   {
+    "mes": "2019-05",
+    "unidades": 12
+   },
+   {
+    "mes": "2019-06",
+    "unidades": 6
+   },
+   {
+    "mes": "2019-07",
+    "unidades": 1
+   },
+   {
+    "mes": "2019-08",
+    "unidades": 1
+   },
+   {
+    "mes": "2021-02",
+    "unidades": 1
+   }
+  ],
+  "entrada_distinta_con_umbral_10": 12,
+  "tabla": [
+   {
+    "unidad": "AO-1 Y 2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2166,
+    "meses_con_registro": 17,
+    "codigos_fgj": [
+     "AO-1",
+     "AO-2"
+    ],
+    "alcaldia": "Álvaro Obregón",
+    "lat": 19.3775,
+    "lon": -99.21277
+   },
+   {
+    "unidad": "AO-3 Y 4",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 3993,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "AO-3",
+     "AO-4"
+    ],
+    "alcaldia": "Álvaro Obregón",
+    "lat": 19.34652,
+    "lon": -99.20514
+   },
+   {
+    "unidad": "COY-1 Y 2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2607,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "COY-1",
+     "COY-2"
+    ],
+    "alcaldia": "Coyoacán",
+    "lat": 19.336244999999998,
+    "lon": -99.16407
+   },
+   {
+    "unidad": "COY-4",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 1535,
+    "meses_con_registro": 23,
+    "codigos_fgj": [
+     "COY-4"
+    ],
+    "alcaldia": "Coyoacán",
+    "lat": 19.315195000000003,
+    "lon": -99.15579407418889
+   },
+   {
+    "unidad": "CUH-2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2934,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "CUH-2"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.43956,
+    "lon": -99.14798
+   },
+   {
+    "unidad": "CUH-4",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 791,
+    "meses_con_registro": 24,
+    "codigos_fgj": [
+     "CUH-4"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.43681,
+    "lon": -99.13031
+   },
+   {
+    "unidad": "GAM-1",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2055,
+    "meses_con_registro": 28,
+    "codigos_fgj": [
+     "GAM-1"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.54513,
+    "lon": -99.14026
+   },
+   {
+    "unidad": "GAM-4",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 4259,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "GAM-4"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.48859,
+    "lon": -99.11049
+   },
+   {
+    "unidad": "GAM-5",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 1538,
+    "meses_con_registro": 26,
+    "codigos_fgj": [
+     "GAM-5"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.4848,
+    "lon": -99.08059
+   },
+   {
+    "unidad": "IZP-2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 714,
+    "meses_con_registro": 13,
+    "codigos_fgj": [
+     "IZP-2"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.35603,
+    "lon": -99.1059001483417
+   },
+   {
+    "unidad": "IZP-5",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2291,
+    "meses_con_registro": 28,
+    "codigos_fgj": [
+     "IZP-5"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.35617,
+    "lon": -99.04914
+   },
+   {
+    "unidad": "IZP-6",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2753,
+    "meses_con_registro": 33,
+    "codigos_fgj": [
+     "IZP-6"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.37266,
+    "lon": -99.03592
+   },
+   {
+    "unidad": "IZP-9 Y 10",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 3504,
+    "meses_con_registro": 28,
+    "codigos_fgj": [
+     "IZP-10",
+     "IZP-9"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.34056,
+    "lon": -99.02524
+   },
+   {
+    "unidad": "MH-1",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 1691,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "MH-1"
+    ],
+    "alcaldia": "Miguel Hidalgo",
+    "lat": 19.451105,
+    "lon": -99.18338
+   },
+   {
+    "unidad": "MH-4 Y 5",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2057,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "MH-4",
+     "MH-5"
+    ],
+    "alcaldia": "Miguel Hidalgo",
+    "lat": 19.42816,
+    "lon": -99.18961217811085
+   },
+   {
+    "unidad": "MIL-1",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2346,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "MIL-1"
+    ],
+    "alcaldia": "Milpa Alta",
+    "lat": 19.19428,
+    "lon": -99.02536
+   },
+   {
+    "unidad": "MIL-2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 524,
+    "meses_con_registro": 16,
+    "codigos_fgj": [
+     "MIL-2"
+    ],
+    "alcaldia": "Milpa Alta",
+    "lat": 19.211154999999998,
+    "lon": -98.9981493895455
+   },
+   {
+    "unidad": "TLP-2 Y 3",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 3572,
+    "meses_con_registro": 33,
+    "codigos_fgj": [
+     "TLP-2",
+     "TLP-3"
+    ],
+    "alcaldia": "Tlalpan",
+    "lat": 19.28164,
+    "lon": -99.17068
+   },
+   {
+    "unidad": "VC-1",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 483,
+    "meses_con_registro": 15,
+    "codigos_fgj": [
+     "VC-1"
+    ],
+    "alcaldia": "Venustiano Carranza",
+    "lat": 19.438585000000003,
+    "lon": -99.12012
+   },
+   {
+    "unidad": "VC-2",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 1170,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "VC-2"
+    ],
+    "alcaldia": "Venustiano Carranza",
+    "lat": 19.43937,
+    "lon": -99.09565
+   },
+   {
+    "unidad": "VC-3",
+    "entrada": "2019-03",
+    "entrada_10": "2019-03",
+    "atenciones": 2467,
+    "meses_con_registro": 37,
+    "codigos_fgj": [
+     "VC-3"
+    ],
+    "alcaldia": "Venustiano Carranza",
+    "lat": 19.41983,
+    "lon": -99.11299
+   },
+   {
+    "unidad": "AZC-1 Y 3",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 699,
+    "meses_con_registro": 13,
+    "codigos_fgj": [
+     "AZ-1",
+     "AZ-3"
+    ],
+    "alcaldia": "Azcapotzalco",
+    "lat": 19.48131125573815,
+    "lon": -99.18406
+   },
+   {
+    "unidad": "AZC-2 Y 4",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 3786,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "AZ-2",
+     "AZ-4"
+    ],
+    "alcaldia": "Azcapotzalco",
+    "lat": 19.47845,
+    "lon": -99.18301
+   },
+   {
+    "unidad": "BJ-1 Y 2",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 2165,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "BJ-1",
+     "BJ-2"
+    ],
+    "alcaldia": "Benito Juárez",
+    "lat": 19.38095,
+    "lon": -99.17181
+   },
+   {
+    "unidad": "BJ-3 Y 4",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 1430,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "BJ-3",
+     "BJ-4"
+    ],
+    "alcaldia": "Benito Juárez",
+    "lat": 19.38602,
+    "lon": -99.1528
+   },
+   {
+    "unidad": "CUH-5",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 630,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "CUH-5"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.43147,
+    "lon": -99.16159
+   },
+   {
+    "unidad": "CUJ-1 Y 2",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 3687,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "CJ-1",
+     "CJ-2"
+    ],
+    "alcaldia": "Cuajimalpa",
+    "lat": 19.3608,
+    "lon": -99.28554
+   },
+   {
+    "unidad": "GAM-3",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 781,
+    "meses_con_registro": 23,
+    "codigos_fgj": [
+     "GAM-3"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.490184999999997,
+    "lon": -99.13609
+   },
+   {
+    "unidad": "GAM-7 Y 8",
+    "entrada": "2019-04",
+    "entrada_10": "2019-05",
+    "atenciones": 1450,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "GAM-7",
+     "GAM-8"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.46167,
+    "lon": -99.09413916800885
+   },
+   {
+    "unidad": "IZC-2 Y 3",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 4129,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "IZC-2",
+     "IZC-3"
+    ],
+    "alcaldia": "Iztacalco",
+    "lat": 19.39509303165775,
+    "lon": -99.09184068390101
+   },
+   {
+    "unidad": "IZP-1 Y 4",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 2352,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "IZP-1",
+     "IZP-4"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.36636,
+    "lon": -99.08756
+   },
+   {
+    "unidad": "MC-1",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 2471,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "MC-1"
+    ],
+    "alcaldia": "Magdalena Contreras",
+    "lat": 19.31527,
+    "lon": -99.24871201083104
+   },
+   {
+    "unidad": "MC-2",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 2057,
+    "meses_con_registro": 32,
+    "codigos_fgj": [
+     "MC-2"
+    ],
+    "alcaldia": "Magdalena Contreras",
+    "lat": 19.30928,
+    "lon": -99.23558
+   },
+   {
+    "unidad": "TLH-1",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 2774,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "TLH-1"
+    ],
+    "alcaldia": "Tláhuac",
+    "lat": 19.29437,
+    "lon": -99.04703
+   },
+   {
+    "unidad": "TLH-2",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 3432,
+    "meses_con_registro": 27,
+    "codigos_fgj": [
+     "TLH-2"
+    ],
+    "alcaldia": "Tláhuac",
+    "lat": 19.27561,
+    "lon": -99.00469
+   },
+   {
+    "unidad": "XO-2",
+    "entrada": "2019-04",
+    "entrada_10": "2019-04",
+    "atenciones": 5610,
+    "meses_con_registro": 36,
+    "codigos_fgj": [
+     "XO-2"
+    ],
+    "alcaldia": "Xochimilco",
+    "lat": 19.25698,
+    "lon": -99.10065
+   },
+   {
+    "unidad": "CUH-1",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 688,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "CUH-1"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.4567,
+    "lon": -99.13988
+   },
+   {
+    "unidad": "CUH-3",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 594,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "CUH-3"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.44724227958125,
+    "lon": -99.13035
+   },
+   {
+    "unidad": "CUH-6",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 511,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "CUH-6"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.4331863546392,
+    "lon": -99.14193
+   },
+   {
+    "unidad": "CUH-7",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 1631,
+    "meses_con_registro": 24,
+    "codigos_fgj": [
+     "CUH-7"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.41414,
+    "lon": -99.16597
+   },
+   {
+    "unidad": "CUH-8",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 780,
+    "meses_con_registro": 21,
+    "codigos_fgj": [
+     "CUH-8"
+    ],
+    "alcaldia": "Cuauhtémoc",
+    "lat": 19.418855,
+    "lon": -99.14537
+   },
+   {
+    "unidad": "GAM-2",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 1379,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "GAM-2"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.50463,
+    "lon": -99.13559
+   },
+   {
+    "unidad": "GAM-6",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 479,
+    "meses_con_registro": 20,
+    "codigos_fgj": [
+     "GAM-6"
+    ],
+    "alcaldia": "Gustavo A. Madero",
+    "lat": 19.472904999999997,
+    "lon": -99.12252
+   },
+   {
+    "unidad": "IZP-7",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 848,
+    "meses_con_registro": 12,
+    "codigos_fgj": [
+     "IZP-7"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.33255,
+    "lon": -99.08726
+   },
+   {
+    "unidad": "IZP-8",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 2192,
+    "meses_con_registro": 26,
+    "codigos_fgj": [
+     "IZP-8"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.325935,
+    "lon": -99.07221
+   },
+   {
+    "unidad": "MH-2",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 750,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "MH-2"
+    ],
+    "alcaldia": "Miguel Hidalgo",
+    "lat": 19.4449,
+    "lon": -99.20187
+   },
+   {
+    "unidad": "TLP-1",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 1511,
+    "meses_con_registro": 26,
+    "codigos_fgj": [
+     "TLP-1"
+    ],
+    "alcaldia": "Tlalpan",
+    "lat": 19.284084999999997,
+    "lon": -99.223685
+   },
+   {
+    "unidad": "TLP-4",
+    "entrada": "2019-05",
+    "entrada_10": "2019-05",
+    "atenciones": 1141,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "TLP-4"
+    ],
+    "alcaldia": "Tlalpan",
+    "lat": 19.29354,
+    "lon": -99.13507
+   },
+   {
+    "unidad": "BJ-5",
+    "entrada": "2019-06",
+    "entrada_10": "2019-07",
+    "atenciones": 378,
+    "meses_con_registro": 10,
+    "codigos_fgj": [
+     "BJ-5"
+    ],
+    "alcaldia": "Benito Juárez",
+    "lat": 19.37864,
+    "lon": -99.13864
+   },
+   {
+    "unidad": "COY-3",
+    "entrada": "2019-06",
+    "entrada_10": "2019-07",
+    "atenciones": 760,
+    "meses_con_registro": 25,
+    "codigos_fgj": [
+     "COY-3"
+    ],
+    "alcaldia": "Coyoacán",
+    "lat": 19.33762,
+    "lon": -99.12936
+   },
+   {
+    "unidad": "COY-5",
+    "entrada": "2019-06",
+    "entrada_10": "2019-06",
+    "atenciones": 1110,
+    "meses_con_registro": 24,
+    "codigos_fgj": [
+     "COY-5"
+    ],
+    "alcaldia": "Coyoacán",
+    "lat": 19.31544,
+    "lon": -99.1175996117298
+   },
+   {
+    "unidad": "IZC-1",
+    "entrada": "2019-06",
+    "entrada_10": "2019-06",
+    "atenciones": 674,
+    "meses_con_registro": 17,
+    "codigos_fgj": [
+     "IZC-1"
+    ],
+    "alcaldia": "Iztacalco",
+    "lat": 19.39456,
+    "lon": -99.12126
+   },
+   {
+    "unidad": "IZP-3",
+    "entrada": "2019-06",
+    "entrada_10": "2019-07",
+    "atenciones": 424,
+    "meses_con_registro": 10,
+    "codigos_fgj": [
+     "IZP-3"
+    ],
+    "alcaldia": "Iztapalapa",
+    "lat": 19.37453,
+    "lon": -99.09011
+   },
+   {
+    "unidad": "XO-1",
+    "entrada": "2019-06",
+    "entrada_10": "2019-07",
+    "atenciones": 555,
+    "meses_con_registro": 17,
+    "codigos_fgj": [
+     "XO-1"
+    ],
+    "alcaldia": "Xochimilco",
+    "lat": 19.25465,
+    "lon": -99.12173
+   },
+   {
+    "unidad": "MH-3",
+    "entrada": "2019-07",
+    "entrada_10": "2019-08",
+    "atenciones": 185,
+    "meses_con_registro": 21,
+    "codigos_fgj": [
+     "MH-3"
+    ],
+    "alcaldia": "Miguel Hidalgo",
+    "lat": 19.42412,
+    "lon": -99.21479
+   },
+   {
+    "unidad": "VC-4 Y 5",
+    "entrada": "2019-08",
+    "entrada_10": "2019-08",
+    "atenciones": 374,
+    "meses_con_registro": 10,
+    "codigos_fgj": [
+     "VC-4",
+     "VC-5"
+    ],
+    "alcaldia": "Venustiano Carranza",
+    "lat": 19.42023,
+    "lon": -99.079275
+   },
+   {
+    "unidad": "TLP-5",
+    "entrada": "2021-02",
+    "entrada_10": "2021-03",
+    "atenciones": 369,
+    "meses_con_registro": 14,
+    "codigos_fgj": [
+     "TLP-5"
+    ],
+    "alcaldia": "Tlalpan",
+    "lat": 19.2157994645134,
+    "lon": -99.16255
+   }
+  ]
+ }
+}

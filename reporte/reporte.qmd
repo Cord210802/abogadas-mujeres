@@ -1,0 +1,679 @@
+---
+title: "Evaluación de la política pública Abogadas de las Mujeres en las agencias del Ministerio Público de la Ciudad de México"
+author:
+  - name: Juan Pablo Cordero Mayorga
+    affiliations:
+      - name: Instituto Tecnológico Autónomo de México
+lang: es
+bibliography: referencias.bib
+csl: ieee.csl
+link-citations: true
+format:
+  pdf:
+    documentclass: IEEEtran
+    classoption: [conference, 10pt]
+    pdf-engine: pdflatex
+    number-sections: true
+    colorlinks: true
+    linkcolor: "darkblue"
+    citecolor: "darkblue"
+    urlcolor: "darkblue"
+    tbl-cap-location: top
+    fig-pos: "!htb"
+    include-in-header:
+      text: |
+        \usepackage{mathptmx}
+        \usepackage{booktabs}
+        \usepackage{array}
+        \usepackage{float}
+        \usepackage{caption}
+        \captionsetup{font=footnotesize, labelfont=bf}
+        \usepackage{xcolor}
+        \definecolor{darkblue}{HTML}{2c4a6e}
+        \def\IEEEkeywordsname{Palabras clave}
+        \DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+        \AtBeginDocument{\author{\IEEEauthorblockN{Juan Pablo Cordero Mayorga}\IEEEauthorblockA{Instituto Tecnológico Autónomo de México\\Ciudad de México, México}}}
+        % Encabezado de subseccion: "A. Titulo" como en IEEE, pero \ref sigue dando "IV-A"
+        \makeatletter
+        \renewcommand{\thesubsection}{\Alph{subsection}}
+        \renewcommand{\p@subsection}{\thesection-}
+        \makeatother
+        % Resumen y palabras clave con dos puntos, sin la raya que pone la clase IEEE
+        \makeatletter
+        \newcommand{\encabezadoIEEE}[1]{\@IEEEabskeysecsize\bfseries\itshape\noindent #1\normalfont\@IEEEabskeysecsize\bfseries\ }
+        \makeatother
+execute:
+  echo: false
+  warning: false
+  message: false
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+import json
+from pathlib import Path
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import matplotlib.dates as mdates
+from matplotlib.lines import Line2D
+import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
+
+RAIZ = Path("..")
+GRAFS = RAIZ / "grafs" / "abogadas"
+
+def cargar(etapa):
+    """Lee el resultados.json de una etapa (01_limpieza, 02_efecto, ...)."""
+    return json.loads((GRAFS / etapa / "resultados.json").read_text())
+
+# Paleta
+BLUE       = '#4a6fa5'
+BLUE_LIGHT = '#a8bfcf'
+BLUE_DARK  = '#2c4a6e'
+BLUE_MID   = '#6a8caf'
+BLUE_PALE  = '#c5d4e8'
+RED        = '#8b0000'
+GRIS       = '#555555'
+
+# Una columna IEEE mide 3.5 in
+ANCHO = 3.4
+
+plt.rcParams.update({
+    'font.family':        'serif',
+    'font.serif':         ['Times New Roman', 'DejaVu Serif'],
+    'font.size':          8,
+    'axes.spines.top':    False,
+    'axes.spines.right':  False,
+    'axes.linewidth':     0.8,
+    'axes.labelsize':     8,
+    'xtick.labelsize':    7.5,
+    'ytick.labelsize':    7.5,
+    'legend.fontsize':    7.5,
+    'axes.edgecolor':     '#000',
+    'figure.facecolor':   'white',
+    'axes.facecolor':     'white',
+    'figure.dpi':         200,
+    'savefig.bbox':       'tight',
+})
+```
+
+```{python}
+#| label: cifras
+# Todas las cifras del texto salen de aquí, y todas se leen de grafs/abogadas/*/resultados.json.
+# Este documento no recalcula nada: solo da formato.
+L = cargar("01_limpieza")
+E = cargar("02_efecto")
+P = cargar("03_programa")
+V = cargar("04_evaluabilidad")
+Q = cargar("05_quiebres")
+
+MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+         'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+
+def n(x):
+    """Entero con separador de miles."""
+    return f"{int(round(x)):,}"
+
+def pc(x, d=1, signo=False):
+    """Proporción a porcentaje: 0.277 -> '27.7%'. Negativos con signo menos tipográfico."""
+    v = 100 * x
+    s = f"{abs(v):.{d}f}%"
+    if v < 0 and round(abs(v), d) > 0:
+        return "−" + s
+    return ("+" if signo and v > 0 else "") + s
+
+def pp(x, d=1, signo=False):
+    """Igual que pc, pero la entrada ya viene en puntos porcentuales."""
+    return pc(x / 100, d, signo)
+
+def dec(x, d=2):
+    s = f"{x:.{d}f}"
+    return s.replace('-', '−')
+
+def mes_largo(m):
+    a, mm = m[:4], int(m[5:7])
+    return f"{MESES[mm - 1]} de {a}"
+
+def ic(par, d=1):
+    return f"{pc(par[0], d, True)} a {pc(par[1], d, True)}"
+
+# ---------- 01 · Datos y limpieza ----------
+n_atenciones = n(L['crudo']['filas'])
+n_columnas = n(L['crudo']['columnas'])
+hueco = L['hueco_no']
+hueco_meses = hueco['n_meses']
+U = L['unidades']
+n_unidades = U['n']
+n_codigos = U['codigos_fgj']
+n_etiquetas = L['etiquetas_programa']['n']
+n_etiquetas_terr = L['etiquetas_programa']['territoriales']
+AD = L['atenciones_por_delito']
+n_vf_si, n_vf_del = n(AD['vf_con_carpeta_si']), n(AD['vf_filas_con_delito'])
+n_sex_si, n_sex_del = n(AD['sexuales_con_carpeta_si']), n(AD['sexuales_filas_con_delito'])
+pct_vf_territorial = pc(L['vf_ciudad_en_territoriales']['ene2017_feb2020'], 0)
+fv = L['validacion_vf']
+val_celdas = n(fv['celdas_con_carpetas_del_programa'])
+val_viol = fv['celdas_programa_mayor_que_fiscalia']
+val_comp = fv['compensadas_mes_vecino']
+val_ok = n(fv['celdas_con_carpetas_del_programa'] - fv['celdas_programa_mayor_que_fiscalia'])
+_nc = {r['unidad']: r['celdas'] for r in fv['no_compensadas_por_unidad']}
+val_izp7, val_mc1 = _nc['IZP-7'], _nc['MC-1']
+
+# ---------- 02 · Efecto ----------
+nU = E['unidades_en_muestra']
+fuera = E['unidades_fuera']
+FAL = E['celdas_faltantes']
+meses_panel = E['metodologia']['meses']
+celdas_entren = n(E['metodologia']['celdas_entrenamiento'])
+phi_imp = dec(E['metodologia']['phi_imputacion'], 2)
+spm = E['sin_programa_por_mes']
+sp_mar, sp_abr, sp_may, sp_jun = spm['2019-03'], spm['2019-04'], spm['2019-05'], spm['2019-06']
+coh_txt = ", ".join(str(v) for v in E['cohortes'].values())
+coh_mar = E['cohortes']['2019-03']
+min_sp = E['metodologia']['minimo_sin_programa']
+R = E['resultados']
+vf = R['vf']
+ef = pc(vf['efecto'], 1, True)
+ef_s = pc(vf['efecto'], 1)          # sin signo, para el resumen
+ef0 = pc(vf['efecto'], 0, True)
+celdas = vf['celdas_tratadas']
+obs, cf = n(vf['observado']), n(vf['contrafactual'])
+PT = vf['permutacion_por_tamano']
+n_perm = n(PT['n'])
+p_t, p_t_mc, p_t_b = dec(PT['p'], 3), dec(PT['ee_mc'], 3), PT['b']
+p_sin = dec(vf['p_permutacion'], 3)
+PS = E['permutacion_sensibilidad_estratos']
+sp_ter = [dec(x, 2) for x in E['spearman_dentro_de_terciles']]
+BO = vf['bootstrap']
+boot_ic = ic(BO['ic95'])
+INV = E['inversion_permutacion']
+inv_ic = ic(INV['ic95_valor_absoluto'][:2], 0)
+JK = E['jackknife']
+jk_min, jk_max = pc(JK['min'], 0, True), pc(JK['max'], 0, True)
+jk_ic = ic(JK['ic95_t'])
+_ade = {a['e']: a for a in vf['adelantos']}
+ade_m6, ade_m5, ade_m4 = (pc(_ade[k]['efecto'], 1, True) for k in (-6, -5, -4))
+BJS = E['tendencias_previas_bjs']
+bjs3, bjs6 = BJS['vf']['K3'], BJS['vf']['K6']
+bjs_p3, bjs_p6 = dec(bjs3['p_chi2'], 2), dec(bjs6['p_chi2'], 2)
+bjs_e1_se = dec(bjs3['ee_log'][0], 2)
+bjs_rob6 = dec(BJS['robos']['K6']['p_chi2'], 3)
+PL = E['placebos_en_el_tiempo']
+pl_vf, pl_rob = PL['vf'], PL['robos']
+pl_n = pl_vf['n']
+pl_media = pc(pl_vf['media'], 1, True)
+pl_p05 = pl_vf['p_menor_005']
+pl_rob_media = pc(pl_rob['media'], 1, True)
+pl_rob_pos = pl_rob['positivos']
+ade_tot = pc(vf['adelantos_total'], 1, True)
+VE = {v['desde']: v for v in E['ventanas_entrenamiento']}
+ef_rob = pc(R['robos']['efecto'], 1, True)
+rob_boot = ic(R['robos']['bootstrap']['ic95'])
+p_rob = dec(R['robos']['p_permutacion_por_tamano'], 2)
+ef_sex = pc(R['sexuales']['efecto'], 1, True)
+p_sex = dec(R['sexuales']['p_permutacion_por_tamano'], 2)
+obs_sex, cf_sex = n(R['sexuales']['observado']), n(R['sexuales']['contrafactual'])
+rb = E['robustez']
+ef_sin_marzo = pc(rb['sin_cohorte_de_marzo'], 1, True)
+ef_10 = pc(rb['entrada_con_10_atenciones'], 1, True)
+n_otra_fecha = rb['unidades_con_otra_fecha_con_10_atenciones']
+ef_razon = pc(rb['razon_vf_vs_resto_de_delitos'], 1, True)
+R52 = E['regla_exclusion_ventana_completa']
+n52 = R52['unidades_en_muestra']
+ef52 = pc(R52['resultados']['vf']['efecto'], 1, True)
+pcoh = {c['cohorte']: c for c in E['por_cohorte']}
+ef_coh_mar = pc(pcoh['2019-03']['efecto'], 0, True)
+ef_coh_abr = pc(pcoh['2019-04']['efecto'], 1, True)
+ef_coh_may = pc(pcoh['2019-05']['efecto'], 0, True)
+peso_mar = pc(pcoh['2019-03']['peso'], 0)
+celdas_marzo = pcoh['2019-03']['celdas']
+CC = {r['mes']: r for r in E['contraste_controles']['por_mes']}
+cc_mar_con = pc(CC['2019-03']['interanual_con_programa'], 1, True)
+cc_mar_sin = pc(CC['2019-03']['interanual_sin_programa'], 1, True)
+cc_abr_con = pc(CC['2019-04']['interanual_con_programa'], 1, True)
+cc_abr_sin = pc(CC['2019-04']['interanual_sin_programa'], 1, True)
+cc_mar_tod = pc(CC['2019-03']['interanual_todas'], 1, True)
+cc_abr_tod = pc(CC['2019-04']['interanual_todas'], 1, True)
+cc_may_con = pc(CC['2019-05']['interanual_con_programa'], 1, True)
+cc_may_sin = pc(CC['2019-05']['interanual_sin_programa'], 1, True)
+ef_mes_mar = pc(CC['2019-03']['efecto_mes_calendario'], 1, True)
+ef_mes_may = pc(CC['2019-05']['efecto_mes_calendario'], 1, True)
+VZ = E['contraste_controles']['marzo_por_vecindad']
+vz_vec, vz_lej = pc(VZ['interanual_vecinos'], 1, True), pc(VZ['interanual_lejanos'], 1, True)
+vz_n_vec, vz_n_lej = VZ['controles_con_vecina_tratada'], VZ['controles_sin_vecina_tratada']
+vz_ef_lej = pc(VZ['efecto_marzo_solo_controles_lejanos'], 1, True)
+bal = E['balance']
+bal_tot_mar, bal_tot_resto = n(bal['total_2018_marzo']), n(bal['total_2018_resto'])
+bal_vf_mar, bal_vf_resto = n(bal['vf_2018_marzo']), n(bal['vf_2018_resto'])
+bal_cre_mar, bal_cre_resto = pc(bal['crec_vf_17_18_marzo'], 1, True), pc(bal['crec_vf_17_18_resto'], 1, True)
+bal_cre_mar = pc(bal['crec_vf_17_18_marzo'], 1, True)
+bal_cre_resto = pc(bal['crec_vf_17_18_resto'], 1, True)
+rho = dec(bal['spearman_entrada_vs_tamano'], 2)
+rho_p = dec(bal['spearman_p'], 3)
+ej = E['metodologia']['ejemplo']
+_ejm = {s['mes']: s for s in ej['serie']}
+ej_cf = dec(_ejm['2019-03']['contrafactual'], 1)
+ej_obs = _ejm['2019-03']['observado']
+CI = E['ciudad']
+ciudad_exceso = pp(CI['exceso_post_pct'], 1, True)
+ciudad_todas = pp(CI['variantes']['todas_las_sedes']['exceso_pct'], 1, True)
+
+# ---------- 03 · Dentro del programa ----------
+per = P['periodos']
+conv_ini, conv_fin = pc(per[0]['conversion']), pc(per[-1]['conversion'])
+dc = P['descomposicion']
+d_carp = pp(dc['cambio_carpetas_pct'], 1, True)
+d_aten = pp(dc['cambio_atenciones_pct'], 1, True)
+d_parte_aten = pp(dc['parte_por_menos_atenciones_pct'], 0)
+_dcomp = [b for b in P['descomposicion_bases'] if 'despliegue completo' in b['base']][0]
+_dum = [b for b in P['descomposicion_bases'] if 'unidad territorial-mes' in b['base']][0]
+conv_sv_ini = pc(P['registro_vacio']['conversion_sin_vacias_base'])
+conv_sv_fin = pc(P['registro_vacio']['conversion_sin_vacias_fin'])
+M = P['modelo']
+auc = M['auc']
+auc_dentro = dec(M['auc_dentro_de_agencia']['ponderado'], 2)
+EM = P['embudo']
+emb_u = EM['unidades']
+emb_95, emb_998 = EM['fuera_95'], EM['fuera_998']
+emb_sd = dec(EM['sobredispersion'], 1)
+EMm, EMa = EM['multiplicativo'], EM['aditivo']
+emb_tau = dec(100 * EMa['tau'], 1)
+emb_a95, emb_a998 = EMa['fuera_95'], EMa['fuera_998']
+_tb = pd.DataFrame(EM['tabla'])
+_fa = _tb[_tb.fuera_95_aditivo].sort_values('conv')
+_bajas = _fa[_fa.conv < EM['p0']]
+_lb = [f"{r.unidad} ({pc(r.conv)})" for r in _bajas.itertuples()]
+emb_bajas = ", ".join(_lb[:-1]) + " y " + _lb[-1] if len(_lb) > 1 else _lb[0]
+emb_n_bajas = len(_bajas)
+RI = P['riesgo']['meses con NO capturado']
+ri_n, ri_fem = n(RI['con_dato_de_riesgo']), n(RI['riesgo_feminicida'])
+ri_sin, ri_sin_no = pp(RI['riesgo_sin_carpeta_pct']), pp(RI['sin_riesgo_sin_carpeta_pct'])
+RIC = P['riesgo']['intervalo_riesgo_sin_carpeta']
+ri_ic = f"{pp(RIC['ic95_bootstrap_por_agencia_pct'][0], 0)} a {pp(RIC['ic95_bootstrap_por_agencia_pct'][1], 0)}"
+ri_dentro = dec(-P['riesgo']['diferencia_dentro_de_agencia']['sin_carpeta_con_riesgo_menos_sin_riesgo_pp'], 0)
+RH = P['riesgo']['heterogeneidad_entre_agencias_con_riesgo']
+ri_het_phi = dec(RH['phi'], 1)
+ri_het_n, ri_het_min, ri_het_max = RH['agencias_con_20_o_mas'], pc(RH['min_sin_carpeta'], 0), pc(RH['max_sin_carpeta'], 0)
+
+# ---------- 04 · Evaluabilidad ----------
+# El techo tiene que acotar el efecto que estime, asi que se calcula sobre las mismas 100
+# celdas y 2,793 carpetas del estimando, no sobre las 606 celdas de todo el periodo.
+T = V['techo_celdas_del_estimando']
+techo_s, techo_max = pc(T['parte_de_carpetas_vf_con_abogada']), pc(T['efecto_maximo'], 0, True)
+techo_fgj, techo_prog = n(T['carpetas_vf']), n(T['carpetas_programa_vf'])
+techo_sin = n(T['carpetas_vf'] - T['carpetas_programa_vf'])
+# Parte de las carpetas con abogada que el efecto estimado exige que sean nuevas.
+techo_parte = pc((vf['observado'] - vf['contrafactual']) / T['carpetas_programa_vf'], 0)
+dv = V['deriva_sin_programa']['cambio_2017_2018_percentiles']
+der_p5, der_p95 = pc(dv['p5'], 0, True), pc(dv['p95'], 0, True)
+PI = V['pisos']
+# Composicion observada: conserva cuantas unidades de cada tercil de tamano entran en cada cohorte de llegada
+# y en cada replica sortea las fechas dentro del tercil (no conserva la fecha de cada unidad).
+# PI['real'] solo conserva los tamanos de las cohortes de llegada y reparte las unidades en orden alfabetico.
+PO = V['pisos_composicion_observada']
+PV = V['pisos_por_ventana']
+PVO = PV['real_composicion_observada']
+MW = V['mundo_simulado']
+mde_r = pc(PO['mde_interpolado'], 0)
+mde_real_alf = pc(PI['real']['mde_interpolado'], 0)
+mde_r1 = pc(PO['mde_interpolado'], 1)
+mde_reps = n(PO['replicas_por_efecto'])
+pot = lambda d, r: pc((PO if d == 'real' else PI[d])['potencia'][r], 0)
+pv_n = PVO['ventanas']
+pv_min, pv_med, pv_max = (pc(PVO[k], 0) for k in ('minimo', 'mediana', 'maximo'))
+pv_12_med, pv_tri_med = pc(PV['12 meses']['mediana'], 0), pc(PV['trimestral']['mediana'], 0)
+mde_12, mde_tri, mde_esp = (pc(PI[k]['mde_interpolado'], 0) for k in ('12 meses', 'trimestral', 'espera'))
+ven_ini, ven_fin = mes_largo(MW['ventanas'][0]), mes_largo(MW['ventanas'][1])
+ES = V['expansion_estados']
+EMY = ES['mitad_y_mitad']
+n_estados = ES['estados']
+mde_est = pc(EMY['mde_interpolado'], 0)
+_SR = ES['sin_series_rotas']
+n_est_ok, mde_est_ok = _SR['estados'], pc(_SR['mde_interpolado'], 1)
+nula_de_ag, nula_de_est = pc(PO['nula_de'], 1), pc(EMY['nula_de'], 1)
+DIL = ES['dilucion']
+dil_cob = pc(DIL['cobertura_territorial_vf_cdmx'], 0)
+dil_local = pc(DIL['efecto_local_equivalente_interpolado'], 0)
+dil_cob_28 = pc(DIL['cobertura_necesaria_para_ver_efecto_a02_como_mde'], 0)
+
+# ---------- 05 · Quiebres (PELT) ----------
+QV, QA, QC = Q['validacion'], Q['agencias'], Q['ciudad']
+qvf, qrob = QA['vf'], QA['robos']
+k_ag, k_ci = dec(Q['metodo']['k_agencias'], 0), dec(Q['metodo']['k_ciudad'], 1)
+q_n = qvf['unidades_con_quiebre_en_llegada']
+q_esp = dec(qvf['placebo_temporal']['0']['nula_media'], 1)
+q_p, q_p_mc = dec(qvf['p'], 3), dec(qvf['p_ee_mc'], 3)
+WY = qvf['westfall_young']
+q_wy_n, q_wy_p = WY['especificaciones'], dec(WY['p_principal_ajustado'], 3)
+q_wy_mejor = dec(WY['p_mejor_ajustado'], 3)
+q_pt1 = qvf['placebo_temporal']['-1']
+q_pt1_n, q_pt1_p = q_pt1['unidades'], dec(q_pt1['p'], 3)
+q_rob, q_rob_p = qrob['unidades_con_quiebre_en_llegada'], dec(qrob['p'], 2)
+_rob_mes = max(qrob['por_mes'], key=lambda r: r['alza'])
+q_rob_mes_n, q_rob_mes = _rob_mes['alza'], mes_largo(_rob_mes['mes'])
+pa = QV['potencia_agencia']['niveles']['tipica_mediana']
+q_nivel_tipico = dec(pa['nivel'], 0)
+PA = QV['prueba_por_agencia']
+q_rej_comun = pc(PA['choque_comun_28_marzo_2019']['rechaza_al_5'], 0)
+q_rej_28 = pc(PA['programa_28']['rechaza_al_5'], 0)
+q_rej_antes = pc(PA['programa_28_un_mes_antes_de_la_fecha']['rechaza_al_5'], 1)
+_mag = qvf['magnitudes_en_ventana']
+q_mag_n100, q_mag_med = _mag['mayores_a_100pct'], pc(_mag['mediana'], 0, True)
+_ac = _mag['acotado']['hasta_100pct']
+q_ac_n, q_ac_esp, q_ac_p = _ac['unidades'], dec(_ac['esperado'], 1), dec(_ac['p'], 3)
+_kr = {r['mes']: r['intervalos'] for r in QC['sensibilidad']['k_rango_por_quiebre']}
+
+# ---------- Evidencia en contra: las llaves que estaban calculadas y sin usar ----------
+# Los tres adelantos de la prueba conjunta vienen ordenados del mes -1 al mes -K.
+bjs_a1, bjs_a2, bjs_a3 = (pp(x, 0, True) for x in bjs3['adelantos_pct'])
+mde_colas = pc(PI['real']['mde_colas_iguales_interpolado'], 0)
+p_estr1, p_estr3, p_estr9 = (dec(PS[k]['p'], 3) for k in ('1', '3', '9'))
+p_ci9 = dec(PS['9']['p_colas_iguales'], 3)
+_otras = [r for r in fv['no_compensadas_por_unidad'] if r['unidad'] not in ('IZP-7', 'MC-1')]
+val_otras = sum(r['celdas'] for r in _otras)
+val_otras_u = ", ".join(r['unidad'] for r in _otras[:-1]) + " y " + _otras[-1]['unidad']
+emb_max = pc(_tb.conv.max())
+emb_min = pc(_tb.conv.min())
+# Rango de las variantes de decisión de la Tabla I (arriba, sin la principal ni las cohortes).
+_var = [rb['entrada_con_10_atenciones'], rb['minimo_3_sin_programa'], rb['minimo_10_sin_programa'],
+        VE['2018-09']['vf'], R52['resultados']['vf']['efecto'], rb['razon_vf_vs_resto_de_delitos']]
+var_min, var_max = pc(min(_var), 1, True), pc(max(_var), 1, True)
+_plm = [x['meses_antes'] for x in pl_vf['placebos']]
+pl_m_min, pl_m_max = min(_plm), max(_plm)
+```
+
+```{=latex}
+\begingroup
+```
+`\encabezadoIEEE{Resumen:}`{=latex} En 2019, la Ciudad de México colocó abogadas en las agencias del Ministerio Público para acompañar a las mujeres que denuncian violencia. En 2025, la Secretaría de las Mujeres del Gobierno de México comenzó a replicar el programa en los otros 31 estados sin que yo encontrara una evaluación de impacto publicada. Este trabajo evalúa si la llegada de las abogadas aumentó las carpetas de investigación por violencia familiar en `{python} nU` unidades territoriales de la Ciudad de México. Una unidad es una agencia o un grupo de agencias que recibieron abogadas el mismo mes. Se utilizaron tres fuentes de información pública: los `{python} n_atenciones` registros de atención que el programa publica entre marzo de 2019 y marzo de 2022, las carpetas de investigación de la Fiscalía por agencia y mes y el censo de procuración de justicia del INEGI. El efecto se estimó con el método de imputación de Borusyak, Jaravel y Spiess en su versión Poisson. Este método utiliza las unidades que todavía no tenían abogadas para estimar cuántas carpetas habría abierto cada unidad en ausencia del programa.
+
+Los resultados muestran que, entre marzo y mayo de 2019, los únicos meses con suficientes unidades sin programa para usarlas como comparación, las carpetas fueron `{python} ef_s` más de las que se habrían esperado sin el programa (p de permutación estratificada de `{python} p_t`). El resultado no se considera concluyente por cuatro razones. De los tres intervalos al 95%, los dos que remuestrean unidades incluyen el cero, `{python} boot_ic` con bootstrap y `{python} jk_ic` con jackknife, mientras que el que solo invierte la permutación va de `{python} inv_ic`. El efecto se concentra en las unidades que recibieron el programa en marzo, con `{python} ef_coh_mar`. En las de abril y mayo no aparece. Parte del resultado viene de una caída en las unidades que todavía no lo tenían. Además, las diferencias previas aumentan conforme se acerca la llegada de las abogadas, aunque su prueba conjunta no las distingue del azar. Por simulación, el efecto mínimo detectable del diseño, el que detectaría en 80% de los casos, resultó similar o mayor que el efecto estimado: `{python} mde_r` con el calendario real y `{python} pv_med` de mediana en `{python} pv_n` fechas de lanzamiento simuladas. Para la expansión nacional propongo sortear el orden de entrada de los estados en dos oleadas separadas por un año, escalonar también por agencia dentro de cada estado y fijar por escrito la fecha de llegada de cada abogada.
+
+```{=latex}
+\par\endgroup
+\vspace{0.5\baselineskip}
+\begingroup
+```
+`\encabezadoIEEE{Palabras clave:}`{=latex} evaluación de políticas públicas, Abogadas de las Mujeres, violencia familiar, adopción escalonada, evaluación de impacto.
+
+```{=latex}
+\par\endgroup
+\vspace{0.5\baselineskip}
+```
+
+# Contexto
+
+En la Ciudad de México existe una diferencia importante entre los delitos que ocurren y los que llegan a registrarse. La Fiscalía General de Justicia (FGJ) abre cientos de miles de carpetas de investigación al año. Sin embargo, una gran parte de los delitos no se denuncia. Esto hace que las políticas que buscan facilitar la denuncia sean especialmente relevantes, ya que un aumento en las denuncias debería reflejarse directamente en los registros de la Fiscalía. Para estudiar este problema busqué un programa con una fecha de inicio conocida, datos propios y dirigido a una población en la que se sabe que existe poca denuncia. Así llegué a la estrategia *Abogadas de las Mujeres en el Ministerio Público*.
+
+El programa se anunció el 4 de marzo de 2019 con al menos una abogada con perspectiva de género en cada una de las 78 agencias del Ministerio Público (MP) [@jefatura2019]. Sin embargo, los registros muestran que las abogadas fueron llegando de manera gradual entre marzo y agosto de 2019. La Secretaría de las Mujeres de la Ciudad de México (SEMUJERES) publica cada atención realizada en sus datos abiertos [@semujeres_atenciones]. La ciudad ya contaba con otras formas de atención especializada que también aparecen en los datos de la Fiscalía, como la Agencia 75 y los Centros de Justicia para las Mujeres (CJM). En mayo de 2025, la Secretaría de las Mujeres del Gobierno de México abrió el registro de la Red Nacional de Abogadas de las Mujeres para las otras 31 entidades [@proceso2025]. Del programa en la Ciudad de México se han publicado principalmente cifras de atención: 158,469 asesorías y 57,706 carpetas en cuatro años [@proceso2025]. Para la expansión nacional no encontré una evaluación publicada ni un calendario de implementación.
+
+Encontré cuatro evaluaciones de programas similares. En India, las estaciones de policía para mujeres aumentaron 29% las denuncias sin encontrar cambios en la incidencia medida por encuesta [@amaral2021]. En Perú, los centros de justicia redujeron cerca de 10% un índice de exposición de las mujeres a la violencia [@sviatschi2024]. En Brasil, las comisarías de la mujer no tuvieron un efecto claro en promedio, pero redujeron 17% los homicidios de mujeres de 15 a 49 años en municipios metropolitanos, con una reducción mayor entre las de 15 a 24 años [@perova2017]. En Estados Unidos, una mayor presencia de mujeres policías aumentó la denuncia de violencia doméstica [@miller2019]. Tres de los cuatro aprovechan que los programas comenzaron en distintos momentos, lo que se conoce como adopción escalonada. El de Estados Unidos usa variables instrumentales sobre la proporción de mujeres policías. Este tipo de implementación requiere cuidado porque una regresión tradicional con efectos fijos puede producir resultados sesgados cuando el efecto del programa cambia entre los grupos que lo reciben en diferentes fechas [@goodmanbacon2021; @dechaisemartin2020; @callaway2021; @sun2021]. El método de imputación que utilizo evita ese problema. En los dos que pude consultar completos no encontré cuál era el efecto mínimo que su diseño permitía detectar, aunque existen métodos para calcularlo [@bloom1995; @burlig2020]. Esto es especialmente importante en este caso porque el número de unidades y el corto periodo con grupos disponibles para comparación limitan el tamaño de los efectos que puedo identificar. Por eso, además de estimar el efecto, este trabajo calcula qué tan grande tenía que ser para poder detectarlo.
+
+# Definición del problema
+
+La pregunta tiene dos partes. La primera es si la llegada de las abogadas aumentó la apertura de carpetas por violencia familiar en las unidades territoriales, comparadas con las que todavía no tenían el programa y con delitos que este no debería afectar. La segunda es qué tan grande tenía que ser ese efecto para que pudiera detectarse con los datos disponibles. Esta segunda pregunta permite identificar qué tendría que cambiar en la expansión nacional para que sus resultados puedan evaluarse con mayor precisión. Dos decisiones lo determinan: el orden en que entran los estados y la forma de registrar la información. Ambas siguen abiertas y están en manos de la Secretaría de las Mujeres del Gobierno de México y de las instancias estatales.
+
+El efecto principal compara las carpetas que realmente se abrieron con las que se habrían esperado sin el programa. El análisis se limita a marzo, abril y mayo de 2019, los meses en los que todavía había unidades sin abogadas que podían utilizarse como comparación. En esos tres meses hay `{python} celdas` combinaciones de unidad territorial y mes con programa. Las unidades que recibieron abogadas en marzo aparecen durante tres meses, las de abril durante dos y las de mayo durante uno. Por eso, `{python} celdas_marzo` de las `{python} celdas` combinaciones corresponden a las unidades que recibieron el programa en marzo. El efecto mide entonces los primeros tres meses tras la llegada, sobre todo de la cohorte de marzo. Como el efecto compara totales de carpetas, el cálculo da mayor peso a las unidades con más carpetas. Quedan fuera las fiscalías especializadas, los meses posteriores a mayo, la calidad de la atención, la violencia misma y el efecto de la expansión nacional. El segundo objetivo es calcular el efecto mínimo detectable (MDE) de cada calendario de entrada.
+
+Mi argumento central es que incluso un programa que publica cada atención realizada es difícil de evaluar de manera concluyente. El efecto estimado es similar al mínimo que los datos permitían detectar y se concentra en las unidades que recibieron el programa en marzo. Esto está relacionado con tres rasgos del despliegue y uno del registro: las unidades sin programa se agotaron en tres meses, el orden de llegada siguió el tamaño de las agencias, el conteo de cada agencia varía demasiado de un año a otro y el registro perdió el "no" durante varios meses. Los cuatro pueden tomarse en cuenta durante la expansión nacional.
+
+# Supuestos {#sec-supuestos}
+
+**S1. Un aumento en las carpetas de violencia familiar significa un aumento en la denuncia.** Observo las carpetas de investigación por violencia familiar que abre cada agencia territorial del Ministerio Público, pero la pregunta es si las mujeres denuncian más. Un aumento puede deberse a más violencia, a que más mujeres deciden denunciar o a que el Ministerio Público registra mejor los mismos casos. Supongo que el programa actúa principalmente sobre la decisión de denunciar. En un periodo de tres meses es difícil pensar que la llegada de una abogada cambie la violencia familiar, pero sí puede cambiar la decisión de una mujer de presentar una denuncia, como ocurrió en India [@amaral2021]. Para revisar si lo que estoy capturando es un cambio en el registro, utilizo como comparación los robos, que el programa no atiende (@sec-h2). Los robos detectarían un cambio de registro que afecte a todos los delitos, pero no una mejora exclusiva en el registro de la violencia familiar. Si el programa además redujo la violencia, mi efecto subestima el aumento en la denuncia.
+
+**S2. La fecha de llegada y la identidad de cada agencia están correctamente identificadas.** El gobierno no publicó cuándo llegó cada abogada a su agencia. Ante la falta de un calendario oficial, defino la llegada como el primer mes en el que una agencia registra al menos una atención del programa. También necesito identificar la misma agencia en dos bases que utilizan nombres distintos. El programa registra los nombres manualmente mientras que la Fiscalía utiliza claves, así que construí una tabla para relacionarlos. Si una abogada llegó antes de su primera atención, el efecto se subestimaría y aparecería como un aumento antes de la llegada. Reviso la tabla en la @sec-datos y la fecha con otra regla de llegada en la @sec-h4.
+
+**S3. Ningún cambio en el registro afectó a unas agencias y no a otras al mismo tiempo que la llegada de sus abogadas.** Un cambio administrativo que modifique el número de carpetas registradas podría parecer un efecto del programa. Dentro de la ventana hubo uno: en enero de 2019, dos meses antes del lanzamiento, la Fiscalía cambió su catálogo de delitos, retiró 43 etiquetas que existían en diciembre de 2018 y dio entrada a 26 nuevas, por lo que publica una tabla de equivalencias para comparar delitos entre 2018 y 2019. La etiqueta de violencia familiar no es una de las que cambiaron y aparece sin interrupción desde 2016. Un cambio de catálogo afecta además a todas las agencias el mismo mes. El efecto de mes del estimador absorbe lo que le ocurre a la ciudad entera. Por eso el supuesto que necesito es el del encabezado y no que el registro se haya quedado quieto. Termino en febrero de 2020 porque después la comparación entre agencias comienza a romperse: durante la pandemia varias dejan de registrar carpetas y en 2021 la violencia familiar pasa a las Unidades de Atención Temprana. Las carpetas se cuentan en el mes en que fueron abiertas, no cuando ocurrió el hecho, porque el programa interviene cuando la mujer llega a denunciar.
+
+**S4. Las carpetas que aparecen en una agencia con abogadas son denuncias nuevas y no denuncias que cambiaron de sede.** Una mujer puede denunciar violencia familiar en su agencia territorial, en la Agencia 75 o en los Centros de Justicia para las Mujeres. Si una mujer que antes acudía a una sede especializada comienza a denunciar en su agencia territorial porque ahí encuentra una abogada, la carpeta cambia de lugar, pero el total de denuncias de la ciudad no aumenta. Lo mismo puede ocurrir entre agencias territoriales si una ya tiene abogada y otra todavía no. En la @sec-h1 reviso tanto el posible traslado desde las sedes especializadas como entre agencias territoriales. El primero no aparece en los datos de la ciudad. El segundo no lo puedo descartar.
+
+**S5. Sin el programa, las carpetas de cada agencia habrían crecido o caído en la misma proporción que las de las agencias que todavía no tenían abogadas. Ninguna agencia empezó a cambiar antes de recibir a su abogada.** Este es el supuesto principal del análisis porque permite utilizar las agencias que todavía no tenían abogadas para estimar qué habría pasado en las que ya las tenían [@borusyak2024]. Hablar de la misma proporción no significa que todas deban tener el mismo número de carpetas. Si las carpetas de las agencias sin abogadas aumentan 10% en un mes, el supuesto es que cada agencia con abogadas habría aumentado aproximadamente 10% sobre su propio nivel. También necesito que el cambio no haya comenzado antes de la llegada. Si una agencia ya venía creciendo, parte de ese crecimiento podría terminar atribuido al programa. Las dos condiciones se ponen a prueba en la @sec-h3, donde aparece la principal limitación del análisis.
+
+**S6. Dentro de un grupo de agencias de tamaño parecido, el orden en que llegaron las abogadas no tuvo que ver con nada más que estuviera moviendo las carpetas.** El orden de llegada no fue al azar: las agencias grandes recibieron abogadas antes que las chicas. Lo que supongo es que, una vez separadas las agencias en tres grupos de tamaño parecido, dentro de cada grupo el turno de cada agencia pudo haber sido cualquier otro. Esto importa porque de ahí sale la prueba principal del análisis: para saber si un aumento como el que estimé pudo aparecer por casualidad, reparto las fechas de llegada dentro de cada grupo `{python} n_perm` veces y cuento con qué frecuencia el azar produce un aumento igual de grande. Si dentro de los grupos el orden siguiera otro criterio que también mueve las carpetas, el valor p sería demasiado optimista. Para la segunda pregunta del trabajo, la de si el programa se podía evaluar, necesito además que los meses previos al programa, de enero de 2017 a febrero de 2019, muestren cómo se mueve una agencia cuando no le pasa nada. Sobre ese periodo simulo efectos de distintos tamaños para medir cuál es el más chico que este análisis habría podido detectar. Reviso el primer supuesto en la @sec-h1 y el segundo en la @sec-h6.
+
+# Metodología
+
+## Los datos, las unidades y la ventana de análisis {#sec-datos}
+
+Usé tres fuentes oficiales: las `{python} n_atenciones` atenciones registradas por SEMUJERES entre marzo de 2019 y marzo de 2022 [@semujeres_atenciones], las carpetas de investigación de la FGJ por agencia y mes [@fgj_carpetas] y el Censo Nacional de Procuración de Justicia Estatal (CNPJE) del INEGI [@inegi_cnpje]. Cada problema de los datos se documentó antes de decidir si la información podía utilizarse, requería un supuesto o debía descartarse.
+
+El primer problema aparece en el registro de SEMUJERES. Durante `{python} hueco_meses` meses entre julio de 2020 y agosto de 2021 desaparece la respuesta que indica que no se abrió una carpeta y aumenta el número de campos vacíos (@fig-hueco). Como el panel utilizado para estimar el efecto termina en febrero de 2020, este problema no afecta la estimación. Solo afecta los cálculos posteriores de conversión, que reporto excluyendo esos meses.
+
+```{python}
+#| label: fig-hueco
+#| fig-cap: "Atenciones del programa por mes según lo que el registro dice de la carpeta. En los meses sombreados el \"no\" desaparece y su lugar lo ocupa el \"sin dato\", mientras que el \"sí\" sigue su propio nivel. Base de SEMUJERES."
+pm = pd.DataFrame(L['por_mes'])
+pm['fecha'] = pd.to_datetime(pm['mes'])
+fig, ax = plt.subplots(figsize=(ANCHO, 1.4))
+for tr in hueco['tramos']:
+    a, b = pd.Timestamp(tr['desde'] + '-01'), pd.Timestamp(tr['hasta'] + '-01')
+    ax.axvspan(a - pd.Timedelta(days=15), b + pd.Timedelta(days=15), color=BLUE_PALE, alpha=0.6, lw=0)
+# Tres trazos distinguibles también en blanco y negro: claro continuo, oscuro continuo, oscuro punteado.
+ax.plot(pm.fecha, pm['no'], color=BLUE_MID, lw=1.4, ls='-')
+ax.plot(pm.fecha, pm['si'], color=BLUE_DARK, lw=1.4, ls='-')
+ax.plot(pm.fecha, pm['na'], color=RED, lw=1.4, ls=(0, (3.5, 1.4)))
+ax.text(pd.Timestamp('2019-09-15'), 4450, 'no se abrió', color=BLUE_MID, fontsize=7)
+ax.text(pd.Timestamp('2019-09-15'), 1750, 'sí se abrió', color=BLUE_DARK, fontsize=7)
+ax.text(pd.Timestamp('2021-01-20'), 2950, 'sin dato', color=RED, fontsize=7)
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{int(x):,}'))
+ax.set_ylabel('Atenciones por mes')
+ax.set_ylim(0, 6300)
+ax.set_xlim(pd.Timestamp('2019-01-01'), pd.Timestamp('2022-05-01'))
+ax.xaxis.set_major_locator(mdates.YearLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+plt.tight_layout()
+plt.show()
+```
+
+El segundo problema es identificar la misma agencia en las dos fuentes. SEMUJERES registra los nombres manualmente, por ejemplo `CUJ 1 Y 2` o `AZC-2 y 4`, mientras que la Fiscalía utiliza códigos como `CJ-1` y `AZ-4`. Normalicé estos nombres y los relacioné con los códigos de la FGJ. Cuando una misma pareja de abogadas atiende dos agencias, ambas se consideran una sola unidad porque comparten la misma fecha de llegada. Las `{python} n_etiquetas_terr` etiquetas territoriales del programa se convierten así en `{python} n_unidades` unidades que cubren `{python} n_codigos` de las 78 agencias anunciadas por el gobierno.
+
+Para revisar estas equivalencias comparé las carpetas reportadas por ambas fuentes. Las carpetas que SEMUJERES atribuye al programa no deberían superar las carpetas de violencia familiar que la Fiscalía registra en la misma agencia y mes. Esta condición se cumple en `{python} val_ok` de `{python} val_celdas` casos. De las `{python} val_viol` diferencias, `{python} val_comp` pueden explicarse por un desfase de un mes entre ambos registros. Las restantes se concentran principalmente en IZP-7 y MC-1, dos agencias cuyas claves dejaron de aparecer en los datos de la Fiscalía. La fecha de llegada de las abogadas se define como el primer mes en que cada unidad registra al menos una atención.
+
+La muestra también excluye unidades cuyos datos previos no permiten construir una comparación confiable. La regla utiliza únicamente información anterior a la llegada de las abogadas y elimina unidades con meses sin registros, cambios abruptos en su nivel de carpetas (un salto de más de 2.5 veces en su promedio de seis meses) o una fecha de entrada posterior a la ventana de análisis. Se excluye una unidad por cada motivo, en ese orden: MIL-2, AZC-2 Y 4 y TLP-5. En IZP-7, los `{python} FAL['n']` meses en los que la Fiscalía deja de reportar su clave se consideran faltantes y no ceros.
+
+La muestra final contiene `{python} nU` unidades observadas durante `{python} meses_panel` meses. Las abogadas llegaron de manera gradual entre marzo y agosto de 2019. Las primeras `{python} coh_mar` unidades entraron en marzo. Las unidades que todavía no tenían el programa y podían utilizarse como comparación disminuyen rápidamente: `{python} sp_mar` en marzo, `{python} sp_abr` en abril, `{python} sp_may` en mayo y solo `{python} sp_jun` en junio. Como el análisis exige al menos `{python} min_sp` unidades sin programa para estimar qué habría ocurrido sin las abogadas, el efecto puede estimarse únicamente hasta mayo de 2019.
+
+## Hipótesis
+
+Definí seis resultados que esperaría encontrar si el programa realmente aumentaba la denuncia. La lista completa la formalicé después, al revisar el análisis. **H1:** después de la llegada de las abogadas, las carpetas de violencia familiar aumentan respecto a lo que se habría esperado sin el programa. **H2:** los robos, que el programa no atiende, no muestran el mismo aumento. **H3:** el aumento no aparece antes de la llegada de las abogadas. **H4:** el resultado se observa en distintos grupos de unidades y no depende únicamente de las que recibieron el programa primero. **H5:** la proporción de atenciones que termina en una carpeta refleja diferencias en el desempeño de las agencias y no solamente cuántas mujeres atienden. **H6:** el diseño permite detectar efectos de entre 20% y 30%, un rango consistente con los resultados de programas similares. El contraste principal es el efecto sobre las carpetas de violencia familiar con permutación estratificada. H2 a H4 buscan refutarlo. La pregunta y el placebo de robos forman parte del diseño desde el inicio. H1 se mide con el estimador, H2 con el placebo de robos, H3 con la prueba de tendencias previas, H4 con el efecto por cohorte de llegada, H5 con la conversión y H6 con la simulación de potencia.
+
+## Cómo estimé el efecto
+
+Para estimar el efecto utilicé el método de imputación de Borusyak, Jaravel y Spiess [@borusyak2024] en versión Poisson. El modelo utiliza las `{python} celdas_entren` combinaciones de unidad y mes en las que todavía no había abogadas para aprender dos cosas: el nivel normal de carpetas de cada unidad y los cambios que afectan a toda la ciudad en cada mes. Con estos dos componentes estima cuántas carpetas habría abierto una unidad si las abogadas no hubieran llegado. Por ejemplo, VC-3 recibió el programa en marzo de 2019. El modelo estimó que ese mes habría abierto `{python} ej_cf` carpetas sin el programa y se observaron `{python} ej_obs`.
+
+Formalmente, para los meses sin programa estimo $E[Y_{it}(0)] = a_i b_t$. Después utilizo $\hat a_i \hat b_t$ para estimar las carpetas esperadas sin programa en cada unidad que ya tenía abogadas. El efecto compara el total observado con este total esperado: $\hat\tau = \sum Y_{it} / \sum \hat a_i \hat b_t - 1$. Elegí Poisson porque los datos son conteos, existen meses con cero carpetas y una unidad típica abre alrededor de `{python} q_nivel_tipico` al mes. Una regresión en logaritmos puede generar sesgos con conteos pequeños cuando la varianza depende de la media [@gourieroux1984; @santossilva2006]. La estimación utiliza cuasi-máxima verosimilitud, por lo que requiere que la media esté correctamente especificada, pero no que la varianza siga exactamente una distribución Poisson.
+
+# Resultados y discusión {#sec-resultados}
+
+Presento los resultados en el orden de las hipótesis. En cada una digo qué prueba usé y de dónde sale cada cifra.
+
+## H1: más carpetas de las esperadas {#sec-h1}
+
+Entre marzo y mayo de 2019, las unidades que ya contaban con el programa abrieron `{python} obs` carpetas de investigación por violencia familiar según los datos de la Fiscalía. Para esas mismas unidades y meses el estimador por imputación calcula que se habrían abierto `{python} cf` sin el programa. La diferencia equivale a un aumento de `{python} ef`. Solo puedo medir esos tres meses porque desde junio quedan menos de `{python} min_sp` unidades sin abogadas contra las cuales comparar.
+
+Un aumento así también podría salir por azar. Para saber qué tan probable es, repetí el análisis `{python} n_perm` veces cambiando las fechas de llegada entre las unidades [@athey2022; @rosenbaum2002]. Si las abogadas no hubieran hecho nada, cualquiera de esos calendarios sería tan válido como el real. Las fechas no se intercambian entre todas las unidades porque las más grandes recibieron abogadas antes (correlación de rangos entre tamaño y mes de llegada de `{python} rho`, p = `{python} rho_p`). Por eso las divido en tres grupos según su total de carpetas de 2018 y cambio las fechas solo dentro de cada grupo. En `{python} p_t_b` de los `{python} n_perm` calendarios apareció un efecto igual o mayor en valor absoluto, un valor p de `{python} p_t` [@phipson2010]. Como elegir tres grupos también es una decisión mía, repetí la prueba con uno y con nueve grupos. En los dos casos el valor p sigue por debajo de 0.05.
+
+El rango del efecto depende de qué incertidumbre se mida, así que reporto tres intervalos al 95%. El primero sale de la misma permutación [@rosenbaum2002]: reúne los efectos que esa prueba no rechazaría y va de `{python} inv_ic`. Para construirlo hay que suponer que el efecto es igual en todas las unidades. Los otros dos preguntan qué pasaría si las unidades fueran otras [@efron1993; @bertrand2004]. Con bootstrap, que vuelve a sortear las unidades con reemplazo, va de `{python} boot_ic`. Con jackknife, que quita una a la vez, va de `{python} jk_ic`. Estos dos incluyen el cero.
+
+El `{python} ef` compara dos grupos en los mismos meses, así que puede venir de que las unidades con abogadas subieron o de que las de comparación bajaron. Para saber cuál pasó comparé cada grupo contra el mismo mes de 2018, sin ningún modelo. En marzo de 2019 las unidades con abogadas abrieron `{python} cc_mar_con` carpetas respecto a un año antes, mientras que las que todavía no tenían abogadas abrieron `{python} cc_mar_sin`. En abril pasó algo parecido: `{python} cc_abr_con` contra `{python} cc_abr_sin`. Buena parte de la diferencia viene entonces de que las unidades de comparación cayeron, no solo de que las otras subieran.
+
+Una explicación de esa caída es que algunas mujeres dejaran de denunciar en su agencia y fueran a una vecina que ya tenía abogadas. Si fuera así, las carpetas solo habrían cambiado de lugar y el efecto estaría inflado. **S4** supone que esto no pasa. Para revisarlo dejé como comparación solo a las unidades sin programa que no tienen ninguna agencia con abogadas en su alcaldía. Con ellas el efecto del mes de marzo, que por sí solo es de `{python} ef_mes_mar`, baja a `{python} vz_ef_lej`. Baja, pero sigue siendo grande. No lo tomo como prueba de un traslado porque esas vecinas ya venían cayendo antes del lanzamiento.
+
+Tampoco parece que las denuncias llegaran desde las sedes especializadas de la Fiscalía. Si las agencias territoriales hubieran ganado carpetas a costa de ellas, el total de todas las sedes habría subido menos que el de las territoriales. No fue así: de marzo de 2019 a febrero de 2020 las territoriales quedaron `{python} ciudad_exceso` sobre su tendencia previa y todas las sedes juntas, `{python} ciudad_todas`.
+
+Por último, el registro del programa pone un techo. En las unidades y meses donde estimé el efecto la Fiscalía abrió `{python} techo_fgj` carpetas de violencia familiar y el programa registra que `{python} techo_prog` de ellas (`{python} techo_s`) pasaron por una abogada. Aun si ninguna se hubiera abierto sin abogada, se habrían abierto las otras `{python} techo_sin`, así que el efecto no puede pasar de `{python} techo_fgj`/`{python} techo_sin` − 1 = `{python} techo_max`. El `{python} ef0` cabe, pero implica que `{python} techo_parte` de las carpetas con abogada no habrían existido sin ella. Este techo supone que el programa solo abre carpetas a través de sus abogadas.
+
+El resultado tiene el signo que pedía **H1**: hay más carpetas de las esperadas y el aumento es posible. No alcanza para atribuírselo al programa, porque dos de los tres intervalos incluyen el cero y parte del contraste viene de la caída de las comparaciones.
+
+## H2: los robos no suben igual {#sec-h2}
+
+Si lo que estoy midiendo fuera un cambio en cómo la Fiscalía registra todas las denuncias, los delitos que las abogadas no atienden también subirían. Por eso repetí el mismo estimador y la misma permutación con las carpetas por robo. Aumentan `{python} ef_rob` (p = `{python} p_rob`), con un intervalo bootstrap de `{python} rob_boot` que no alcanza el `{python} ef` de la violencia familiar. Ese aumento tampoco parece venir de marzo de 2019. Viene de que en las unidades que entraron primero los robos ya venían subiendo desde antes, como muestran los lanzamientos ficticios del siguiente párrafo.
+
+El segundo placebo mueve la fecha en lugar del delito. Corrí el calendario real entre `{python} pl_m_min` y `{python} pl_m_max` meses hacia atrás, a 2017 y 2018, cuando el programa no existía. Con esos `{python} pl_n` lanzamientos ficticios repetí el estimador. En violencia familiar promedian `{python} pl_media` y ninguno alcanza la estimación principal. En robos los mismos lanzamientos promedian `{python} pl_rob_media` y `{python} pl_rob_pos` de `{python} pl_n` salen positivos, lo que confirma esa tendencia propia. En la violencia familiar no aparece. **H2** se cumple.
+
+## H3: nada subía antes de que llegaran {#sec-h3}
+
+La principal dificultad aparece al revisar qué ocurría antes de la llegada de las abogadas. Es lo que pide **H3** y lo que supone **S5**: que sin abogadas cada unidad habría seguido el ritmo de las que aún no las tenían. El estimador principal solo puede medir los meses $-6$ a $-4$, porque antes no quedan suficientes unidades sin programa. Ahí promedia `{python} ade_tot`. Los meses más cercanos a la llegada los revisé con la prueba de tendencias previas que proponen Borusyak, Jaravel y Spiess [@borusyak2024]. Es un modelo aparte del estimador: una regresión Poisson con efectos fijos de unidad y de mes más un indicador por cada uno de los últimos meses antes de la llegada. Una prueba de Wald con errores agrupados por unidad, que evalúa todos los indicadores a la vez, no permite rechazar que esos meses sean cero (p = `{python} bjs_p3` con tres meses y `{python} bjs_p6` con seis). Uno por uno, en cambio, crecen conforme se acerca la fecha: `{python} bjs_a3`, `{python} bjs_a2` y `{python} bjs_a1` en los meses $-3$, $-2$ y $-1$ (@fig-evento). El último supera al efecto estimado, aunque viene de otro modelo. Si los estimo por separado para cada cohorte de llegada, la subida previa viene de la cohorte de marzo. Los errores estándar son grandes, así que estas cifras no afirman que hubiera tendencia previa [@roth2022], pero impiden descartarla.
+
+```{python}
+#| label: fig-evento
+#| fig-cap: "Efecto por mes desde la llegada de las abogadas (mes 0). Puntos sólidos: estimador por imputación. Puntos huecos: prueba de tendencias previas, con su intervalo al 95\\%. Los dos vienen de modelos distintos."
+fig, ax = plt.subplots(figsize=(ANCHO, 1.8))
+ax.axhline(0, color=GRIS, lw=0.6)
+ax.axvline(-0.5, color=GRIS, lw=0.8, ls=(0, (3, 2)))
+# adelantos de la prueba conjunta (mes -1, -2, -3) con intervalo al 95% desde su error en logaritmos
+for _k, (_v, _se) in enumerate(zip(bjs3['adelantos_pct'], bjs3['ee_log'])):
+    _x, _c = -_k - 1, np.log1p(_v / 100)
+    ax.plot([_x, _x], [100 * np.expm1(_c - 1.96 * _se), 100 * np.expm1(_c + 1.96 * _se)],
+            color=RED, lw=0.9, solid_capstyle='butt')
+    ax.plot(_x, _v, 'o', color='white', mec=RED, mew=1.1, ms=3.8, zorder=4)
+for _serie in (vf['adelantos'], vf['por_evento']):
+    _pt = [(d['e'], d['efecto'] * 100) for d in _serie if d['efecto'] is not None]
+    ax.plot(*zip(*_pt), 'o-', color=BLUE_DARK, lw=1.3, ms=3.4, zorder=5)
+ax.text(-0.35, 104, 'llegan las abogadas', fontsize=6.8, color=GRIS, ha='left', va='top')
+_h = [Line2D([], [], marker='o', color=BLUE_DARK, lw=1.3, ms=3.4, label='estimador del análisis'),
+      Line2D([], [], marker='o', color=RED, lw=0.9, mfc='white', mew=1.1, ms=3.8,
+             label='prueba de tendencias previas')]
+ax.legend(handles=_h, loc='lower center', bbox_to_anchor=(0.5, 1.0), ncol=2, frameon=False,
+          fontsize=6.6, handletextpad=0.3, columnspacing=0.8, borderpad=0.0, handlelength=1.8)
+ax.set_xlabel('Meses desde la llegada a la unidad')
+ax.set_ylabel('Contra el contrafactual (%)')
+ax.set_xlim(-6.6, 2.6)
+ax.set_ylim(-35, 112)
+ax.xaxis.set_major_locator(mticker.MultipleLocator(2))
+ax.yaxis.set_major_locator(mticker.MultipleLocator(40))
+plt.tight_layout()
+plt.show()
+```
+
+Busqué una última señal en la trayectoria de cada unidad, esta vez sin decirle al método cuándo llegaron las abogadas. Con el detector de puntos de cambio PELT (*pruned exact linear time*) [@killick2012; @jackson2005] revisé la serie mensual de cada unidad de enero de 2017 a febrero de 2020. Si el programa movió las carpetas, los cambios deberían caer cerca de la llegada más seguido de lo que daría el azar. De las `{python} nU` unidades, `{python} q_n` tienen un cambio al alza en el mes de llegada o el siguiente. Para saber si es inusual reasigné las fechas como en la permutación de H1, sin mover los cambios. Con esas fechas se esperan `{python} q_esp` coincidencias y solo `{python} pc(qvf['p'], 1)` de los repartos producen `{python} q_n` o más. En robos aparece `{python} q_rob` (p = `{python} q_rob_p`).
+
+Este ejercicio lo uso solo como evidencia exploratoria. Corrí `{python} q_wy_n` versiones de la prueba, combinando nueve sensibilidades del detector con cuatro ventanas alrededor de la llegada. Con el ajuste de Westfall y Young [@westfall1993], que corrige el valor p por haberlas probado todas, el de la versión principal sube de `{python} q_p` a `{python} q_wy_p`. Además, si muevo las fechas un mes hacia atrás vuelvo a encontrar `{python} q_pt1_n`: la prueba ve cambios cerca de la entrada pero no distingue el mes exacto, igual que el adelanto del mes $-1$. **H3** no se puede confirmar y es la limitación más seria del análisis.
+
+## H4: el aumento en todas las cohortes de llegada {#sec-h4}
+
+El resultado no depende de una sola agencia. Al retirar una unidad a la vez, como en el jackknife de H1, el efecto se mantiene entre `{python} jk_min` y `{python} jk_max` y nunca cambia de signo. Tampoco depende de las decisiones del análisis que muestra la parte de arriba de la @tbl-robustez, como la fecha de entrada, el mínimo de unidades de comparación o la ventana de entrenamiento: con todas ellas queda entre `{python} var_min` y `{python} var_max`.
+
+Sí depende de cuándo entraron. Al estimar el efecto de cada cohorte de llegada por separado, las unidades que recibieron abogadas en marzo muestran `{python} ef_coh_mar`, las de abril `{python} ef_coh_abr` y las de mayo `{python} ef_coh_may` (@tbl-robustez, abajo). Excluyendo la cohorte de marzo el efecto conjunto pasa a `{python} ef_sin_marzo`. Esa primera cohorte reúne a las unidades más grandes y representa `{python} peso_mar` del contrafactual. Es la misma de la que viene la subida previa de H3. **H4**, que pedía encontrar el resultado en distintas cohortes de llegada, no se sostiene.
+
+```{python}
+#| label: tbl-robustez
+#| tbl-cap: "Sensibilidad del efecto a las decisiones del análisis. Arriba, variantes con las tres cohortes de llegada juntas. Abajo, cada cohorte de llegada por separado."
+#| output: asis
+filas = [
+    (f"Estimación principal ({nU} unidades)", vf['efecto'], 2),
+    ("Entrada = primer mes con 10 o más atenciones", rb['entrada_con_10_atenciones'], 1),
+    ("Mínimo de 3 unidades sin programa (mismos meses)", rb['minimo_3_sin_programa'], 2),
+    ("Mínimo de 10 (deja solo marzo y abril)", rb['minimo_10_sin_programa'], 1),
+    ("Entrenamiento desde septiembre de 2018", VE['2018-09']['vf'], 1),
+    (f"Exclusión con toda la ventana ({n52} unidades)", R52['resultados']['vf']['efecto'], 2),
+    ("Relativo al resto de carpetas de la unidad", rb['razon_vf_vs_resto_de_delitos'], 1),
+    ("Sin la cohorte de marzo", rb['sin_cohorte_de_marzo'], 1),
+]
+_corte = len(filas)
+for c in ['2019-03', '2019-04', '2019-05']:
+    q = pcoh[c]
+    filas.append((f"Solo la cohorte de {MESES[int(c[5:]) - 1]} ({q['unidades']} unidades)", q['efecto'], 1))
+print(r"\centering\footnotesize")
+print(r"\begin{tabular}{@{}lr@{}}")
+print(r"\toprule Variante del análisis & Efecto (\%)\\ \midrule")
+for i, (a, b, d) in enumerate(filas):
+    if i == _corte:
+        print(r"\midrule")
+    print(f"{a} & {pc(b, d, True).replace('%', '')}\\\\")
+print(r"\bottomrule\end{tabular}")
+```
+
+## H5: la conversión como medida de desempeño {#sec-h5}
+
+La conversión, la proporción de atenciones que termina en una carpeta, es la cifra con la que el programa mide su éxito. Según su propio registro de atenciones pasó de `{python} conv_ini` en 2019 a `{python} conv_fin` entre septiembre de 2021 y marzo de 2022. El aumento puede venir de abrir más carpetas o de registrar menos atenciones. Las carpetas mensuales subieron `{python} d_carp` mientras las atenciones caían `{python} d_aten`. Al separar los dos cambios en logaritmos, `{python} d_parte_aten` del aumento viene de la caída en las atenciones.
+
+La conversión también difiere mucho entre agencias. Entre las `{python} emb_u` unidades con al menos 100 atenciones, que son un universo distinto de las `{python} nU` del análisis causal, va de `{python} emb_min` a `{python} emb_max`. Para ver si el tamaño de cada agencia explica esas diferencias usé un embudo, que compara su conversión con el rango esperado dado su número de atenciones. Con límites binomiales quedan fuera `{python} emb_95` de `{python} emb_u`, porque la binomial subestima cuánto varían las agencias entre sí: la varianza observada es `{python} emb_sd` veces la esperada. Al ajustar los límites por esa sobredispersión [@spiegelhalter2005] quedan fuera `{python} emb_a95`. Por azar este procedimiento deja fuera casi el mismo número de agencias, así que el embudo no señala agencias atípicas. Lo que sí muestra es que las agencias difieren entre sí más de lo que explica su tamaño.
+
+Tampoco se explican porque unas agencias reciban casos más graves. De las `{python} ri_fem` atenciones con riesgo feminicida, `{python} ri_sin` no terminó en carpeta, contra `{python} ri_sin_no` entre las que no registran ese riesgo. Comparando dentro de una misma agencia (Mantel-Haenszel), el riesgo feminicida se asocia con `{python} ri_dentro` puntos menos de quedarse sin carpeta, así que los casos más graves sí terminan más seguido en una. Aun así, entre las `{python} ri_het_n` agencias con al menos 20 casos de ese tipo, la parte sin carpeta va de `{python} ri_het_min` a `{python} ri_het_max`.
+
+**H5** no se sostiene como la planteé: la conversión mezcla el volumen de atenciones, la composición de los casos y diferencias entre agencias, así que no puede leerse directamente como desempeño.
+
+## H6: un diseño que detecte entre 20% y 30% {#sec-h6}
+
+Queda la segunda pregunta: si el diseño podía distinguir del azar un efecto como este. Para responderla calculé el efecto mínimo detectable (MDE), el efecto más chico que la permutación de H1 detecta en 80% de los casos con un nivel de 5% [@bloom1995]. Lo hice por simulación con los meses anteriores al programa, de enero de 2017 a febrero de 2019 [@burlig2020]. Simulo la llegada de las abogadas en marzo de 2018, agrego a las unidades con programa un porcentaje conocido de carpetas y aplico la misma prueba. Repito el ejercicio `{python} mde_reps` veces por cada tamaño de efecto y cuento en qué proporción se rechaza el efecto cero (@fig-potencia).
+
+```{python}
+#| label: fig-potencia
+#| fig-cap: "Probabilidad de que la prueba del análisis detecte un efecto verdadero de cada tamaño, según el calendario de entrada. Las curvas azules simulan las agencias de la ciudad con un lanzamiento ficticio en marzo de 2018. La roja simula los estados sorteados en dos grupos, con el efecto medido sobre el total de cada estado. El punto sobre la línea de 80\\% marca el MDE de cada calendario. La curva \"como se hizo\" conserva cuántas unidades de cada tercil de tamaño entran en cada cohorte de llegada. Cada punto resume 2,000 simulaciones."
+disenos = [(PO, 'como se hizo', BLUE_DARK, '-'),
+           (PI['12 meses'], '12 cohortes de llegada', BLUE, (0, (4, 1.6))),
+           (PI['trimestral'], '4 grupos', BLUE_MID, (0, (5, 1.4, 1, 1.4))),
+           (PI['espera'], 'mitad y mitad', BLUE_LIGHT, (0, (1.6, 1.3)))]
+fig, ax = plt.subplots(figsize=(ANCHO, 1.62))
+TOPE = 0.5  # todas las curvas llegan hasta 50%: es el efecto más grande simulado para los estados
+def curva(potd):
+    xs = [x for x in sorted(float(k) for k in potd) if x <= TOPE]
+    return np.array(xs) * 100, np.array([potd[str(x)] for x in xs]) * 100
+ax.axhline(80, color=GRIS, lw=0.7, ls=(0, (1.2, 2)))
+for d, nom, color, ls in disenos:
+    x, y = curva(d['potencia'])
+    ax.plot(x, y, color=color, ls=ls, lw=1.2 if nom != 'mitad y mitad' else 1.5, label=nom)
+    ax.plot(100 * d['mde_interpolado'], 80, 'o', color=color, ms=3.4, mec='white', mew=0.5, zorder=5)
+x, y = curva(EMY['potencia'])
+ax.plot(x, y, color=RED, lw=1.6, label='estados, 2 grupos')
+ax.plot(100 * EMY['mde_interpolado'], 80, 'o', color=RED, ms=3.6, mec='white', mew=0.5, zorder=5)
+ax.set_xlabel('Efecto verdadero (%)')
+ax.set_ylabel('Potencia (%)')
+ax.set_ylim(0, 103)
+ax.set_xlim(5, 50)
+ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
+ax.xaxis.set_major_locator(mticker.MultipleLocator(10))
+ax.legend(loc='lower right', frameon=False, fontsize=7, handlelength=2.4,
+          labelspacing=0.3, borderaxespad=0.2)
+plt.tight_layout()
+plt.show()
+```
+
+Con el calendario real ("como se hizo" en la @fig-potencia) el MDE es `{python} mde_r1`, por encima del `{python} ef0` que estimé. Un efecto verdadero de 20% se habría detectado `{python} pot('real', '0.2')` de las veces y uno de 10%, `{python} pot('real', '0.1')`. El problema es el ruido de cada agencia: sin ningún programa, sus carpetas cambian entre `{python} der_p5` y `{python} der_p95` de un año a otro (percentiles 5 y 95). Por eso un resultado nulo tampoco habría demostrado que el programa no funcionaba. Tampoco es un accidente de la fecha simulada. Al moverla entre `{python} ven_ini` y `{python} ven_fin` (`{python} pv_n` fechas), el MDE va de `{python} pv_min` a `{python} pv_max`, con mediana de `{python} pv_med`. Con una potencia menor a 80%, un resultado significativo tiende además a exagerar el efecto verdadero.
+
+Otro calendario no lo habría resuelto. Simulé tres que el programa pudo haber usado [@hussey2007], que reparten las unidades en orden alfabético y dan casi lo mismo: `{python} mde_12` con 12 cohortes mensuales, `{python} mde_tri` con 4 cohortes trimestrales y `{python} mde_esp` si la mitad de las agencias espera un año. Con ese mismo reparto el calendario real da `{python} mde_real_alf`, así que ninguno mejora al real.
+
+¿Y si se sortearan los estados? La expansión nacional podría evaluarse sorteando qué estados entran primero. Para ver si así se detectaría un efecto como este, repetí la simulación con los `{python} n_estados` estados distintos de la Ciudad de México, con los delitos de violencia familiar que el censo de procuración de justicia del INEGI (CNPJE) registra en carpetas de 2020 a 2024, sorteados en dos grupos de tamaño parecido. El MDE baja a `{python} mde_est` (curva roja). Pero ese porcentaje es sobre todos los delitos registrados en el estado. Las abogadas solo están en las agencias territoriales, que en la ciudad abren `{python} dil_cob` de esas carpetas. Si en los estados pasa igual, un `{python} mde_est` estatal equivale a cerca de `{python} dil_local` en cada agencia con abogada, casi el mismo umbral que en la ciudad.
+
+**H6** pedía detectar efectos de entre 20% y 30%, así que no se cumple: con 30% la potencia es de `{python} pot('real', '0.3')`, por debajo del 80%.
+
+## En conjunto
+
+El resultado es un indicio positivo que no es concluyente. El `{python} ef` tiene el signo esperado, es mayor que el de los robos y sigue positivo al retirar cualquier unidad. Al mismo tiempo, dos de los tres intervalos incluyen el cero, el resultado se concentra en la cohorte de marzo, parte del contraste viene de la caída de las comparaciones y no puede descartarse una tendencia previa. Y aunque todo eso se resolviera, el diseño solo detectaba con confianza efectos de `{python} mde_r` o más. Es compatible con que las abogadas hayan aumentado la apertura de carpetas. No alcanza para atribuirles el aumento.
+
+# Conclusiones {#sec-conclusiones}
+
+El `{python} ef0` es un indicio positivo que no es concluyente, por las cuatro razones de la @sec-resultados. A eso se suma la respuesta a la segunda pregunta: el diseño solo detectaba efectos similares al que estimé o mayores, `{python} mde_r` con el calendario real (@sec-h6).
+
+Tres rasgos del despliegue y uno del registro lo volvieron difícil de evaluar. Ningún análisis posterior los corrige. Las unidades de comparación se agotaron en tres meses del calendario. El orden de llegada siguió el tamaño de las agencias. El conteo de cada agencia varía demasiado de un año a otro, aun sin programa. Y el registro perdió el "no" durante `{python} hueco_meses` meses, lo que obliga a medir la conversión sin esos meses. Los cuatro pueden tomarse en cuenta antes de arrancar, así que mis recomendaciones son de diseño y de registro, en orden de prioridad.
+
+1. **Sortear el orden de entrada de los estados en al menos dos oleadas separadas por un año, dentro de grupos de tamaño parecido.** Va primero por validez: da un grupo de comparación que no depende del orden por tamaño ni de las reorganizaciones de una sola fiscalía, los dos problemas que no resolví en la ciudad. En potencia no gana. Cuesta planeación, no presupuesto, pero retrasa un año a la mitad de los estados.
+2. **Escalonar también dentro de cada estado por agencia y fijar la fecha de entrada por escrito.** Con cientos de agencias en lugar de `{python} nU` unidades, el MDE por agencia podría bajar, aunque no lo simulé. También habría con qué comparar más allá de tres meses.
+3. **Agregar seis campos al registro desde el primer día:** folio único de atención, fecha exacta, clave oficial de la agencia, número de carpeta cuando se abre, un sí o no obligatorio sin opción "sin dato" y el nivel de riesgo. Son cambios de formulario.
+4. **Dejar de usar la conversión como indicador de éxito.** Reportar por separado atenciones y carpetas, cada una contra el total de violencia familiar de la agencia.
+5. **Registrar las medidas de protección y revisar primero una lista corta de agencias.** El registro tiene un campo de solicitud de medidas, pero casi solo se llena cuando hay carpeta. Sin un registro completo no se sabe si hubo protección por otra vía en las atenciones con riesgo feminicida sin carpeta. Empezaría por las unidades con la conversión más baja para su tamaño (`{python} ", ".join(_bajas.unidad)`), sin leer esa lista como prueba de que funcionen peor.
+
+Tres cosas pueden alterar ese orden. La primera recomendación pierde sentido si la expansión ya arrancó al mismo tiempo en todos los estados, caso en el que la segunda pasa a ser la principal. Si lo que se busca es reducir la violencia y no aumentar la denuncia (**S1**), el resultado hay que medirlo con encuestas de victimización. Las cifras de potencia suponen un efecto parejo entre estados. Con la heterogeneidad que vi entre cohortes de llegada, el MDE del promedio probablemente sería mayor. Queda un riesgo ajeno a mi diseño: el censo lo autorreporta cada fiscalía, así que un cambio de sistema de registro durante la expansión se confundiría con un efecto.
+
+Como trabajo futuro quedan simular el despliegue real con efectos heterogéneos entre cohortes de llegada, simular una expansión por agencias en varios estados, repetir la simulación estatal con la incidencia mensual del Secretariado Ejecutivo y verificar cómo arrancó la expansión en cada estado.
+
+# Referencias {-}
+
+::: {#refs}
+:::
+
+```{=latex}
+\appendices
+```
+
+# Declaración de uso de IA generativa
+
+Usé un asistente de IA generativa (Claude, de Anthropic) en cuatro tareas. En el código, me ayudó a escribir y depurar los scripts de limpieza, estimación y simulación y la aplicación web. En la redacción, produjo borradores de la documentación y de este reporte a partir de mis resultados, que luego corregí. En la revisión, lo usé para buscar referencias y para señalar cifras del texto que no coincidían con los archivos de resultados. Por último, lo usé para auditar los cálculos. La auditoría encontró errores de implementación y de interpretación, las correcciones se aplicaron en los scripts y todas las cifras de este reporte se leen de sus resultados. Elegí la pregunta, los supuestos y la interpretación. Soy responsable del contenido. Reviso cada cifra contra los archivos de resultados y cada referencia contra su fuente. Aun así se me fue el resumen del estudio de Perú en la primera versión y lo corregí después.
+
+# Reproducibilidad
+
+El repositorio del proyecto incluye el código, las instrucciones para ejecutarlo y los resultados de los que este documento toma cada cifra, con las semillas fijas para que se reproduzcan tal como aparecen aquí. El análisis se acompaña de una aplicación web con las mismas cifras que este documento.

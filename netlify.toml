@@ -1,0 +1,6 @@
+# Netlify publica la presentación (carpeta presentation/) como sitio estático.
+# index.html vive en templates/ para que Flask también la sirva, así que se arma dist/.
+[build]
+  base    = "presentation"
+  command = "rm -rf dist && mkdir dist && cp templates/index.html dist/ && cp -R static dist/"
+  publish = "dist"

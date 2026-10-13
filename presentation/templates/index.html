@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abogadas de las Mujeres</title>
+    <!-- vendor.py rewrites these four to static/vendor/... for offline use -->
+    <link rel="stylesheet" href="static/vendor/reveal/reveal.min.css">
+    <link rel="stylesheet" href="static/vendor/reveal/black.min.css">
+    <link rel="stylesheet" href="static/vendor/reveal/github-dark.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-yes" viewBox="0 0 24 24"><path d="m4.5 12.5 4.8 4.8L19.5 7"/></symbol>
+    <symbol id="i-no" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11"/><path d="M17.5 6.5l-11 11"/></symbol>
+    <symbol id="i-maybe" viewBox="0 0 24 24"><path d="M8.6 8.6a3.4 3.4 0 1 1 4.9 3c-1 .5-1.5 1.3-1.5 2.4v.6"/><path d="M12 18.4v.1"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M5 20V11"/><path d="M10 20V6"/><path d="M15 20v-7"/><path d="M20 20V9"/><path d="M3 20h18"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M18 3.5v4h-4"/><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1"/><path d="M6 20.5v-4h4"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24">
+        <path d="M12 4.2 21 19.4H3z"/><path d="M12 10v4"/><path d="M12 16.6v.2"/>
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>
+    </symbol>
+    <symbol id="i-people" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3.2 2.5-5.6 5.5-5.6s5.5 2.4 5.5 5.6"/>
+        <circle cx="17" cy="9" r="2.5"/><path d="M15.6 14.1c2.7.2 4.9 2.4 4.9 5.4"/>
+    </symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24">
+        <path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6"/><path d="M9 16h6"/>
+    </symbol>
+    <symbol id="i-map" viewBox="0 0 24 24">
+        <path d="m3.5 6.5 5.5-2.3 6 2.3 5.5-2.3v13.3L15 19.8l-6-2.3-5.5 2.3z"/>
+        <path d="M9 4.2v13.3"/><path d="M15 6.5v13.3"/>
+    </symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24">
+        <path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 4-5"/><path d="M4 19.5h16"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6.2"/><path d="m15.2 15.2 5 5"/>
+    </symbol>
+</svg>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Vista ampliada">
+</div>
+
+<div class="reveal">
+<div class="slides">
+<section class="title-slide">
+    <canvas class="constellation"></canvas>
+    <div class="brand-line"></div>
+    <h1>Abogadas de las Mujeres<br>en el Ministerio Público</h1>
+    <p class="subtitle">Evaluación de la política pública en las agencias de la Ciudad de México</p>
+    <hr class="separator">
+    <p class="meta">Juan Pablo Cordero Mayorga &nbsp;·&nbsp; ITAM &nbsp;·&nbsp; Caso de titulación en Ciencia de Datos Aplicada &nbsp;·&nbsp; Octubre 2026</p>
+    <aside class="notes">
+        (20 s) Me presento. Digo el mensaje completo de una vez: encontré un indicio de +28% que no puedo confirmar.
+        La razón principal está en cómo se desplegó el programa. Eso se decide antes de que arranque la expansión nacional.
+        Manejo: Espacio avanza. M abre el índice. S abre las notas. La flecha hacia abajo abre las láminas a fondo.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">I · La pregunta</p>
+        <h2>Dos <span class="green">preguntas</span> de investigación</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">En 2019 la Ciudad de México puso abogadas en las agencias del Ministerio Público. Me hice dos preguntas.</p>
+        <div class="grid-2">
+            <div class="card qcard q1 fragment rise">
+                <span class="big-n">1</span>
+                <div>
+                    <h3>¿Aumentaron las carpetas?</h3>
+                    <p>¿Donde llegaron las abogadas se abrieron más carpetas de violencia familiar que en las agencias que todavía no las tenían?</p>
+                </div>
+            </div>
+            <div class="card qcard q2 fragment rise">
+                <span class="big-n">2</span>
+                <div>
+                    <h3>¿Se podía saber?</h3>
+                    <p>¿Qué tan grande tenía que ser el efecto para detectarlo con la forma en que se desplegó el programa?</p>
+                </div>
+            </div>
+        </div>
+        <div class="note-box fragment rise"><p>La segunda le sirve a la Secretaría de las Mujeres para la expansión nacional, porque el orden de entrada y el registro se deciden antes de arrancar.</p></div>
+    </div>
+    <div class="act">I · La pregunta</div>
+    <aside class="notes">
+        (40 s) La primera es la pregunta clásica de impacto. La segunda es mi aporte: calcular el efecto mínimo detectable del despliegue real.
+        En las dos evaluaciones comparables que pude consultar completas no encontré que lo reporten. No decir "ninguna evaluación lo reporta".
+        Alcance: agencias territoriales, violencia familiar, marzo a mayo de 2019. Quedan fuera las fiscalías especializadas, la calidad de la atención y la violencia misma.
+        El cliente: la Secretaría de las Mujeres del Gobierno de México y las instancias estatales.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">I · La pregunta</p>
+        <h2>Un programa que ya <span class="green">se expande</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Abogadas con perspectiva de género acompañan a las mujeres que denuncian violencia en el Ministerio Público.</p>
+        <div class="timeline">
+            <div class="tl-node fragment rise">
+                <p class="when">Marzo 2019</p>
+                <p><span class="big"><span class="num" data-count-to="78">0</span> agencias</span>Se anuncia una abogada en cada agencia del Ministerio Público de la ciudad.</p>
+            </div>
+            <div class="tl-node fragment rise">
+                <p class="when">Marzo a agosto 2019</p>
+                <p><span class="big">Gradual</span>Según el registro, las abogadas llegan agencia por agencia en distintos meses.</p>
+            </div>
+            <div class="tl-node fragment rise">
+                <p class="when">Cuatro años</p>
+                <p><span class="big"><span class="num" data-count-to="57706">0</span></span>carpetas reportadas, junto con 158,469 asesorías.</p>
+            </div>
+            <div class="tl-node hi fragment rise">
+                <p class="when">Mayo 2025</p>
+                <p><span class="big"><span class="num" data-count-to="31">0</span> estados</span>Se abre la red nacional para replicar el programa.</p>
+            </div>
+        </div>
+        <div class="note-box fragment rise"><p class="strong">No encontré una evaluación de impacto publicada ni un calendario de la expansión.</p></div>
+        <p class="cite-line">Fuentes: Jefatura de Gobierno CDMX (2019) · Proceso (2025) con cifras de la Secretaría de las Mujeres</p>
+    </div>
+    <div class="act">I · La pregunta</div>
+    <aside class="notes">
+        (45 s) Por qué este programa: fecha de inicio conocida, datos abiertos atención por atención, llegada escalonada que permite un diseño causal.
+        Además tiene un cliente real porque se está replicando en 31 estados.
+        Las 57,706 carpetas y 158,469 asesorías las publica el propio programa. Son productos, no impacto.
+        Cuidado: no decir que "no existe" una evaluación. Decir que no encontré una publicada.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">I · La pregunta</p>
+        <h2>Si funcionó, debería <span class="green">ver esto</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Antes de creerle a un número, le pongo seis pruebas. Cada una se contesta con sí o no.</p>
+        <div class="tests">
+            <div class="card q1 fragment rise">
+                <p class="tq">Pregunta 1 · <b>¿Aumentaron las carpetas?</b></p>
+                <div class="trow"><span class="box"></span><p class="q">¿Hay más carpetas de las esperadas?</p><p class="code">H1</p></div>
+                <div class="trow"><span class="box"></span><p class="q">¿Otros delitos subieron igual?<span class="sub">descarta un cambio general del registro</span></p><p class="code">H2</p></div>
+                <div class="trow"><span class="box"></span><p class="q">¿Nada subía antes de que llegaran?</p><p class="code">H3</p></div>
+                <div class="trow"><span class="box"></span><p class="q">¿Pasa en todas las cohortes de llegada?</p><p class="code">H4</p></div>
+            </div>
+            <div class="card q2 fragment rise">
+                <p class="tq">Pregunta 2 · <b>¿Se podía saber?</b></p>
+                <div class="trow"><span class="box"></span><p class="q">¿La conversión mide el desempeño?<span class="sub">el atajo que ofrece el propio registro</span></p><p class="code">H5</p></div>
+                <div class="trow"><span class="box"></span><p class="q">¿El diseño detectaba 20% a 30%?<span class="sub">lo que reportan programas parecidos</span></p><p class="code">H6</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="act">I · La pregunta</div>
+    <aside class="notes">
+        (40 s) Planteo las pruebas como predicciones que el análisis puede contradecir. Van en el orden del reporte, de H1 a H6, que es el mismo orden en que las contesto.
+        Las cuatro primeras contestan la pregunta 1. Las dos últimas, la 2. El color de cada columna es el de su pregunta en el resto de la presentación.
+        Ojo con la de otros delitos: ahí la prueba pasa si la respuesta es no.
+        Decirlo en voz alta: la pregunta y la prueba de otros delitos estaban desde el inicio. La lista completa la escribí al revisar el análisis. Así lo dice el reporte.
+        No adelanto cuáles pasan.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">II · Cómo lo medí</p>
+        <h2>Tres fuentes <span class="green">públicas</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <div class="grid-3">
+            <div class="card fragment rise">
+                <span class="icon-badge"><svg class="ico"><use href="#i-people"/></svg></span>
+                <h3>Atenciones del programa</h3>
+                <p>Secretaría de las Mujeres CDMX. <strong>121,995</strong> registros, marzo 2019 a marzo 2022. De ahí sale cuándo llegó cada abogada.</p>
+            </div>
+            <div class="card fragment rise">
+                <span class="icon-badge"><svg class="ico"><use href="#i-doc"/></svg></span>
+                <h3>Carpetas de la Fiscalía</h3>
+                <p>FGJ CDMX, por agencia y mes. Aquí se <strong>mide el efecto</strong>.</p>
+            </div>
+            <div class="card fragment rise">
+                <span class="icon-badge"><svg class="ico"><use href="#i-map"/></svg></span>
+                <h3>Censo de procuración</h3>
+                <p>INEGI, 31 estados de 2020 a 2024. Sirve para <strong>simular la expansión</strong> nacional.</p>
+            </div>
+        </div>
+        <div class="flow grid-3 fragment rise">
+            <div class="seg"><span class="n">67</span><span class="l">etiquetas escritas a mano</span></div>
+            <div class="seg"><span class="n">57</span><span class="l">unidades con clave de la Fiscalía</span></div>
+            <div class="seg end"><span class="n">54</span><span class="l">unidades en el análisis, 38 meses</span></div>
+        </div>
+        <div class="note-box boxed fragment rise">
+            <span class="icon-badge sm"><svg class="ico"><use href="#i-yes"/></svg></span>
+            <p><strong>Validación cruzada.</strong> En 775 de 809 combinaciones de agencia y mes el programa no reporta más carpetas que la Fiscalía.</p>
+        </div>
+    </div>
+    <div class="act">II · Cómo lo medí</div>
+    <aside class="notes">
+        (45 s) El programa escribe la agencia a mano ("CUJ 1 Y 2") y la Fiscalía usa claves ("CJ-1"). Construí la tabla de equivalencias.
+        Cuando una pareja de abogadas atiende dos agencias se juntan en una unidad porque comparten fecha.
+        Salen tres unidades por reglas que usan solo meses previos a la llegada: MIL-2 (meses sin registro), AZC-2 Y 4 (salto de nivel) y TLP-5 (entra en 2021).
+        De las 34 celdas que no cuadran, 16 son desfase de un mes. Las demás se concentran en IZP-7 y MC-1, claves que la Fiscalía dejó de usar.
+        Problema del registro: durante 13 meses en dos tramos, entre julio de 2020 y agosto de 2021, desaparece el "no se abrió carpeta". No toca el efecto porque el panel termina en febrero de 2020.
+        Versión corta si voy tarde: decir solo la validación cruzada.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">II · Cómo lo medí</p>
+        <h2>La comparación dura <span class="green">tres meses</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Comparo las unidades que ya tenían abogadas contra las que todavía no. Cada mes quedaban menos.</p>
+        <div class="waffles">
+            <div class="waffle-card fragment rise">
+                <p class="mes">Marzo 2019</p>
+                <div class="waffle" data-total="54" data-on="20"></div>
+                <p class="cuenta">34</p><p class="cuenta-lbl">sin programa para comparar</p>
+            </div>
+            <div class="waffle-card fragment rise">
+                <p class="mes">Abril 2019</p>
+                <div class="waffle" data-total="54" data-on="34"></div>
+                <p class="cuenta">20</p><p class="cuenta-lbl">sin programa para comparar</p>
+            </div>
+            <div class="waffle-card fragment rise">
+                <p class="mes">Mayo 2019</p>
+                <div class="waffle" data-total="54" data-on="46"></div>
+                <p class="cuenta">8</p><p class="cuenta-lbl">sin programa para comparar</p>
+            </div>
+            <div class="waffle-card a fragment rise">
+                <p class="mes">Junio 2019</p>
+                <div class="waffle" data-total="54" data-on="52"></div>
+                <p class="cuenta">2</p><p class="cuenta-lbl">menos de las 5 que exige el análisis</p>
+            </div>
+        </div>
+        <div class="legend"><span><i class="on"></i>con abogadas</span><span><i></i>todavía sin abogadas</span><span><i class="a"></i>ya no alcanza para comparar</span></div>
+    </div>
+    <div class="act">II · Cómo lo medí</div>
+    <aside class="notes">
+        (40 s) Por eso solo mido marzo, abril y mayo de 2019. No es una decisión mía. Es el calendario del programa.
+        Con menos de 5 unidades sin programa el "pulso de la ciudad" de cada mes ya no se estima de forma confiable.
+        En estos tres meses entran 46 unidades (20, 14 y 12). Las otras 8 entran después y solo sirven de comparación. Lo digo porque alguien va a sumar.
+        Hay 100 combinaciones de unidad y mes con programa, 60 de ellas de la cohorte de marzo.
+    </aside>
+</section>
+
+<section>
+    <section>
+        <div class="slide-header">
+            <p class="kicker">II · Cómo lo medí</p>
+            <h2>Seis <span class="green">supuestos</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">Para leer el resultado como efecto del programa necesito suponer seis cosas.</p>
+            <div class="grid-3">
+                <div class="card compact"><h3><span class="card-num">S1</span>Carpeta = denuncia</h3><p>Más carpetas significa que más mujeres denuncian, no que haya más violencia.</p></div>
+                <div class="card compact"><h3><span class="card-num">S2</span>Fecha bien medida</h3><p>La llegada es el primer mes con una atención registrada.</p></div>
+                <div class="card compact"><h3><span class="card-num">S3</span>Registro parejo</h3><p>Ningún cambio administrativo tocó solo a algunas agencias.</p></div>
+                <div class="card compact"><h3><span class="card-num">S4</span>Denuncias nuevas</h3><p>Las carpetas no son denuncias que se mudaron de otra sede.</p></div>
+                <div class="card compact accent-amber"><h3><span class="card-num">S5</span>Mismo ritmo</h3><p>Sin abogadas, cada agencia habría cambiado como las que aún no las tenían.</p></div>
+                <div class="card compact"><h3><span class="card-num">S6</span>Turno intercambiable</h3><p>Entre agencias de tamaño parecido, el orden de llegada pudo ser cualquiera.</p></div>
+            </div>
+            <div class="note-box"><p>S5 es el central. Lo pongo a prueba en la pregunta 1.</p></div>
+        </div>
+        <div class="act">II · Cómo lo medí</div>
+        <aside class="notes">
+            (50 s) Leer solo el título de cada uno. Abajo está cómo reviso cada uno.
+            S5 lleva borde ámbar porque es el central y es el que no se sostiene limpio. Lo muestro en las láminas de meses previos y de cohortes de llegada.
+            Versión corta si voy tarde: leer solo S1 y S5. El resto está en el reporte y en la lámina de abajo.
+        </aside>
+    </section>
+    <section>
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>Cómo reviso cada <span class="green">supuesto</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <table class="model-table tight">
+                <tr><th style="width:22%">Supuesto</th><th style="width:34%">Cómo lo reviso</th><th>Qué encontré</th></tr>
+                <tr><td class="k">S1 · Carpeta = denuncia</td><td>No es verificable con estos datos. Los robos detectan un cambio de registro general.</td><td>Si el programa además redujo la violencia, el efecto subestima el aumento de la denuncia.</td></tr>
+                <tr><td class="k">S2 · Fecha bien medida</td><td>Cruce con la Fiscalía y otra regla de llegada: primer mes con 10 atenciones.</td><td>775 de 809 celdas cuadran. Con la otra regla el efecto es +20.7%.</td></tr>
+                <tr><td class="k">S3 · Registro parejo</td><td>Catálogo de delitos de 2019 y efecto de mes.</td><td>El catálogo no tocó violencia familiar. El efecto de mes absorbe lo que le pasa a toda la ciudad.</td></tr>
+                <tr><td class="k">S4 · Denuncias nuevas</td><td>Traslado desde sedes especializadas y entre agencias vecinas.</td><td>Desde sedes especializadas no aparece (+29.0% contra +28.7%). Entre vecinas no se descarta.</td></tr>
+                <tr><td class="k amber">S5 · Mismo ritmo</td><td>Tendencias previas y efecto por cohorte de llegada.</td><td>No se sostiene limpio. Lo muestro en la pregunta 1.</td></tr>
+                <tr><td class="k">S6 · Turno intercambiable</td><td>Correlación entre tamaño y fecha dentro de grupos de tamaño.</td><td>Sigue entre −0.24 y −0.37. Con uno, tres o nueve grupos el p sigue bajo 0.05.</td></tr>
+            </table>
+        </div>
+        <div class="act">II · Cómo lo medí</div>
+        <aside class="notes">
+            Solo si el jurado lo pide.
+            S4: las 21 unidades sin programa con una vecina tratada cayeron −38.3% contra −9.9% de las demás. Puede ser traslado entre vecinas o un choque propio. No lo puedo separar.
+            S6: sorteo las fechas dentro de grupos de tamaño porque las agencias grandes entraron antes.
+        </aside>
+    </section>
+</section>
+
+<section class="q-slide q1">
+    <div class="slide-body">
+        <span class="q-icon"><svg class="ico"><use href="#i-search"/></svg></span>
+        <p class="q-num">Pregunta 1</p>
+        <p class="q-text">¿Aumentaron las carpetas donde llegaron las abogadas?</p>
+        <hr class="separator">
+    </div>
+    <div class="act">III · ¿Aumentaron las carpetas?</div>
+    <aside class="notes">(10 s) Pasamos a la primera pregunta.</aside>
+</section>
+
+<section class="q1">
+    <div class="slide-header">
+        <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+        <h2>¿Hay más carpetas de las <span class="green">esperadas</span>?</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Carpetas de violencia familiar entre marzo y mayo de 2019, en las unidades que ya tenían abogadas.</p>
+        <svg class="chart" viewBox="0 0 1000 232" role="img" aria-label="Carpetas observadas contra esperadas sin programa">
+            <text class="lbl-row" x="250" y="54" text-anchor="end">Esperadas sin programa</text>
+            <rect class="bar-n" x="270" y="28" width="510" height="44" rx="6"/>
+            <text class="lbl-big t-ref" x="796" y="60">2,187</text>
+            <g class="fragment">
+                <text class="lbl-row" x="250" y="134" text-anchor="end">Observadas</text>
+                <rect class="bar-g" x="270" y="108" width="651" height="44" rx="6"/>
+                <text class="lbl-big t-green" x="936" y="140">2,793</text>
+            </g>
+            <g class="fragment">
+                <line x1="780" y1="84" x2="780" y2="186" stroke="#2EE6A6" stroke-width="2" stroke-dasharray="4 4"/>
+                <line x1="921" y1="162" x2="921" y2="186" stroke="#2EE6A6" stroke-width="2"/>
+                <line x1="780" y1="186" x2="921" y2="186" stroke="#2EE6A6" stroke-width="2"/>
+                <text class="lbl-val t-green" x="850.5" y="216" text-anchor="middle">+606 carpetas · +27.7%</text>
+            </g>
+        </svg>
+        <div class="answer fragment rise"><p><b>Respuesta:</b> sí, 606 carpetas más que las esperadas (+27.7%).</p></div>
+    <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Estimador de imputación, 100 combinaciones de unidad y mes de marzo a mayo de 2019</span> · <span class="dat">Carpetas de la FGJ CDMX</span></p>
+        </div>
+    <div class="act">III · ¿Aumentaron las carpetas?</div>
+    <aside class="notes">
+        (30 s) Las unidades con abogadas abrieron 2,793 carpetas. Sin programa se esperaban 2,187.
+        Nunca decir "el programa aumentó la denuncia 28%". Decir "hay un indicio de +28% que no es concluyente".
+        La barra gris es una estimación, no un dato. La siguiente lámina explica de dónde sale.
+    </aside>
+</section>
+
+<section class="q1">
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+            <h2>¿De dónde sale <span class="green">lo esperado</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">Uso el método de imputación de Borusyak, Jaravel y Spiess (2024). Lo aprendo solo de las 1,469 combinaciones de unidad y mes sin programa.</p>
+            <div class="pipe4">
+                <div class="pnode ref fragment rise">
+                    <span class="pico"><svg class="ico"><use href="#i-bars"/></svg></span>
+                    <h3>Nivel de la unidad</h3>
+                    <p>Cuántas carpetas abre normalmente. Lo recalculo con el pulso de cada mes fijo.</p>
+                </div>
+                <span class="pop fragment rise">×</span>
+                <div class="pnode ref fragment rise">
+                    <span class="pico"><svg class="ico"><use href="#i-pulse"/></svg></span>
+                    <h3>Pulso del mes</h3>
+                    <p>Cuánto sube o baja la ciudad ese mes. Lo recalculo con los niveles fijos.</p>
+                </div>
+                <span class="pop fragment rise">=</span>
+                <div class="pnode ref strong fragment rise">
+                    <span class="pico"><svg class="ico"><use href="#i-target"/></svg></span>
+                    <h3>Esperadas</h3>
+                    <p>Nivel por pulso en las 100 combinaciones con programa.</p>
+                </div>
+                <span class="pop word fragment rise">contra</span>
+                <div class="pnode obs fragment rise">
+                    <span class="pico"><svg class="ico"><use href="#i-doc"/></svg></span>
+                    <h3>Observadas</h3>
+                    <p>Las carpetas que sí se abrieron en esas combinaciones.</p>
+                </div>
+                <div class="iter fragment rise">
+                    <svg class="ico"><use href="#i-loop"/></svg>
+                    <span>Alterno los dos cálculos hasta que dejan de cambiar. Es el estimador de máxima verosimilitud Poisson.</span>
+                </div>
+            </div>
+            <p class="example fragment rise">Ejemplo: en una agencia de Venustiano Carranza, en marzo de 2019, se esperaban 21.1 carpetas y se abrieron 38.</p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            (50 s) Explicación en una frase: comparo mes a mes quién ya tenía abogadas contra quién todavía no.
+            Leer la fila de izquierda a derecha: nivel por pulso da las esperadas. Las comparo contra las observadas. El efecto es observadas entre esperadas menos uno.
+            El modelo solo aprende de las combinaciones de unidad y mes sin programa. Así el efecto no contamina lo esperado.
+            Por qué no la regresión de diferencias en diferencias de siempre: con adopción escalonada usa unidades ya tratadas como control.
+            Se sesga si el efecto cambia entre cohortes de llegada, que aquí sí cambia (+50% contra −20%).
+            Versión corta si voy tarde: contar solo el ejemplo de Venustiano Carranza (unidad VC-3). Solo bajar a la lámina técnica si el jurado lo pide.
+        </aside>
+    </section>
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>El estimador, <span class="green">en detalle</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card compact">
+                    <h3>Modelo sin programa</h3>
+                    <p>E[Y<sub>it</sub>(0)] = a<sub>i</sub> · b<sub>t</sub>, Poisson por cuasi máxima verosimilitud. Exige la media bien especificada, no la varianza Poisson. Son conteos con ceros, cerca de 16 carpetas por unidad al mes.</p>
+                </div>
+                <div class="card compact">
+                    <h3>Efecto</h3>
+                    <p>τ = ΣY / Σ â<sub>i</sub>b̂<sub>t</sub> − 1 = 2,793 / 2,187 − 1 = <strong>+27.7%</strong>. Pondera más a las unidades con más carpetas.</p>
+                </div>
+                <div class="card compact">
+                    <h3>Por qué no efectos fijos de dos vías</h3>
+                    <p>Con adopción escalonada usa unidades ya tratadas como control. Si el efecto varía entre cohortes de llegada puede dar el signo equivocado (Goodman-Bacon 2021, de Chaisemartin y D'Haultfœuille 2020).</p>
+                </div>
+                <div class="card compact">
+                    <h3>Inferencia</h3>
+                    <p>5,000 permutaciones de fechas dentro de tres grupos de tamaño, porque las grandes entraron antes (correlación −0.37).</p>
+                </div>
+            </div>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            Si preguntan por qué Poisson y no logaritmos: con conteos chicos y varianza que depende de la media, el logaritmo sesga (Santos Silva y Tenreyro 2006).
+            Si preguntan por qué permutación: no depende de la varianza Poisson, que es demasiado chica (2.43 veces). El valor p cuenta también el calendario observado (Phipson y Smyth).
+        </aside>
+    </section>
+</section>
+
+<section class="q1">
+    <div class="slide-header">
+        <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+        <h2>¿Pudo salir por <span class="green">azar</span>?</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <div class="hyp3">
+            <div class="h"><p class="k">Nula</p><p>El programa no tuvo efecto. La fecha de llegada no importa. Cualquier reparto de fechas era igual de probable.</p></div>
+            <div class="h"><p class="k">Prueba</p><p>Permutación estratificada. Repartí las fechas 5,000 veces entre agencias de tamaño parecido y recalculé el efecto.</p></div>
+            <div class="h"><p class="k">Lectura</p><p>Sin efecto, un resultado tan extremo como +27.7%, hacia arriba o hacia abajo, sale en cerca de 2 de cada 100 repartos.</p></div>
+        </div>
+        <svg class="chart" style="max-width:960px" viewBox="0 0 1000 266" role="img" aria-label="Distribución de los efectos en 5,000 sorteos de fechas">
+            <rect class="bar-l" x="85.4" y="229.5" width="22.4" height="0.5" rx="2"/><rect class="bar-l" x="109.9" y="228.0" width="22.4" height="2.0" rx="2"/><rect class="bar-l" x="134.3" y="223.0" width="22.4" height="7.0" rx="2"/><rect class="bar-l" x="158.8" y="215.0" width="22.4" height="15.0" rx="2"/><rect class="bar-n" x="183.2" y="204.4" width="22.4" height="25.6" rx="2"/><rect class="bar-n" x="207.7" y="189.9" width="22.4" height="40.1" rx="2"/><rect class="bar-n" x="232.1" y="163.8" width="22.4" height="66.2" rx="2"/><rect class="bar-n" x="256.6" y="135.3" width="22.4" height="94.7" rx="2"/><rect class="bar-n" x="281.0" y="105.2" width="22.4" height="124.8" rx="2"/><rect class="bar-n" x="305.4" y="92.7" width="22.4" height="137.3" rx="2"/><rect class="bar-n" x="329.9" y="34.0" width="22.4" height="196.0" rx="2"/><rect class="bar-n" x="354.3" y="43.0" width="22.4" height="187.0" rx="2"/><rect class="bar-n" x="378.8" y="44.0" width="22.4" height="186.0" rx="2"/><rect class="bar-n" x="403.2" y="44.5" width="22.4" height="185.5" rx="2"/><rect class="bar-n" x="427.7" y="30.0" width="22.4" height="200.0" rx="2"/><rect class="bar-n" x="452.1" y="41.0" width="22.4" height="189.0" rx="2"/><rect class="bar-n" x="476.6" y="64.6" width="22.4" height="165.4" rx="2"/><rect class="bar-n" x="501.0" y="82.1" width="22.4" height="147.9" rx="2"/><rect class="bar-n" x="525.4" y="96.2" width="22.4" height="133.8" rx="2"/><rect class="bar-n" x="549.9" y="138.8" width="22.4" height="91.2" rx="2"/><rect class="bar-n" x="574.3" y="151.3" width="22.4" height="78.7" rx="2"/><rect class="bar-n" x="598.8" y="159.8" width="22.4" height="70.2" rx="2"/><rect class="bar-n" x="623.2" y="177.4" width="22.4" height="52.6" rx="2"/><rect class="bar-n" x="647.7" y="190.9" width="22.4" height="39.1" rx="2"/><rect class="bar-n" x="672.1" y="200.9" width="22.4" height="29.1" rx="2"/><rect class="bar-n" x="696.6" y="215.0" width="22.4" height="15.0" rx="2"/><rect class="bar-l" x="721.0" y="221.0" width="22.4" height="9.0" rx="2"/><rect class="bar-l" x="745.4" y="222.0" width="22.4" height="8.0" rx="2"/><rect class="bar-l" x="769.9" y="225.5" width="22.4" height="4.5" rx="2"/><rect class="bar-l" x="794.3" y="226.5" width="22.4" height="3.5" rx="2"/><rect class="bar-l" x="818.8" y="229.5" width="22.4" height="0.5" rx="2"/><rect class="bar-l" x="843.2" y="229.5" width="22.4" height="0.5" rx="2"/><rect class="bar-l" x="916.6" y="229.5" width="22.4" height="0.5" rx="2"/>
+            <line class="axis" x1="60" y1="230" x2="940" y2="230"/>
+            <text x="60.0" y="256" text-anchor="middle">−40%</text><text x="255.6" y="256" text-anchor="middle">−20%</text><text x="451.1" y="256" text-anchor="middle">0%</text><text x="646.7" y="256" text-anchor="middle">+20%</text><text x="842.2" y="256" text-anchor="middle">+40%</text>
+            <text class="lbl-sub t-ref" x="451.1" y="18" text-anchor="middle">cada barra cuenta sorteos</text>
+            <g class="fragment">
+                <line class="ref" x1="722.1" y1="20" x2="722.1" y2="230"/>
+                <line class="ref-g" x1="180.1" y1="20" x2="180.1" y2="230"/>
+                <text class="t-green" x="732.1" y="34" font-weight="800" font-size="17">observado +27.7%</text>
+                <text class="t-ref" x="732.1" y="58" font-weight="600">53 sorteos de este lado</text>
+                <text class="t-ref" x="170.1" y="58" text-anchor="end" font-weight="600">49 de este lado</text>
+            </g>
+        </svg>
+        <div class="answer fragment rise"><p><b>Respuesta:</b> rara vez, solo 102 de 5,000 sorteos llegan tan lejos (p = 0.021).</p></div>
+    <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">5,000 repartos de fechas dentro de tres grupos de tamaño</span> · <span class="dat">Carpetas de la FGJ CDMX</span></p>
+        </div>
+    <div class="act">III · ¿Aumentaron las carpetas?</div>
+    <aside class="notes">
+        (45 s) Leer las tres etiquetas de arriba. Cada barra cuenta cuántos repartos dieron ese efecto. La mayoría cae cerca de cero. Las barras claras son las colas, tan extremas como lo observado.
+        Cómo leer el p: si el programa no tuviera efecto y las fechas se hubieran sorteado dentro de los grupos de tamaño, un resultado igual o más extremo saldría en 2.1% de los sorteos.
+        NO es "la probabilidad de que sea azar".
+        Sorteo dentro de tres grupos de tamaño porque las agencias grandes entraron antes (correlación −0.37). Con uno, tres o nueve grupos el p va de 0.021 a 0.036.
+    </aside>
+</section>
+
+<section class="q1">
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+            <h2>¿Qué tan preciso es el <span class="green">+27.7%</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">La permutación dice si el resultado pudo salir por azar. Un intervalo al 95% dice qué tamaños de efecto son compatibles con los datos. Si incluye el cero, no descarto que el programa no hiciera nada.</p>
+            <div class="hyp3">
+                <div class="h"><p class="k">Intervalo de aleatorización</p><p><span class="cite-p">Rosenbaum, 2002.</span> Invierte la permutación. Probé efectos de −30% a +120% y me quedé con los que no rechaza. Supone un efecto igual en todas.</p></div>
+                <div class="h a"><p class="k">Bootstrap por unidad</p><p>Armé 2,000 muestras de 54 unidades al azar con reemplazo. Tomo del percentil 2.5 al 97.5. ¿Y si hubieran sido otras agencias?</p></div>
+                <div class="h a"><p class="k">Jackknife</p><p>Recalculé el efecto 54 veces, quitando una unidad a la vez. Con esa variación armo el intervalo.</p></div>
+            </div>
+            <svg class="chart" viewBox="0 0 1000 150" role="img" aria-label="Tres intervalos de confianza al 95 por ciento">
+                <line class="grid" x1="593.3" y1="28" x2="593.3" y2="120"/>
+                <line class="grid" x1="703.8" y1="28" x2="703.8" y2="120"/>
+                <line class="grid" x1="814.3" y1="28" x2="814.3" y2="120"/>
+                <line class="grid" x1="924.8" y1="28" x2="924.8" y2="120"/>
+                <line class="zero" x1="482.9" y1="22" x2="482.9" y2="122"/>
+                <line class="ref" x1="635.9" y1="22" x2="635.9" y2="122"/>
+                <text class="t-green" x="635.9" y="15" text-anchor="middle" font-weight="700">estimado +27.7%</text>
+                <text class="t-white" x="482.9" y="15" text-anchor="middle" font-weight="700">cero</text>
+                <g class="fragment">
+                    <text class="lbl-row t-ref" x="0" y="48">Intervalo de aleatorización</text>
+                    <text class="lbl-val t-ref" x="380" y="48" text-anchor="end">+4% a +72%</text>
+                    <line class="ci n" x1="505.0" y1="42" x2="880.6" y2="42"/>
+                    <circle class="pt" cx="635.9" cy="42" r="8"/>
+                </g>
+                <g class="fragment">
+                    <text class="lbl-row t-amber" x="0" y="80">Bootstrap por unidad</text>
+                    <text class="lbl-val t-amber" x="380" y="80" text-anchor="end">−0.2% a +83.0%</text>
+                    <line class="ci a" x1="481.8" y1="74" x2="941.3" y2="74"/>
+                    <circle class="pt" cx="635.9" cy="74" r="8"/>
+                </g>
+                <g class="fragment">
+                    <text class="lbl-row t-amber" x="0" y="112">Jackknife</text>
+                    <text class="lbl-val t-amber" x="380" y="112" text-anchor="end">−11.0% a +66.4%</text>
+                    <line class="ci a" x1="422.1" y1="106" x2="849.6" y2="106"/>
+                    <circle class="pt" cx="635.9" cy="106" r="8"/>
+                </g>
+                <line class="axis" x1="400" y1="128" x2="985" y2="128"/>
+                <text x="482.9" y="148" text-anchor="middle">0%</text>
+                <text x="593.3" y="148" text-anchor="middle">+20%</text>
+                <text x="703.8" y="148" text-anchor="middle">+40%</text>
+                <text x="814.3" y="148" text-anchor="middle">+60%</text>
+                <text x="924.8" y="148" text-anchor="middle">+80%</text>
+            </svg>
+            <div class="answer fragment rise"><p><b>Respuesta:</b> solo el intervalo de aleatorización excluye el cero. Supone un efecto igual en todas.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Mismo estimador en las 54 unidades</span> · <span class="dat">Carpetas de la FGJ CDMX</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            (45 s) Detalle por si preguntan. Intervalo de aleatorización (Rosenbaum 2002): invierte la prueba de permutación con una rejilla de −30% a +120% en pasos de 1 punto, 2,000 repartos por valor. Jackknife: error estándar de 0.193 y una t con 53 grados de libertad. Al quitar una unidad el efecto va de +17.4% a +38.4%. La permutación toma las agencias como dadas y solo sortea fechas. Supone un efecto parejo. La lámina de cohortes de llegada muestra que no lo es.
+            El bootstrap y el jackknife se preguntan qué pasaría con otro conjunto de agencias. Esos dos tocan el cero. Por eso van en ámbar.
+            Al quitar una unidad a la vez el efecto nunca baja de +17%. No depende de una sola agencia.
+            Si preguntan con cuál me quedo: el bootstrap y el jackknife tocan el cero. El único que no lo toca supone algo que mis datos no sostienen.
+            Nunca decir "un intervalo demuestra que el efecto es positivo".
+        </aside>
+    </section>
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>Otras <span class="green">comprobaciones</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <table class="model-table tight">
+                <tr><th style="width:38%">Prueba</th><th style="width:22%">Resultado</th><th>Lectura</th></tr>
+                <tr><td>Relativo al resto de carpetas de la unidad</td><td class="num">+23.8%</td><td>El aumento se mantiene frente a los demás delitos de la misma unidad</td></tr>
+                <tr><td>Quitar una unidad a la vez</td><td class="num">+17.4% a +38.4%</td><td>No depende de una sola agencia</td></tr>
+                <tr><td>18 lanzamientos ficticios en 2017 y 2018</td><td class="num">promedio −3.9%</td><td>Ninguno llega a +27.7%</td></tr>
+                <tr><td>Llegada = primer mes con 10 o más atenciones</td><td class="num">+20.7%</td><td>Misma conclusión</td></tr>
+                <tr><td>Mínimo de 10 unidades de comparación</td><td class="num">+55.1%</td><td>Solo quedan marzo y abril</td></tr>
+                <tr><td>Puntos de cambio por unidad (PELT)</td><td class="num">12 de 54 contra 7.7</td><td>p 0.032, sube a 0.145 al ajustar por 36 versiones. Exploratorio</td></tr>
+            </table>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Variantes del mismo estimador</span> · <span class="dat">Carpetas de la FGJ CDMX y registro de la Secretaría de las Mujeres</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            La prueba de robos está en la siguiente lámina horizontal.
+            PELT busca escalones en cada unidad sin saber cuándo llegaron las abogadas. Encuentra cambios cerca de la llegada, pero no el mes exacto.
+            Corriendo las fechas un mes antes vuelve a dar 12. Por eso es exploratorio.
+        </aside>
+    </section>
+</section>
+
+<section class="q1">
+    <div class="slide-header">
+        <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+        <h2>¿Qué pasó con otros <span class="green">delitos</span>?</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Si el aumento viniera de un cambio que movió todo el registro, otros delitos también habrían subido. Las abogadas no atienden robos.</p>
+        <svg class="chart" viewBox="0 0 1000 250" role="img" aria-label="Efecto en violencia familiar contra efecto en robos, con intervalos bootstrap">
+            <line class="grid" x1="489" y1="36" x2="489" y2="214"/>
+            <line class="grid" x1="623.6" y1="36" x2="623.6" y2="214"/>
+            <line class="grid" x1="758.1" y1="36" x2="758.1" y2="214"/>
+            <line class="grid" x1="892.7" y1="36" x2="892.7" y2="214"/>
+            <line class="zero" x1="354.5" y1="30" x2="354.5" y2="216"/>
+            <text class="t-white" x="354.5" y="20" text-anchor="middle" font-weight="700">cero</text>
+
+            <text class="lbl-row" x="0" y="86">Violencia familiar</text>
+            <text class="lbl-sub" x="0" y="106">+27.7% · −0.2% a +83.0%</text>
+            <line class="ci g" x1="353.2" y1="92" x2="912.9" y2="92"/>
+            <circle class="pt" cx="540.9" cy="92" r="8"/>
+
+            <g class="fragment">
+                <text class="lbl-row t-ref" x="0" y="168">Robos</text>
+                <text class="lbl-sub" x="0" y="188">+5.1% · −4.0% a +13.0%</text>
+                <line class="ci n" x1="327.6" y1="174" x2="442.0" y2="174"/>
+                <circle class="pt-n" cx="388.8" cy="174" r="8"/>
+            </g>
+            <g class="fragment">
+                <line class="ref" x1="540.9" y1="30" x2="540.9" y2="216"/>
+                <text class="t-green" x="540.9" y="20" text-anchor="middle" font-weight="700">+27.7%</text>
+                <text class="t-ref" x="452" y="160" font-weight="600">no llega</text>
+            </g>
+
+            <line class="axis" x1="270" y1="222" x2="960" y2="222"/>
+            <text x="354.5" y="246" text-anchor="middle">0%</text>
+            <text x="489" y="246" text-anchor="middle">+20%</text>
+            <text x="623.6" y="246" text-anchor="middle">+40%</text>
+            <text x="758.1" y="246" text-anchor="middle">+60%</text>
+            <text x="892.7" y="246" text-anchor="middle">+80%</text>
+        </svg>
+        <p class="foot fragment rise">Frente al resto de las carpetas de la misma unidad, violencia familiar sube <strong>+23.8%</strong>.</p>
+        <div class="answer fragment rise"><p><b>Respuesta:</b> no subieron igual. El aumento no viene de un cambio general del registro.</p></div>
+    <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Mismo estimador con las carpetas de robo, intervalo bootstrap</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+    <div class="act">III · ¿Aumentaron las carpetas?</div>
+    <aside class="notes">
+        (30 s) Esta prueba solo sirve para una cosa: descartar que algo haya movido todo el registro, como un cambio de sistema o de catálogo.
+        Intervalos bootstrap por unidad al 95%, el mismo método en los dos renglones.
+        H2 se cumple porque el intervalo de robos no alcanza el +27.7%, no porque robos dé p 0.36. Aquí la prueba pasa si la respuesta es no.
+        El +23.8% compara violencia familiar contra el resto de los delitos de la misma unidad. Si todo el registro hubiera subido, ese contraste se acercaría a cero.
+        Ese +5.1% de robos refleja una tendencia propia de las primeras unidades. En violencia familiar esa tendencia no aparece: los 18 lanzamientos ficticios promedian −3.9%.
+        En la demo vuelvo a esta prueba.
+    </aside>
+</section>
+
+<section class="q1">
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+            <h2>¿Nada subía antes de que <span class="green">llegaran</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <div class="hyp3" style="grid-template-columns: 1.3fr 1.3fr 1fr">
+                <div class="h"><p class="k">Qué es cada punto</p><p>Cuántas carpetas de más abrieron ese mes las unidades por recibir abogadas, contra lo que espera el modelo. Si el programa es la causa, deberían estar cerca de 0%.</p></div>
+                <div class="h"><p class="k">Prueba</p><p>Tendencias previas de Borusyak, Jaravel y Spiess. Regresión Poisson con efectos fijos de unidad y de mes, más un indicador por cada mes previo.</p></div>
+                <div class="h"><p class="k">Lectura</p><p>Wald con errores agrupados por unidad: ¿los tres son cero a la vez? Da p = 0.30. No rechaza.</p></div>
+            </div>
+            <svg class="chart" viewBox="0 0 1000 244" role="img" aria-label="Diferencia contra lo esperado en los meses previos a la llegada, con intervalos al 95 por ciento">
+                <line class="grid" x1="90" y1="33.8" x2="960" y2="33.8"/>
+                <line class="grid" x1="90" y1="103.1" x2="960" y2="103.1"/>
+                <line class="zero" x1="90" y1="172.3" x2="960" y2="172.3"/>
+                <text x="78" y="39" text-anchor="end">+100%</text>
+                <text x="78" y="108" text-anchor="end">+50%</text>
+                <text class="t-white" x="78" y="177" text-anchor="end">0%</text>
+                <text class="t-white" x="100" y="164" font-weight="700">sin diferencia</text>
+                <text class="lbl-sub" x="0" y="14">Diferencia contra lo esperado, antes de la llegada (%) · punto e intervalo al 95%</text>
+                <line x1="900" y1="24" x2="900" y2="212" stroke="#A3A3A3" stroke-width="2" stroke-dasharray="4 5"/>
+                <text class="t-light" x="890" y="52" text-anchor="end" font-weight="600">llegan las abogadas</text>
+                <g class="fragment">
+                    <line class="ci a" x1="260" y1="184.0" x2="260" y2="130.5"/>
+                    <circle class="pt-a" cx="260" cy="159.6" r="9"/>
+                    <text class="lbl-val t-amber" x="276" y="153">+9%</text>
+                </g>
+                <g class="fragment">
+                    <line class="ci a" x1="480" y1="179.2" x2="480" y2="84.1"/>
+                    <circle class="pt-a" cx="480" cy="138.1" r="9"/>
+                    <text class="lbl-val t-amber" x="496" y="144">+25%</text>
+                </g>
+                <g class="fragment">
+                    <line class="ci a" x1="700" y1="180.7" x2="700" y2="28.1"/>
+                    <circle class="pt-a" cx="700" cy="119.0" r="9"/>
+                    <text class="lbl-val t-amber" x="716" y="125">+38%</text>
+                </g>
+                <line class="axis" x1="90" y1="212" x2="960" y2="212"/>
+                <text x="260" y="236" text-anchor="middle">3 meses antes</text>
+                <text x="480" y="236" text-anchor="middle">2 meses antes</text>
+                <text x="700" y="236" text-anchor="middle">1 mes antes</text>
+            </svg>
+            <div class="answer fragment rise"><p><b>Respuesta:</b> no lo puedo confirmar. La subida previa se concentra en la cohorte de marzo.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Regresión Poisson con los tres meses previos, 54 unidades</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            (50 s) Esta es la limitación más seria y prefiero mostrarla yo antes de que me la pregunten. La subida previa se concentra en la cohorte de marzo. La siguiente lámina muestra que de esa misma cohorte sale todo el efecto.
+            Los puntos ámbar salen de un modelo aparte: regresión Poisson con efectos fijos de unidad y mes más un indicador por cada mes previo, con prueba de Wald agrupada por unidad.
+            En conjunto no rechaza (p 0.30 con tres adelantos, 0.27 con seis). Pero uno por uno crecen hacia la llegada.
+            Los intervalos son anchos, así que no afirman que hubiera tendencia previa (Roth 2022). Pero impiden descartarla.
+            Qué son los porcentajes: para cada mes previo, cuántas carpetas de más abrieron las unidades por recibir abogadas contra lo que espera el modelo de efectos fijos. 0% es sin diferencia. Quité de la gráfica el +27.7% porque viene de otro modelo y confundía.
+            H3 no se puede confirmar. S5 no se sostiene limpio.
+            La prueba de anticipación (sacar 1 o 2 meses previos del entrenamiento) mantiene el efecto en +38% y +52%. La anticipación o un error de fecha no explican la subida.
+            Nunca decir "la subida previa se debe a anticipación". Lo que no se puede descartar es que la cohorte de marzo ya viniera divergiendo de las demás desde noviembre de 2018.
+        </aside>
+    </section>
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>¿Y si cada cohorte tiene su <span class="green">propia tendencia</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <table class="model-table tight">
+                <tr><th style="width:46%">Tendencia lineal por cohorte de llegada, ajustada desde</th><th style="width:20%">Efecto</th><th>Lectura</th></tr>
+                <tr><td>2017</td><td class="num">+35%</td><td>Sube</td></tr>
+                <tr><td>Enero de 2018</td><td class="num">+26%</td><td>Casi igual que sin tendencia</td></tr>
+                <tr><td>Julio de 2018</td><td class="num">+4%</td><td>Desaparece</td></tr>
+                <tr><td>Septiembre de 2018</td><td class="num">−3%</td><td>Desaparece</td></tr>
+                <tr><td>Noviembre de 2018</td><td class="num">+3%</td><td>Desaparece</td></tr>
+            </table>
+            <div class="caution"><p><b>Con 4 a 8 meses esas tendencias son muy imprecisas.</b> Con 6 meses el intervalo bootstrap va de −27% a +42%. La diferencia con la estimación sin tendencia no se distingue de cero.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Mismo estimador con una tendencia lineal por cohorte de llegada, ajustada desde distintas fechas</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            El resultado depende de un supuesto que los datos no pueden probar: si cada cohorte de llegada traía su propia tendencia o no.
+            Con tendencias largas el efecto se mantiene. Con tendencias cortas casi desaparece, pero esas tendencias son muy imprecisas.
+            Esto refuerza que el resultado no es concluyente. Fuente: thesis_audit/04_ML_AUDIT.md sección 6 y 02_CAUSAL_INFERENCE_AUDIT.md A1-01.
+        </aside>
+    </section>
+</section>
+
+<section class="q1">
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+            <h2>¿Pasa en todas las <span class="green">cohortes de llegada</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">Hubo tres cohortes de llegada. Si el programa funciona, el aumento debería verse en las tres.</p>
+            <svg class="chart" viewBox="0 0 1000 268" role="img" aria-label="Efecto por cohorte de llegada">
+                <line class="axis" x1="513.3" y1="0" x2="513.3" y2="266"/>
+                <text class="lbl-row" x="0" y="31">Las tres cohortes juntas</text>
+                <rect class="bar-go" x="513.3" y="8" width="197" height="34" rx="4"/>
+                <text class="lbl-val" x="722" y="31">+27.7%</text>
+
+                <g class="fragment">
+                    <text class="lbl-row" x="0" y="78">Marzo · 20 unidades</text>
+                    <text class="lbl-sub" x="0" y="97">58% del contrafactual</text>
+                    <rect class="bar-g" x="513.3" y="62" width="356.3" height="30" rx="4"/>
+                    <text class="lbl-val t-green" x="881" y="83">+50.1%</text>
+
+                    <text class="lbl-row" x="0" y="135">Abril · 14 unidades</text>
+                    <rect class="bar-n" x="513.3" y="114" width="4" height="30" rx="2"/>
+                    <text class="lbl-val t-ref" x="528" y="135">+0.5%</text>
+
+                    <text class="lbl-row" x="0" y="183">Mayo · 12 unidades</text>
+                    <rect class="bar-n" x="372.5" y="162" width="140.8" height="30" rx="4"/>
+                    <text class="lbl-val t-ref" x="362" y="183" text-anchor="end">−19.8%</text>
+                </g>
+
+                <g class="fragment">
+                    <line class="grid" x1="0" y1="212" x2="1000" y2="212" style="stroke:#333"/>
+                    <text class="lbl-row t-amber" x="0" y="250">Sin la cohorte de marzo</text>
+                    <rect class="bar-a" x="490.5" y="228" width="22.8" height="32" rx="4"/>
+                    <text class="lbl-val t-amber" x="480" y="250" text-anchor="end">−3.2%</text>
+                </g>
+            </svg>
+            <div class="answer fragment rise"><p><b>Respuesta:</b> no, sin la cohorte de marzo el efecto queda en −3.2%. Es la misma cohorte en la que no descarto una subida previa.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Mismo estimador, separado por mes de llegada</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            (45 s) En marzo, las unidades con abogadas subieron +28.8% contra marzo de 2018. Las que esperaban cayeron −20.8%. Marzo coincide con el lanzamiento público del 4 de marzo y con el 8 de marzo.
+            Buena parte del contraste es la caída de las que esperaban. Las 54 unidades juntas quedaron igual que en 2018 (+0.5% en marzo, −2.4% en abril).
+            Cierro el hilo con la lámina anterior: todo el efecto viene de la cohorte de marzo. Es la misma cohorte en la que no descarto una subida previa.
+        </aside>
+    </section>
+    <section class="q1">
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>¿Subieron unas o <span class="green">cayeron otras</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">Cambio de las carpetas contra el mismo mes de 2018.</p>
+            <svg class="chart" viewBox="0 0 1000 250" role="img" aria-label="Cambio contra el mismo mes de 2018, con y sin programa">
+                <line class="grid" x1="357.7" y1="20" x2="357.7" y2="204"/>
+                <line class="grid" x1="465.4" y1="20" x2="465.4" y2="204"/>
+                <line class="grid" x1="680.8" y1="20" x2="680.8" y2="204"/>
+                <line class="grid" x1="788.5" y1="20" x2="788.5" y2="204"/>
+                <line class="zero" x1="573.1" y1="20" x2="573.1" y2="206"/>
+
+                <text class="lbl-row" x="0" y="62">Marzo</text>
+                <line x1="349.1" y1="56" x2="883.2" y2="56" stroke="#3A4656" stroke-width="3"/>
+                <circle class="pt-n" cx="349.1" cy="56" r="9"/><circle class="pt" cx="883.2" cy="56" r="9"/>
+                <text class="t-ref" x="333" y="62" text-anchor="end" font-weight="700">−20.8%</text>
+                <text class="t-green" x="899" y="62" font-weight="700">+28.8%</text>
+
+                <text class="lbl-row" x="0" y="122">Abril</text>
+                <line x1="303.9" y1="116" x2="604.3" y2="116" stroke="#3A4656" stroke-width="3"/>
+                <circle class="pt-n" cx="303.9" cy="116" r="9"/><circle class="pt" cx="604.3" cy="116" r="9"/>
+                <text class="t-ref" x="288" y="122" text-anchor="end" font-weight="700">−25.0%</text>
+                <text class="t-green" x="620" y="122" font-weight="700">+2.9%</text>
+
+                <text class="lbl-row" x="0" y="182">Mayo</text>
+                <line x1="729.3" y1="176" x2="737.9" y2="176" stroke="#4A4A4A" stroke-width="3"/>
+                <circle class="pt" cx="729.3" cy="176" r="9"/><circle class="pt-n" cx="737.9" cy="176" r="9" opacity=".85"/>
+                <text class="t-green" x="713" y="182" text-anchor="end" font-weight="700">+14.5%</text>
+                <text class="t-ref" x="754" y="182" font-weight="700">+15.3%</text>
+
+                <line class="axis" x1="250" y1="210" x2="960" y2="210"/>
+                <text x="357.7" y="236" text-anchor="middle">−20%</text>
+                <text x="465.4" y="236" text-anchor="middle">−10%</text>
+                <text x="573.1" y="236" text-anchor="middle">0%</text>
+                <text x="680.8" y="236" text-anchor="middle">+10%</text>
+                <text x="788.5" y="236" text-anchor="middle">+20%</text>
+                <text x="896.2" y="236" text-anchor="middle">+30%</text>
+            </svg>
+            <div class="legend"><span><i class="on"></i>con programa</span><span><i class="ref"></i>sin programa todavía</span></div>
+            <div class="note-box"><p>Las 21 sin programa con una vecina tratada cayeron −38.3%. Las demás, −9.9%. Puede ser traslado entre vecinas (S4) o un choque propio (S5). No lo puedo separar.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Carpetas de cada mes contra el mismo mes de 2018, por grupo</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">III · ¿Aumentaron las carpetas?</div>
+        <aside class="notes">
+            Lo que muestra: buena parte del contraste de marzo y abril es la caída de las que esperaban. En mayo crecen casi igual.
+            La caída de las vecinas empieza antes del lanzamiento. Es descriptivo.
+        </aside>
+    </section>
+</section>
+
+<section class="q1">
+    <div class="slide-header">
+        <p class="kicker">III · ¿Aumentaron las carpetas?</p>
+        <h2>Respuesta 1: un indicio, <span class="green">no una prueba</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <div class="vs">
+            <div class="vs-col good fragment rise">
+                <h3>A favor</h3>
+                <ul>
+                    <li>+27.7% más carpetas de las esperadas</li>
+                    <li>Solo 102 de 5,000 sorteos llegan tan lejos</li>
+                    <li>Otros delitos no subieron igual</li>
+                    <li>No depende de una sola agencia</li>
+                </ul>
+            </div>
+            <div class="vs-col bad fragment rise">
+                <h3>En contra</h3>
+                <ul>
+                    <li>Dos de tres intervalos tocan el cero</li>
+                    <li>No descarto una subida previa</li>
+                    <li>Todo viene de la cohorte de marzo</li>
+                    <li>Buena parte viene de la caída de las que esperaban</li>
+                </ul>
+            </div>
+        </div>
+        <div class="answer fragment rise"><p>Es compatible con que las abogadas aumentaran las carpetas. <b>No alcanza para atribuírselo.</b></p></div>
+    </div>
+    <div class="act">III · ¿Aumentaron las carpetas?</div>
+    <aside class="notes">
+        (40 s) Leerla tal cual. Ahora cada renglón ya se vio en una lámina.
+        Si preguntan por la caída de las que esperaban: las 54 unidades juntas quedaron igual que en 2018. Puede ser traslado entre agencias vecinas (S4) o un choque propio de las que esperaban (S5). No lo puedo separar.
+    </aside>
+</section>
+
+<section class="q-slide q2">
+    <div class="slide-body">
+        <span class="q-icon"><svg class="ico"><use href="#i-gauge"/></svg></span>
+        <p class="q-num">Pregunta 2</p>
+        <p class="q-text">¿Se podía saber con este despliegue?</p>
+        <hr class="separator">
+        <p class="q-hyp">Si el programa tuvo efecto, ¿qué tan grande tenía que ser para que este diseño lo detectara?</p>
+        <p class="q-hyp">Hice dos cosas: revisé si el propio registro mide el desempeño y simulé el despliegue en años sin programa.</p>
+    </div>
+    <div class="act">IV · ¿Se podía saber?</div>
+    <aside class="notes">(10 s) Si el resultado no es concluyente, la pregunta útil es si el diseño podía serlo. Esta es la que le sirve a la expansión.</aside>
+</section>
+
+<section class="q2">
+    <div class="slide-header">
+        <p class="kicker">IV · ¿Se podía saber?</p>
+        <h2>¿La conversión mide el <span class="green">desempeño</span>?</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">El registro anota en cada atención si se abrió carpeta. Calculé la conversión por periodo: pasó de <strong>24.2%</strong> en 2019 a <strong>51.1%</strong> a fines de 2021. Separé su cambio en la parte que viene de más carpetas y la que viene de menos atenciones.</p>
+        <div class="grid-2">
+            <div class="card">
+                <div class="frac">
+                    <div class="side"><p class="name">carpetas al mes</p><p class="delta">+26.4%</p></div>
+                    <p>El numerador sube poco.</p>
+                    <div class="side"><div class="bar"></div></div><div></div>
+                    <div class="side"><p class="name">atenciones al mes</p><p class="delta">−40.2%</p></div>
+                    <p>El denominador cae mucho.</p>
+                </div>
+            </div>
+            <div class="stat a"><span class="num">69%</span><span class="lbl">del salto viene de registrar menos atenciones, no de abrir más carpetas</span></div>
+        </div>
+        <div class="answer fragment rise"><p><b>Respuesta:</b> no, la conversión mezcla volumen, gravedad y diferencias entre agencias.</p></div>
+    <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Registro de atenciones de la Secretaría de las Mujeres, marzo 2019 a marzo 2022</span></p>
+        </div>
+    <div class="act">IV · ¿Se podía saber?</div>
+    <aside class="notes">
+        (40 s) El 69% sale de separar en logaritmos el cambio del numerador y del denominador. Sin las atenciones que no anotan tipo de violencia, la conversión va de 26.7% a 51.6%.
+        El periodo final es septiembre de 2021 a marzo de 2022.
+        Entre agencias va de 3.3% a 38.3%. Difieren entre sí más de lo que explica su tamaño: la varianza es 36.7 veces la binomial.
+        No las presento como atípicas ni de peor desempeño. Nunca decir "el embudo identifica agencias con peor desempeño".
+        La unidad es la atención, no la mujer. "Sin carpeta" no significa "sin atención".
+        Primer camino: el propio registro. Si no sirve, queda el diseño, que es lo siguiente. Versión corta si voy tarde: decirla en 20 segundos.
+    </aside>
+</section>
+
+<section class="q2">
+    <div class="slide-header">
+        <p class="kicker">IV · ¿Se podía saber?</p>
+        <h2>El techo y <span class="green">el piso</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <div class="grid-2 howto">
+            <div class="h"><p class="k">Techo · lo que hice</p><p>Conté cuántas de las 2,793 carpetas de esas celdas pasaron por una abogada: 1,330 (47.6%). Aun si ninguna hubiera existido sin ella, el efecto no puede pasar de +91%.</p></div>
+            <div class="h a"><p class="k">Piso (MDE) · lo que hice</p><p>Es el efecto más chico que el diseño detecta 8 de cada 10 veces. Sale de la simulación de la siguiente lámina.</p></div>
+        </div>
+        <svg class="chart" viewBox="0 0 1000 270" role="img" aria-label="Techo y piso del efecto">
+            <defs>
+                <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <rect width="10" height="10" fill="rgba(255,255,255,.03)"/>
+                    <line x1="0" y1="0" x2="0" y2="10" stroke="rgba(125,147,178,.45)" stroke-width="3"/>
+                </pattern>
+            </defs>
+            <rect x="60" y="92" width="236.1" height="72" rx="6" fill="rgba(125,147,178,.10)"/>
+            <rect x="296.1" y="92" width="431.2" height="72" fill="rgba(125,147,178,.26)"/>
+            <rect x="727.3" y="92" width="212.7" height="72" rx="6" fill="url(#hatch)"/>
+            <text x="74" y="122" class="t-ref">lo ve menos de</text>
+            <text x="74" y="144" class="t-ref">8 de cada 10 veces</text>
+            <text x="511.7" y="122" class="t-white" text-anchor="middle" font-weight="600">lo ve 8 de cada 10 veces o más</text>
+            <text x="511.7" y="144" class="t-light" text-anchor="middle">cabe en el registro</text>
+            <text x="833.6" y="133" class="t-ref" text-anchor="middle">no cabe en el registro</text>
+            <g class="fragment">
+                <line x1="296.1" y1="80" x2="296.1" y2="176" stroke="#FFB300" stroke-width="3"/>
+                <text class="t-amber" x="296.1" y="200" text-anchor="middle" font-weight="800" font-size="17">piso (MDE) 32.2%</text>
+                <line x1="727.3" y1="80" x2="727.3" y2="176" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="4 5"/>
+                <text class="t-white" x="727.3" y="200" text-anchor="middle" font-weight="800" font-size="17">techo +91%</text>
+            </g>
+            <g class="fragment">
+                <path d="M263.1 86 l-10 -17 h20 z" fill="#2EE6A6"/>
+                <text class="lbl-big t-green" x="263.1" y="54" text-anchor="middle">estimado +27.7%</text>
+            </g>
+            <line class="axis" x1="60" y1="222" x2="940" y2="222"/>
+            <text x="60" y="248" text-anchor="middle">0%</text>
+            <text x="243.3" y="248" text-anchor="middle">25%</text>
+            <text x="426.7" y="248" text-anchor="middle">50%</text>
+            <text x="610" y="248" text-anchor="middle">75%</text>
+            <text x="793.3" y="248" text-anchor="middle">100%</text>
+        </svg>
+        <div class="note-box fragment rise"><p class="strong">El +27.7% cabe bajo el techo pero queda bajo el piso.</p></div>
+    <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Atenciones con carpeta del registro de la Secretaría de las Mujeres contra carpetas de la FGJ en las mismas 100 celdas</span></p>
+        </div>
+    <div class="act">IV · ¿Se podía saber?</div>
+    <aside class="notes">
+        (60 s) Segundo camino: el diseño. Este es el hallazgo central.
+        Techo: en las celdas del efecto se abrieron 2,793 carpetas. 1,330 pasaron por una abogada (47.6%). Aunque ninguna de esas se hubiera abierto sin ella, quedan 1,463.
+        El efecto no puede pasar de 2,793/1,463 − 1 = +91%. El +28% implica que 46% de las carpetas con abogada no habrían existido sin ella.
+        El MDE describe el diseño, no califica la estimación. El +27.7% sí es significativo en la permutación (p 0.021).
+        Con potencia menor a 80%, un resultado significativo tiende a exagerar el efecto verdadero.
+        Nunca decir "el estimado no se distingue del azar". Cuidado: el MDE es 32%, no 28%.
+    </aside>
+</section>
+
+<section class="q2">
+    <section class="q2">
+        <div class="slide-header">
+            <p class="kicker">IV · ¿Se podía saber?</p>
+            <h2>¿El diseño detectaba <span class="green">20% a 30%</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <div class="sim4">
+                <div class="s"><span class="step-badge">1</span><p>Usé enero de 2017 a febrero de 2019, cuando no había programa.</p></div>
+                <div class="s"><span class="step-badge">2</span><p>Fingí que las abogadas llegaban en marzo de 2018 con el calendario real.</p></div>
+                <div class="s"><span class="step-badge">3</span><p>Sumé un efecto conocido y apliqué la misma prueba de permutación.</p></div>
+                <div class="s"><span class="step-badge">4</span><p>Repetí 2,000 veces por tamaño y conté cuántas veces lo detecta.</p></div>
+            </div>
+            <div class="power">
+                <div class="prow"><span class="plabel">Efecto real de 10%</span><div class="ptrack"><i style="--w:12%"></i><b></b></div><span class="pval">12 de 100</span></div>
+                <div class="prow"><span class="plabel">Efecto real de 20%</span><div class="ptrack"><i style="--w:40%"></i><b></b></div><span class="pval">40 de 100</span></div>
+                <div class="prow"><span class="plabel">Efecto real de 30%</span><div class="ptrack"><i style="--w:75%"></i><b></b></div><span class="pval">75 de 100</span></div>
+                <div class="prow mde"><span class="plabel">Efecto real de 32.2%</span><div class="ptrack"><i style="--w:80%"></i><b></b></div><span class="pval">80 de 100</span></div>
+            </div>
+            <div class="note-box fragment rise"><p>Un efecto real de 20% se habría pasado por alto 6 de cada 10 veces.</p></div>
+            <div class="answer fragment rise"><p><b>Respuesta 2:</b> el despliegue solo veía con seguridad efectos de 32% o más.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Simulación con los meses sin programa, enero 2017 a febrero 2019, 2,000 réplicas por efecto</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">IV · ¿Se podía saber?</div>
+        <aside class="notes">
+            (45 s) Cada barra dice en cuántas de 100 simulaciones el análisis encontró el efecto que yo mismo puse.
+            El lanzamiento ficticio es en marzo de 2018, con los meses de enero de 2017 a febrero de 2019, cuando no había programa. Misma prueba de permutación que el análisis principal.
+            La razón es el ruido: sin programa una agencia cambia entre −46% y +64% de un año a otro.
+            Si citan India (+29% en denuncias): un efecto así lo vería cerca de 71 de cada 100 veces.
+            Por eso un resultado nulo tampoco habría probado que el programa no funciona.
+            Con 16 fechas ficticias el MDE va de 25% a 50%, mediana 31%.
+            Antes de la demo verificar que el deslizador marque 40 de 100 con 20%.
+        </aside>
+    </section>
+    <section class="q2">
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>¿Otro calendario lo <span class="green">habría visto</span>?</h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <p class="lede">Repetí la misma simulación con tres calendarios que el programa pudo haber usado. Para comparar igual contra igual, en esos casos repartí las unidades en orden alfabético.</p>
+            <table class="model-table">
+                <tr><th style="width:36%">Calendario</th><th style="width:36%">Cómo reparte las unidades</th><th>Efecto mínimo detectable</th></tr>
+                <tr><td class="k">Real</td><td>Como entraron en realidad</td><td class="num amber">32.2%</td></tr>
+                <tr><td class="k">Real</td><td>Orden alfabético</td><td class="num">28.3%</td></tr>
+                <tr><td class="k">12 cohortes mensuales</td><td>Orden alfabético</td><td class="num">33.2%</td></tr>
+                <tr><td class="k">4 cohortes trimestrales</td><td>Orden alfabético</td><td class="num">33.1%</td></tr>
+                <tr><td class="k">Mitad espera un año</td><td>Orden alfabético</td><td class="num">34.5%</td></tr>
+            </table>
+            <div class="note-box"><p>Los tres calendarios alternativos reparten las unidades en orden alfabético. Con ese mismo reparto el real da 28%, así que ninguno lo mejora.</p></div>
+        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Misma simulación de potencia con cada calendario, 2,000 réplicas por efecto</span> · <span class="dat">FGJ CDMX</span></p>
+        </div>
+        <div class="act">IV · ¿Se podía saber?</div>
+        <aside class="notes">
+            El 32.2% conserva qué unidades entraron en cada cohorte de llegada. El 28% solo conserva el tamaño de las cohortes. La diferencia viene de que las grandes entraron primero.
+            Ningún calendario corrige el ruido de una agencia de un año a otro.
+        </aside>
+    </section>
+</section>
+
+<section class="q2">
+    <div class="slide-header">
+        <p class="kicker">IV · ¿Se podía saber?</p>
+        <h2>Las seis pruebas, <span class="green">respondidas</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <div class="tests">
+            <div class="card q1">
+                <p class="tq">Pregunta 1 · <b>¿Aumentaron las carpetas?</b></p>
+                <div class="trow"><span class="mark yes"><svg class="ico"><use href="#i-yes"/></svg></span><p class="q">¿Hay más carpetas de las esperadas?<span class="verdict"><b class="yes">Sí, en el signo</b> · +27.7%, p 0.021</span></p><p class="code">H1</p></div>
+                <div class="trow"><span class="mark yes"><svg class="ico"><use href="#i-yes"/></svg></span><p class="q">¿Otros delitos subieron igual?<span class="verdict"><b class="yes">No</b> · robos +5.1%, no llega a +27.7%</span></p><p class="code">H2</p></div>
+                <div class="trow"><span class="mark no"><svg class="ico"><use href="#i-maybe"/></svg></span><p class="q">¿Nada subía antes de que llegaran?<span class="verdict"><b class="no">No lo puedo confirmar</b> · +9%, +25%, +38%</span></p><p class="code">H3</p></div>
+                <div class="trow"><span class="mark no"><svg class="ico"><use href="#i-no"/></svg></span><p class="q">¿Pasa en todas las cohortes de llegada?<span class="verdict"><b class="no">No</b> · solo en la de marzo</span></p><p class="code">H4</p></div>
+            </div>
+            <div class="card q2">
+                <p class="tq">Pregunta 2 · <b>¿Se podía saber?</b></p>
+                <div class="trow"><span class="mark no"><svg class="ico"><use href="#i-no"/></svg></span><p class="q">¿La conversión mide el desempeño?<span class="verdict"><b class="no">No</b> · 69% es registrar menos atenciones</span></p><p class="code">H5</p></div>
+                <div class="trow"><span class="mark no"><svg class="ico"><use href="#i-no"/></svg></span><p class="q">¿El diseño detectaba 20% a 30%?<span class="verdict"><b class="no">No</b> · solo 32.2% o más</span></p><p class="code">H6</p></div>
+                <div class="marks-key">
+                    <span><span class="mark yes"><svg class="ico"><use href="#i-yes"/></svg></span>la prueba pasa</span>
+                    <span><span class="mark no"><svg class="ico"><use href="#i-no"/></svg></span>no pasa</span>
+                    <span><span class="mark no"><svg class="ico"><use href="#i-maybe"/></svg></span>no se puede confirmar</span>
+                </div>
+            </div>
+        </div>
+        <div class="answer"><p><b>Pasaron dos de seis.</b> Meses previos, cohortes de llegada y diseño son las que impiden atribuirle el aumento al programa.</p></div>
+    </div>
+    <div class="act">IV · ¿Se podía saber?</div>
+    <aside class="notes">
+        (30 s) Cierro el círculo con la lámina del inicio. Mismo orden, de H1 a H6.
+        No leer todo: señalar meses previos, cohortes de llegada y diseño, que son las que mueven la conclusión.
+        La marca dice si la prueba pasa, no si la respuesta es sí. En otros delitos la respuesta es no y por eso pasa.
+        El "sí" de la primera es en el signo. Dos de tres intervalos tocan el cero.
+        La conversión también falla, pero esa falla es del registro, no de la estimación del efecto.
+    </aside>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">V · Qué recomiendo</p>
+        <h2>¿Qué impidió <span class="green">saberlo</span>?</h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">Ningún análisis posterior los corrige. Todos se deciden antes de arrancar.</p>
+        <div class="chain">
+            <div class="chead"><span>Qué pasó</span><span>Qué provocó</span><span>Qué lo corrige</span></div>
+            <div class="crow fragment rise">
+                <div class="cc what"><span class="card-num">1</span><div><p class="t">Las agencias sin abogadas se acabaron en tres meses</p><p class="fig">34 → 20 → 8</p></div></div>
+                <div class="cc caused"><p>Solo pude medir marzo a mayo de 2019.</p></div>
+                <div class="cc fix"><span class="fixchip">Recomendaciones 1 y 2</span><p>Oleadas separadas y escalonar por agencia.</p></div>
+            </div>
+            <div class="crow fragment rise">
+                <div class="cc what"><span class="card-num">2</span><div><p class="t">Las agencias grandes entraron primero</p><p class="fig">correlación −0.37</p></div></div>
+                <div class="cc caused"><p>Las que esperaban no eran comparables. Tuve que sortear solo dentro de grupos de tamaño.</p></div>
+                <div class="cc fix"><span class="fixchip">Recomendación 1</span><p>Sortear el orden.</p></div>
+            </div>
+            <div class="crow fragment rise">
+                <div class="cc what"><span class="card-num">3</span><div><p class="t">El conteo de cada agencia cambia mucho de un año a otro, aun sin programa</p><p class="fig">−46% a +64%</p></div></div>
+                <div class="cc caused"><p>Un efecto tenía que ser de 32% o más para verse con seguridad.</p></div>
+                <div class="cc fix"><span class="fixchip a">Ningún calendario solo</span><p>Más unidades sí podrían, con la recomendación 2.</p></div>
+            </div>
+            <div class="crow fragment rise">
+                <div class="cc what"><span class="card-num">4</span><div><p class="t">El registro perdió el "no"</p><p class="fig">13 meses</p></div></div>
+                <div class="cc caused"><p>No pude medir la conversión en esos meses.</p></div>
+                <div class="cc fix"><span class="fixchip">Recomendación 3</span><p>Un sí o no obligatorio.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="act">V · Qué recomiendo</div>
+    <aside class="notes">
+        (40 s) Leer cada fila de izquierda a derecha: qué pasó, qué provocó en el análisis y qué lo corrige.
+        Tres rasgos son del despliegue y uno del registro. Explican por qué un programa con un registro tan detallado es difícil de evaluar.
+        Decir "difícil de evaluar", no "inevaluable". El despliegue rápido tenía razones. Lo que faltó fue diseñarlo para poder evaluarlo.
+        La fila 3 la digo de frente: ningún calendario la arregla por sí solo. Por eso sortear va primero por validez.
+        No decir "el gobierno lo hizo mal". No decir que ninguno es un error del análisis.
+    </aside>
+</section>
+
+<section>
+    <section>
+        <div class="slide-header">
+            <p class="kicker">V · Qué recomiendo</p>
+            <h2>Recomendaciones en <span class="green">orden de prioridad</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <div class="grid-3">
+                <div class="card compact fragment rise">
+                    <h3><span class="card-num">1</span>Sortear los estados</h3>
+                    <p>Dos oleadas a un año de distancia, en grupos de tamaño parecido. Va primero por <strong>validez</strong>. Retrasa un año a la mitad de los estados.</p>
+                </div>
+                <div class="card compact fragment rise">
+                    <h3><span class="card-num">2</span>Escalonar por agencia</h3>
+                    <p>Dentro de cada estado, con la fecha de llegada <strong>fijada por escrito</strong>.</p>
+                </div>
+                <div class="card compact fragment rise">
+                    <h3><span class="card-num">3</span>Seis campos nuevos</h3>
+                    <p>Desde el primer día: folio, fecha exacta, clave de agencia, número de carpeta, <strong>sí o no obligatorio</strong>, riesgo.</p>
+                </div>
+                <div class="card compact fragment rise">
+                    <h3><span class="card-num">4</span>Conversión fuera</h3>
+                    <p>Reportar atenciones y carpetas <strong>por separado</strong>, no su cociente.</p>
+                </div>
+                <div class="card compact fragment rise">
+                    <h3><span class="card-num">5</span>Medidas de protección</h3>
+                    <p>Registrarlas y revisar las unidades con la conversión más baja para su tamaño, sin leerlo como prueba de que funcionen peor.</p>
+                </div>
+                <div class="card compact accent-amber fragment rise">
+                    <h3><span class="card-num"><svg class="ico" style="width:16px;height:16px"><use href="#i-warn"/></svg></span>Qué cambia el orden</h3>
+                    <p>Si ya arrancó en todos los estados a la vez, la <strong>2 pasa a ser la principal</strong>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="act">V · Qué recomiendo</div>
+        <aside class="notes">
+            (60 s) Recomendaciones para la Secretaría de las Mujeres del Gobierno de México y las instancias estatales.
+            La 1 va primero por validez, no por potencia (ver lámina de abajo). Retrasa un año a la mitad de los estados: ese es su costo real.
+            La 2: con cientos de agencias en lugar de 54 unidades el MDE por agencia podría bajar, aunque no lo simulé.
+            La 3 son cambios de formulario. La 5: la lista de agencias es para revisar, no prueba de que funcionen peor.
+            La tarjeta ámbar es el supuesto que, si cambia, altera el orden. No verifiqué el estado de la expansión. Nunca decir "la expansión todavía se puede evaluar".
+            Si lo que se busca es reducir la violencia y no aumentar la denuncia, hay que medirlo con encuestas de victimización.
+            Trabajo futuro: simular el despliegue con efectos distintos por cohorte de llegada, simular la expansión por agencias, repetir con la incidencia mensual del Secretariado Ejecutivo.
+        </aside>
+    </section>
+    <section>
+        <div class="slide-header">
+            <p class="kicker">Para el jurado técnico</p>
+            <h2>Sortear estados: validez, <span class="green">no potencia</span></h2>
+            <hr class="separator">
+        </div>
+        <div class="slide-body">
+            <div class="vs">
+                <div class="vs-col bad">
+                    <h3>En potencia no gana</h3>
+                    <ul>
+                        <li>Con 31 estados en dos grupos el MDE baja a <strong>18%</strong>, pero sobre todos los delitos del estado</li>
+                        <li>Las abogadas están en agencias territoriales, que en la ciudad abren 59% de esas carpetas</li>
+                        <li>18% estatal equivale a cerca de <strong>30% por agencia</strong>, casi lo mismo que en la ciudad</li>
+                    </ul>
+                </div>
+                <div class="vs-col good">
+                    <h3>En validez sí</h3>
+                    <ul>
+                        <li>Un grupo de comparación asignado al azar</li>
+                        <li>No depende de que las agencias grandes entren primero</li>
+                        <li>No depende de las reorganizaciones de una sola fiscalía</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="caution"><p><b>Riesgo ajeno al diseño:</b> el censo lo reporta cada fiscalía. Un cambio de sistema de registro se confundiría con un efecto.</p></div>
+        </div>
+        <div class="act">V · Qué recomiendo</div>
+        <aside class="notes">
+            Con los 27 estados de serie completa el MDE estatal es 14.4%. Las cifras de potencia suponen un efecto parejo entre estados.
+            Con la heterogeneidad que vi entre cohortes de llegada, el MDE del promedio probablemente sería mayor.
+            Si preguntan "¿y si todos arrancaron en mayo de 2025?": entonces no hay estados sin programa. La recomendación 2 pasa a ser la principal.
+        </aside>
+    </section>
+</section>
+
+<section>
+    <div class="slide-header">
+        <p class="kicker">La aplicación</p>
+        <h2>Demo <span class="green">en vivo</span></h2>
+        <hr class="separator">
+    </div>
+    <div class="slide-body">
+        <p class="lede">La aplicación lee los mismos archivos de resultados que el reporte escrito. Cuatro paradas:</p>
+        <div class="step-list">
+            <div class="step-row fragment rise">
+                <span class="step-badge">1</span>
+                <div class="step-content"><p class="bold">Cómo llegaron las abogadas</p><p>El mapa se reproduce mes a mes, de marzo a agosto de 2019.</p></div>
+            </div>
+            <div class="step-row fragment rise">
+                <span class="step-badge">2</span>
+                <div class="step-content"><p class="bold">El placebo de robos</p><p>El mismo análisis con un delito que el programa no atiende.</p></div>
+            </div>
+            <div class="step-row fragment rise">
+                <span class="step-badge">3</span>
+                <div class="step-content"><p class="bold">El deslizador de potencia</p><p>Elegir un efecto y ver con qué frecuencia lo detecta cada calendario.</p></div>
+            </div>
+            <div class="step-row fragment rise">
+                <span class="step-badge">4</span>
+                <div class="step-content"><p class="bold">La metodología paso a paso</p><p>Cómo se construye el contrafactual sin dar por sabida la econometría.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="act">La aplicación</div>
+    <aside class="notes">
+        (4 a 5 min) Antes de la sesión: python3 dashboard/app.py y abrir http://127.0.0.1:5050/abogadas y /metodologia en dos pestañas.
+        Verificar antes que el deslizador marque 40 de 100 con un efecto de 20%.
+        Las librerías del dashboard están en local. Funciona sin internet salvo el fondo del mapa.
+        Plan B si falla: las gráficas estáticas de grafs/abogadas.
+        Al volver, pasar a la lámina de cierre y abrir preguntas.
+    </aside>
+</section>
+
+<section class="title-slide">
+    <canvas class="constellation"></canvas>
+    <div class="brand-line"></div>
+    <h1>La evaluación se decide<br>antes de arrancar</h1>
+    <p class="subtitle">Sortear la entrada de los estados y registrar seis campos desde el primer día.</p>
+    <hr class="separator">
+    <p class="meta">Gracias &nbsp;·&nbsp; Preguntas</p>
+    <aside class="notes">
+        (20 s) Repetir la tesis: +28% es un indicio positivo que no es concluyente. El diseño solo veía efectos de 32% o más.
+        Lo que lo impidió se toma en cuenta antes de que arranque la expansión.
+        Preguntas probables y respuesta corta en thesis_audit/07_DEFENSE_QUESTIONS.md y TEORIA_Y_NUMEROS.md.
+    </aside>
+</section>
+
+</div>
+</div>
+
+<div class="edge-zone prev" id="edge-prev" title="Anterior (o Espacio / ←)"><span>&lsaquo;</span></div>
+<div class="edge-zone next" id="edge-next" title="Siguiente (o Espacio / →)"><span>&rsaquo;</span></div>
+
+<button class="nav-fab" id="nav-fab" title="Ir a una lámina (M)">
+    <svg class="ico"><use href="#i-menu"/></svg><span>Láminas</span>
+</button>
+
+<div class="nav-menu" id="nav-menu">
+    <div class="nav-panel" role="dialog" aria-label="Ir a una lámina">
+        <header>
+            <h4>Ir a una lámina</h4>
+            <p>Haz clic en una, o escribe su número y presiona Enter. <kbd>Esc</kbd> para cerrar.</p>
+        </header>
+        <div class="nav-list" id="nav-list"></div>
+    </div>
+</div>
+
+<div class="help-card" id="help-card">
+    <div class="help-panel">
+        <h4>Cómo moverse</h4>
+        <dl>
+            <dt><kbd>Espacio</kbd></dt><dd>Siguiente paso</dd>
+            <dt><kbd>Shift</kbd>+<kbd>Espacio</kbd></dt><dd>Paso anterior</dd>
+            <dt><span class="clickhint">Clic</span></dt><dd>El margen izquierdo o derecho retrocede o avanza</dd>
+            <dt><kbd>M</kbd></dt><dd>Índice de todas las láminas</dd>
+            <dt><kbd>7</kbd> <kbd>&crarr;</kbd></dt><dd>Escribe un número de lámina y presiona Enter</dd>
+            <dt><kbd>&darr;</kbd></dt><dd>Lámina a fondo, donde existe</dd>
+            <dt><kbd>Esc</kbd></dt><dd>Vista general de la presentación</dd>
+            <dt><kbd>S</kbd></dt><dd>Notas del orador en otra ventana</dd>
+            <dt><kbd>F</kbd> / <kbd>B</kbd></dt><dd>Pantalla completa / pantalla en negro</dd>
+            <dt><kbd>?</kbd></dt><dd>Esta tarjeta</dd>
+        </dl>
+    </div>
+</div>
+
+<script src="static/vendor/reveal/reveal.min.js"></script>
+<script src="static/vendor/reveal/plugin/highlight/highlight.min.js"></script>
+<script src="static/vendor/reveal/plugin/notes/notes.min.js"></script>
+<script src="static/vendor/reveal/plugin/zoom/zoom.min.js"></script>
+<script src="static/js/deck.js"></script>
+</body>
+</html>

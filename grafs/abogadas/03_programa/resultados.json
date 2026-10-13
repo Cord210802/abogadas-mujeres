@@ -1,0 +1,1456 @@
+{
+ "periodos": [
+  {
+   "periodo": "Mar-dic 2019",
+   "meses": 10,
+   "atenciones_mes": 4525.8,
+   "carpetas_mes": 1094.7,
+   "conversion": 0.24187988863847276,
+   "agencias_mes": 57.1,
+   "etiquetas_normalizadas_mes": 57.0,
+   "unidades_territoriales_mes": 49.2
+  },
+  {
+   "periodo": "Ene-mar 2020",
+   "meses": 3,
+   "atenciones_mes": 4627.666666666667,
+   "carpetas_mes": 1217.3333333333333,
+   "conversion": 0.26305553554707195,
+   "agencias_mes": 65.0,
+   "etiquetas_normalizadas_mes": 64.66666666666667,
+   "unidades_territoriales_mes": 55.333333333333336
+  },
+  {
+   "periodo": "Abr-jun 2020 (pandemia)",
+   "meses": 3,
+   "atenciones_mes": 1702.3333333333333,
+   "carpetas_mes": 568.0,
+   "conversion": 0.33365968278832975,
+   "agencias_mes": 22.333333333333332,
+   "etiquetas_normalizadas_mes": 22.333333333333332,
+   "unidades_territoriales_mes": 16.333333333333332
+  },
+  {
+   "periodo": "Jul 2020-ago 2021 (incluye los 13 meses del hueco del NO)",
+   "meses": 14,
+   "atenciones_mes": 2770.714285714286,
+   "carpetas_mes": 1102.2857142857142,
+   "conversion": 0.39783449342614075,
+   "agencias_mes": 39.142857142857146,
+   "etiquetas_normalizadas_mes": 39.142857142857146,
+   "unidades_territoriales_mes": 31.928571428571427
+  },
+  {
+   "periodo": "Sep 2021-mar 2022",
+   "meses": 7,
+   "atenciones_mes": 2708.1428571428573,
+   "carpetas_mes": 1383.2857142857142,
+   "conversion": 0.5107875718731867,
+   "agencias_mes": 55.857142857142854,
+   "etiquetas_normalizadas_mes": 55.857142857142854,
+   "unidades_territoriales_mes": 46.42857142857143
+  }
+ ],
+ "descomposicion": {
+  "conversion_inicio": 0.24187988863847276,
+  "conversion_fin": 0.5107875718731867,
+  "cambio_carpetas_pct": 26.36208224040506,
+  "cambio_atenciones_pct": -40.16211814170186,
+  "parte_por_menos_atenciones_pct": 68.69868226077472,
+  "parte_por_mas_carpetas_pct": 31.301317739225272
+ },
+ "descomposicion_bases": [
+  {
+   "base": "Mar-dic 2019 (base del estudio)",
+   "desde": "2019-03",
+   "hasta": "2019-12",
+   "conversion_base": 0.24187988863847276,
+   "cambio_carpetas_pct": 26.36208224040506,
+   "cambio_atenciones_pct": -40.16211814170186,
+   "parte_por_menos_atenciones_pct": 68.69868226077472,
+   "parte_por_menos_atenciones_shapley_niveles_pct": 68.32987572584219
+  },
+  {
+   "base": "Mar-2019 a mar-2020",
+   "desde": "2019-03",
+   "hasta": "2020-03",
+   "conversion_base": 0.246850746521026,
+   "cambio_carpetas_pct": 23.17771275919094,
+   "cambio_atenciones_pct": -40.4713191477027,
+   "parte_por_menos_atenciones_pct": 71.3329794597215,
+   "parte_por_menos_atenciones_shapley_niveles_pct": 70.95391845821048
+  },
+  {
+   "base": "Ene-mar 2020",
+   "desde": "2020-01",
+   "hasta": "2020-03",
+   "conversion_base": 0.26305553554707195,
+   "cambio_carpetas_pct": 13.632451885463936,
+   "cambio_atenciones_pct": -41.47930150955433,
+   "parte_por_menos_atenciones_pct": 80.74123886836239,
+   "parte_por_menos_atenciones_shapley_niveles_pct": 80.39414769176551
+  },
+  {
+   "base": "Jun-2019 a mar-2020 (despliegue completo)",
+   "desde": "2019-06",
+   "hasta": "2020-03",
+   "conversion_base": 0.24280827243041517,
+   "cambio_carpetas_pct": 10.733726727963022,
+   "cambio_atenciones_pct": -47.361552302463515,
+   "parte_por_menos_atenciones_pct": 86.29006466876619,
+   "parte_por_menos_atenciones_shapley_niveles_pct": 85.89920374676436
+  },
+  {
+   "base": "Jun-dic 2019",
+   "desde": "2019-06",
+   "hasta": "2019-12",
+   "conversion_base": 0.23532543591108745,
+   "cambio_carpetas_pct": 9.536199095022614,
+   "cambio_atenciones_pct": -49.53547184879542,
+   "parte_por_menos_atenciones_pct": 88.24687392583557,
+   "parte_por_menos_atenciones_shapley_niveles_pct": 87.85492542988
+  },
+  {
+   "base": "Por unidad territorial-mes (mar-dic 2019 contra sep-2021 a mar-2022)",
+   "desde": "2019-03",
+   "hasta": "2019-12",
+   "conversion_base": 0.20348127035830618,
+   "conversion_fin": 0.4287639843644696,
+   "cambio_carpetas_pct": 20.448839804517615,
+   "cambio_atenciones_pct": -42.83782260085193,
+   "parte_por_menos_atenciones_pct": 75.03733259365819,
+   "atenciones_por_unidad_mes": [
+    79.869918699187,
+    45.65538461538461
+   ],
+   "carpetas_por_unidad_mes": [
+    16.252032520325205,
+    19.575384615384614
+   ]
+  }
+ ],
+ "serie": [
+  {
+   "m": "2019-03",
+   "atenciones": 1569,
+   "carpetas": 509,
+   "no": 1060,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-04",
+   "atenciones": 1704,
+   "carpetas": 566,
+   "no": 1138,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-05",
+   "atenciones": 4420,
+   "carpetas": 1032,
+   "no": 3388,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-06",
+   "atenciones": 5294,
+   "carpetas": 1038,
+   "no": 4256,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-07",
+   "atenciones": 4467,
+   "carpetas": 956,
+   "no": 3511,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-08",
+   "atenciones": 7215,
+   "carpetas": 1573,
+   "no": 5642,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-09",
+   "atenciones": 5301,
+   "carpetas": 1279,
+   "no": 4022,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-10",
+   "atenciones": 5629,
+   "carpetas": 1355,
+   "no": 4274,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-11",
+   "atenciones": 4888,
+   "carpetas": 1259,
+   "no": 3629,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2019-12",
+   "atenciones": 4771,
+   "carpetas": 1380,
+   "no": 3391,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-01",
+   "atenciones": 4639,
+   "carpetas": 1118,
+   "no": 3521,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-02",
+   "atenciones": 5047,
+   "carpetas": 1297,
+   "no": 3750,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-03",
+   "atenciones": 4197,
+   "carpetas": 1237,
+   "no": 2960,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-04",
+   "atenciones": 1768,
+   "carpetas": 569,
+   "no": 1199,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-05",
+   "atenciones": 1469,
+   "carpetas": 476,
+   "no": 993,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-06",
+   "atenciones": 1870,
+   "carpetas": 659,
+   "no": 1211,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-07",
+   "atenciones": 1968,
+   "carpetas": 705,
+   "no": 0,
+   "na": 1263,
+   "valido": false
+  },
+  {
+   "m": "2020-08",
+   "atenciones": 2250,
+   "carpetas": 880,
+   "no": 0,
+   "na": 1370,
+   "valido": false
+  },
+  {
+   "m": "2020-09",
+   "atenciones": 2050,
+   "carpetas": 776,
+   "no": 0,
+   "na": 1274,
+   "valido": false
+  },
+  {
+   "m": "2020-10",
+   "atenciones": 2005,
+   "carpetas": 790,
+   "no": 7,
+   "na": 1208,
+   "valido": false
+  },
+  {
+   "m": "2020-11",
+   "atenciones": 1941,
+   "carpetas": 770,
+   "no": 1171,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2020-12",
+   "atenciones": 1905,
+   "carpetas": 775,
+   "no": 0,
+   "na": 1130,
+   "valido": false
+  },
+  {
+   "m": "2021-01",
+   "atenciones": 2241,
+   "carpetas": 903,
+   "no": 0,
+   "na": 1338,
+   "valido": false
+  },
+  {
+   "m": "2021-02",
+   "atenciones": 2981,
+   "carpetas": 1105,
+   "no": 0,
+   "na": 1876,
+   "valido": false
+  },
+  {
+   "m": "2021-03",
+   "atenciones": 3110,
+   "carpetas": 1130,
+   "no": 0,
+   "na": 1980,
+   "valido": false
+  },
+  {
+   "m": "2021-04",
+   "atenciones": 4393,
+   "carpetas": 1680,
+   "no": 0,
+   "na": 2713,
+   "valido": false
+  },
+  {
+   "m": "2021-05",
+   "atenciones": 3600,
+   "carpetas": 1449,
+   "no": 0,
+   "na": 2151,
+   "valido": false
+  },
+  {
+   "m": "2021-06",
+   "atenciones": 3517,
+   "carpetas": 1492,
+   "no": 0,
+   "na": 2025,
+   "valido": false
+  },
+  {
+   "m": "2021-07",
+   "atenciones": 3489,
+   "carpetas": 1493,
+   "no": 0,
+   "na": 1996,
+   "valido": false
+  },
+  {
+   "m": "2021-08",
+   "atenciones": 3340,
+   "carpetas": 1484,
+   "no": 0,
+   "na": 1856,
+   "valido": false
+  },
+  {
+   "m": "2021-09",
+   "atenciones": 2967,
+   "carpetas": 1411,
+   "no": 1556,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2021-10",
+   "atenciones": 3157,
+   "carpetas": 1575,
+   "no": 1582,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2021-11",
+   "atenciones": 2719,
+   "carpetas": 1409,
+   "no": 1310,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2021-12",
+   "atenciones": 2629,
+   "carpetas": 1403,
+   "no": 1226,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2022-01",
+   "atenciones": 2185,
+   "carpetas": 1090,
+   "no": 1095,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2022-02",
+   "atenciones": 2349,
+   "carpetas": 1219,
+   "no": 1130,
+   "na": 0,
+   "valido": true
+  },
+  {
+   "m": "2022-03",
+   "atenciones": 2951,
+   "carpetas": 1576,
+   "no": 1375,
+   "na": 0,
+   "valido": true
+  }
+ ],
+ "modelo": {
+  "auc": {
+   "logistica_caso_cv_por_agencia": 0.6808977634672976,
+   "boosting_caso_cv_por_agencia": 0.6879776264779506,
+   "logistica_caso_fuera_de_tiempo": 0.6720613704597482,
+   "boosting_caso_fuera_de_tiempo": 0.6768817080489694,
+   "solo_agencia_cv_por_mes": 0.6926746844021906,
+   "caso_cv_por_mes": 0.691170691476091,
+   "agencia_y_caso_cv_por_mes": 0.7431379473445939
+  },
+  "auc_dentro_de_agencia": {
+   "ponderado": 0.6421528557183446,
+   "mediana": 0.6428678238415246,
+   "agencias": 66,
+   "solo_territoriales_cv_por_agencia": 0.6196863336049098
+  },
+  "calibracion_fuera_de_tiempo": {
+   "predicho_medio": 0.3710501922013284,
+   "observado": 0.5107875718731867,
+   "entrenamiento": 0.2579431627611839,
+   "calibracion_en_el_promedio_logit": 0.6846100905930721,
+   "pendiente": 0.7356826668707593,
+   "parte_del_salto_que_predice_el_perfil": 0.44733846335530936
+  },
+  "referencia": {
+   "modalidad": "FAMILIAR",
+   "relacion": "pareja o expareja",
+   "edad_g": "30-44",
+   "estado_civil": "CASADA(O)"
+  },
+  "razones_de_momios": [
+   {
+    "variable": "vio_sexual",
+    "rm": 7.590028771610387,
+    "rm_2021_22": 4.813910656815822
+   },
+   {
+    "variable": "vio_feminicida",
+    "rm": 2.45364550007117,
+    "rm_2021_22": 1.5989859589221773
+   },
+   {
+    "variable": "vio_economica",
+    "rm": 0.44887721360543514,
+    "rm_2021_22": 0.5857128993701328
+   },
+   {
+    "variable": "estado_civil=VIUDA(O)",
+    "rm": 2.0890734719189012,
+    "rm_2021_22": 1.1981807724771687
+   },
+   {
+    "variable": "vio_fisica",
+    "rm": 1.9783007467816178,
+    "rm_2021_22": 1.7222889874701734
+   },
+   {
+    "variable": "estado_civil=SOLTERA(O)",
+    "rm": 1.6377297018527406,
+    "rm_2021_22": 1.216051500085338
+   },
+   {
+    "variable": "vio_patrimonial",
+    "rm": 1.4871698790324235,
+    "rm_2021_22": 1.2519244374083462
+   },
+   {
+    "variable": "modalidad=INSTITUCIONAL",
+    "rm": 1.3028611226775404,
+    "rm_2021_22": 0.9499827785864735
+   },
+   {
+    "variable": "estado_civil=SEPARADA(O)",
+    "rm": 1.2974589533423941,
+    "rm_2021_22": 0.7442309562581095
+   },
+   {
+    "variable": "edad_g=menor de 18",
+    "rm": 0.8016657320519276,
+    "rm_2021_22": 1.5317748510786044
+   },
+   {
+    "variable": "modalidad=ESCOLAR",
+    "rm": 0.8038022038524826,
+    "rm_2021_22": 1.8223968594772388
+   },
+   {
+    "variable": "modalidad=COMUNITARIA",
+    "rm": 1.231148024832571,
+    "rm_2021_22": 1.7425894331621452
+   },
+   {
+    "variable": "estado_civil=DIVORCIADA(O)",
+    "rm": 1.1838990929436901,
+    "rm_2021_22": 1.2433840257535986
+   },
+   {
+    "variable": "modalidad=LABORAL",
+    "rm": 0.844670931214911,
+    "rm_2021_22": 1.7117696286690598
+   },
+   {
+    "variable": "edad_g=45 o más",
+    "rm": 0.847949046426198,
+    "rm_2021_22": 0.8250631816389468
+   },
+   {
+    "variable": "vio_simbolica",
+    "rm": 0.8598737228153457,
+    "rm_2021_22": 1.2460283362560636
+   }
+  ],
+  "correlacion_coeficientes_entre_periodos": 0.5696622362879188,
+  "variables": [
+   "modalidad",
+   "relacion",
+   "edad_g",
+   "estado_civil"
+  ],
+  "n_entrenamiento": 66189,
+  "n_prueba": 18957,
+  "conversion_entrenamiento": 0.2579431627611839,
+  "conversion_prueba": 0.5107875718731867,
+  "nota": "modelo del caso sin tipo de sede (atributo de la agencia); la version con sede esta en modelo_con_tipo_sede",
+  "auc_solo_completitud_cv_por_agencia": 0.55108791601627
+ },
+ "modelo_con_tipo_sede": {
+  "auc": {
+   "logistica_caso_cv_por_agencia": 0.694237985726221,
+   "boosting_caso_cv_por_agencia": 0.6940122522407731,
+   "logistica_caso_fuera_de_tiempo": 0.6989254705187438,
+   "boosting_caso_fuera_de_tiempo": 0.6982368914294144,
+   "solo_agencia_cv_por_mes": 0.6926746844021906,
+   "caso_cv_por_mes": 0.7038496960830835,
+   "agencia_y_caso_cv_por_mes": 0.7430755753522191
+  },
+  "auc_dentro_de_agencia": {
+   "ponderado": 0.642614207550099,
+   "mediana": 0.6408836142953209,
+   "agencias": 66,
+   "solo_territoriales_cv_por_agencia": 0.620424414706013
+  },
+  "calibracion_fuera_de_tiempo": {
+   "predicho_medio": 0.36586605712504716,
+   "observado": 0.5107875718731867,
+   "entrenamiento": 0.2579431627611839,
+   "calibracion_en_el_promedio_logit": 0.7234470659620458,
+   "pendiente": 0.8703432991823709,
+   "parte_del_salto_que_predice_el_perfil": 0.42683520170721484
+  },
+  "referencia": {
+   "modalidad": "FAMILIAR",
+   "relacion": "pareja o expareja",
+   "edad_g": "30-44",
+   "estado_civil": "CASADA(O)",
+   "tipo_sede": "territorial"
+  },
+  "razones_de_momios": [
+   {
+    "variable": "vio_sexual",
+    "rm": 3.5493812631895842,
+    "rm_2021_22": 2.302820873629544
+   },
+   {
+    "variable": "tipo_sede=especializada",
+    "rm": 3.3146427421657823,
+    "rm_2021_22": 4.953025839095059
+   },
+   {
+    "variable": "vio_feminicida",
+    "rm": 2.538304772210993,
+    "rm_2021_22": 1.5714787405465789
+   },
+   {
+    "variable": "vio_economica",
+    "rm": 0.47182363278537004,
+    "rm_2021_22": 0.6101375414337686
+   },
+   {
+    "variable": "vio_fisica",
+    "rm": 2.085436138535532,
+    "rm_2021_22": 1.848119693265969
+   },
+   {
+    "variable": "estado_civil=VIUDA(O)",
+    "rm": 1.8264021105517858,
+    "rm_2021_22": 1.1928055811549887
+   },
+   {
+    "variable": "estado_civil=SOLTERA(O)",
+    "rm": 1.6322928123138107,
+    "rm_2021_22": 1.2037378594294805
+   },
+   {
+    "variable": "vio_patrimonial",
+    "rm": 1.6170014750668888,
+    "rm_2021_22": 1.3066765498302229
+   },
+   {
+    "variable": "tipo_sede=otra",
+    "rm": 0.7313977010850858,
+    "rm_2021_22": 0.28633860125516164
+   },
+   {
+    "variable": "edad_g=menor de 18",
+    "rm": 0.7522996292340409,
+    "rm_2021_22": 1.2015027150099957
+   },
+   {
+    "variable": "modalidad=INSTITUCIONAL",
+    "rm": 1.273681704491209,
+    "rm_2021_22": 1.1295744879139862
+   },
+   {
+    "variable": "modalidad=COMUNITARIA",
+    "rm": 1.2658278602886843,
+    "rm_2021_22": 1.7570649889072367
+   },
+   {
+    "variable": "vio_reproductivos",
+    "rm": 1.2658021649942817,
+    "rm_2021_22": 1.2953597690105016
+   },
+   {
+    "variable": "estado_civil=SEPARADA(O)",
+    "rm": 1.264778159075424,
+    "rm_2021_22": 0.8085586334052929
+   },
+   {
+    "variable": "modalidad=ESCOLAR",
+    "rm": 0.8042892854590268,
+    "rm_2021_22": 1.5043643635860495
+   },
+   {
+    "variable": "edad_g=45 o más",
+    "rm": 0.8235575479659397,
+    "rm_2021_22": 0.8001477329347381
+   }
+  ],
+  "correlacion_coeficientes_entre_periodos": 0.5739329158881336,
+  "variables": [
+   "modalidad",
+   "relacion",
+   "edad_g",
+   "estado_civil",
+   "tipo_sede"
+  ]
+ },
+ "registro_vacio": {
+  "por_anio": [
+   {
+    "anio": 2019,
+    "atenciones": 45258,
+    "pct_sin_tipo_de_violencia": 0.17857616333023996,
+    "pct_sin_modalidad": 0.17654337354721816,
+    "conversion_sin_tipo": 0.12657757980697848,
+    "conversion_con_tipo": 0.2669464170432537
+   },
+   {
+    "anio": 2020,
+    "atenciones": 20931,
+    "pct_sin_tipo_de_violencia": 0.13577946586402942,
+    "pct_sin_modalidad": 0.14270698963260237,
+    "conversion_sin_tipo": 0.13687543983110487,
+    "conversion_con_tipo": 0.31715407153518715
+   },
+   {
+    "anio": 2021,
+    "atenciones": 11472,
+    "pct_sin_tipo_de_violencia": 0.0025278940027894004,
+    "pct_sin_modalidad": 0.0,
+    "conversion_sin_tipo": 0.034482758620689655,
+    "conversion_con_tipo": 0.5065979201258412
+   },
+   {
+    "anio": 2022,
+    "atenciones": 7485,
+    "pct_sin_tipo_de_violencia": 0.023112892451569805,
+    "pct_sin_modalidad": 0.0,
+    "conversion_sin_tipo": 0.06358381502890173,
+    "conversion_con_tipo": 0.5298140043763676
+   }
+  ],
+  "vacias_por_mes_base": 808.2,
+  "vacias_por_mes_fin": 28.857142857142858,
+  "atenciones_que_desaparecen_por_mes": 1817.6571428571428,
+  "conversion_sin_vacias_base": 0.2669464170432537,
+  "conversion_sin_vacias_fin": 0.5156491602239403
+ },
+ "embudo": {
+  "p0": 0.203912525161719,
+  "unidades": 56,
+  "unidades_con_atenciones": 56,
+  "fuera_95": 41,
+  "fuera_998": 29,
+  "z_998": 3.090232306167813,
+  "limites_binomiales": "solo diagnostico: con esta sobredispersion no sirven para señalar agencias",
+  "sobredispersion": 36.70735497552768,
+  "sobredispersion_winsorizada": 17.884830734954754,
+  "multiplicativo": {
+   "phi": 17.884830734954754,
+   "fuera_95": 7,
+   "fuera_998": 2,
+   "unidades_fuera_95": [
+    "IZP-9 Y 10",
+    "TLP-1",
+    "TLH-2",
+    "CUH-2",
+    "AZC-2 Y 4",
+    "CUH-7",
+    "TLH-1"
+   ],
+   "unidades_fuera_998": [
+    "IZP-9 Y 10",
+    "TLH-1"
+   ]
+  },
+  "aditivo": {
+   "tau": 0.05545293766528441,
+   "tau2": 0.003075028295709919,
+   "fuera_95": 8,
+   "fuera_998": 1,
+   "unidades_fuera_95": [
+    "IZP-9 Y 10",
+    "TLP-1",
+    "COY-5",
+    "CUH-2",
+    "AZC-2 Y 4",
+    "GAM-2",
+    "CUH-7",
+    "TLH-1"
+   ],
+   "unidades_fuera_998": [
+    "TLH-1"
+   ],
+   "tau_con_z_crudos": 0.07987536283858944,
+   "nota": "tau es una desviacion estandar entre unidades (en proporcion); tau_con_z_crudos es la formula anterior del reporte, que mezclaba z sin winsorizar"
+  },
+  "p10": 0.10706123145147536,
+  "p90": 0.31097258367124614,
+  "min": 0.03341103341103341,
+  "max": 0.38349514563106796,
+  "tabla": [
+   {
+    "unidad": "IZP-9 Y 10",
+    "n": 2574,
+    "conv": 0.03341103341103341,
+    "z": -21.469904241978714,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": true
+   },
+   {
+    "unidad": "TLP-1",
+    "n": 801,
+    "conv": 0.06491885143570537,
+    "z": -9.763576760254569,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "COY-5",
+    "n": 600,
+    "conv": 0.07333333333333333,
+    "z": -7.938660958544201,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-6",
+    "n": 369,
+    "conv": 0.0948509485094851,
+    "z": -5.199751728440664,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "TLH-2",
+    "n": 1694,
+    "conv": 0.1038961038961039,
+    "z": -10.217053485330217,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MIL-2",
+    "n": 451,
+    "conv": 0.10643015521064302,
+    "z": -5.1382118105261005,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-7 Y 8",
+    "n": 845,
+    "conv": 0.1076923076923077,
+    "z": -6.942123599219793,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-1",
+    "n": 1441,
+    "conv": 0.12838306731436502,
+    "z": -7.116165023945189,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MH-2",
+    "n": 426,
+    "conv": 0.13145539906103287,
+    "z": -3.711791364662296,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "COY-3",
+    "n": 235,
+    "conv": 0.14042553191489363,
+    "z": -2.415551735686558,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "XO-2",
+    "n": 2025,
+    "conv": 0.14716049382716048,
+    "z": -6.3385741881260165,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUJ-1 Y 2",
+    "n": 1544,
+    "conv": 0.1489637305699482,
+    "z": -5.358947110654844,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-3",
+    "n": 424,
+    "conv": 0.15330188679245282,
+    "z": -2.5865590441663837,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "TLP-4",
+    "n": 564,
+    "conv": 0.15780141843971632,
+    "z": -2.7179580601994795,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-4",
+    "n": 648,
+    "conv": 0.15895061728395063,
+    "z": -2.84072954045441,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-1 Y 4",
+    "n": 1079,
+    "conv": 0.15940685820203893,
+    "z": -3.628471273741677,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-5",
+    "n": 457,
+    "conv": 0.16192560175054704,
+    "z": -2.227767203085591,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MH-3",
+    "n": 134,
+    "conv": 0.16417910447761194,
+    "z": -1.1415790962886005,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-1",
+    "n": 323,
+    "conv": 0.16718266253869968,
+    "z": -1.6383935072793392,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MH-1",
+    "n": 1026,
+    "conv": 0.16861598440545808,
+    "z": -2.806102158528947,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-4",
+    "n": 1532,
+    "conv": 0.17297650130548303,
+    "z": -3.0053255924922495,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-8",
+    "n": 1156,
+    "conv": 0.17387543252595156,
+    "z": -2.5347461031860714,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-3",
+    "n": 507,
+    "conv": 0.1854043392504931,
+    "z": -1.0343451585876031,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-2",
+    "n": 714,
+    "conv": 0.18627450980392157,
+    "z": -1.169759215742146,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "BJ-3 Y 4",
+    "n": 958,
+    "conv": 0.1931106471816284,
+    "z": -0.8298119308584759,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "BJ-1 Y 2",
+    "n": 726,
+    "conv": 0.19696969696969696,
+    "z": -0.4643039535774981,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "AZC-1 Y 3",
+    "n": 694,
+    "conv": 0.1988472622478386,
+    "z": -0.33119165148457136,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "TLP-2 Y 3",
+    "n": 1679,
+    "conv": 0.2030970815961882,
+    "z": -0.08293100173508167,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "BJ-5",
+    "n": 378,
+    "conv": 0.20634920634920634,
+    "z": 0.11758238454099001,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "AO-1 Y 2",
+    "n": 2018,
+    "conv": 0.20812685827552033,
+    "z": 0.46988014557581115,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-6",
+    "n": 284,
+    "conv": 0.2147887323943662,
+    "z": 0.4549192317410287,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-5",
+    "n": 1159,
+    "conv": 0.22088006902502158,
+    "z": 1.4337002191989332,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "XO-1",
+    "n": 479,
+    "conv": 0.22129436325678498,
+    "z": 0.9441937256154733,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MC-2",
+    "n": 982,
+    "conv": 0.2230142566191446,
+    "z": 1.4856829256060535,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-7",
+    "n": 844,
+    "conv": 0.22985781990521326,
+    "z": 1.870800533673732,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MIL-1",
+    "n": 923,
+    "conv": 0.23510292524377033,
+    "z": 2.3519032331093697,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-6",
+    "n": 1297,
+    "conv": 0.23515805705474171,
+    "z": 2.792901139306976,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MH-4 Y 5",
+    "n": 963,
+    "conv": 0.24299065420560748,
+    "z": 3.0098479684388084,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZC-2 Y 3",
+    "n": 1351,
+    "conv": 0.24352331606217617,
+    "z": 3.613589715743618,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "AO-3 Y 4",
+    "n": 1500,
+    "conv": 0.25466666666666665,
+    "z": 4.878819700248898,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "VC-3",
+    "n": 930,
+    "conv": 0.25591397849462366,
+    "z": 3.9359956410631396,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZC-1",
+    "n": 508,
+    "conv": 0.25984251968503935,
+    "z": 3.128774663095871,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "VC-1",
+    "n": 481,
+    "conv": 0.2598752598752599,
+    "z": 3.04627509674788,
+    "fuera_998_binomial": false,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "COY-4",
+    "n": 1027,
+    "conv": 0.26777020447906524,
+    "z": 5.079208097864531,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "COY-1 Y 2",
+    "n": 887,
+    "conv": 0.2717023675310034,
+    "z": 5.010996357501922,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "MC-1",
+    "n": 1144,
+    "conv": 0.2718531468531469,
+    "z": 5.7034834001663715,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "IZP-5",
+    "n": 1179,
+    "conv": 0.28498727735368956,
+    "z": 6.909397611845217,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-3",
+    "n": 296,
+    "conv": 0.2939189189189189,
+    "z": 3.843411364801186,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-8",
+    "n": 596,
+    "conv": 0.2986577181208054,
+    "z": 5.740873371260258,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "VC-2",
+    "n": 533,
+    "conv": 0.3058161350844278,
+    "z": 5.839166065127267,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "VC-4 Y 5",
+    "n": 155,
+    "conv": 0.3161290322580645,
+    "z": 3.4675301720710365,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": false,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-2",
+    "n": 1120,
+    "conv": 0.3223214285714286,
+    "z": 9.83537727198494,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "AZC-2 Y 4",
+    "n": 1461,
+    "conv": 0.3264887063655031,
+    "z": 11.62863791807993,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "GAM-2",
+    "n": 703,
+    "conv": 0.3285917496443812,
+    "z": 8.204826613301924,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": false,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "CUH-7",
+    "n": 1315,
+    "conv": 0.3406844106463878,
+    "z": 12.309980457589834,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": false,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": false
+   },
+   {
+    "unidad": "TLH-1",
+    "n": 1030,
+    "conv": 0.38349514563106796,
+    "z": 14.304759807751518,
+    "fuera_998_binomial": true,
+    "fuera_95_aditivo": true,
+    "fuera_998_aditivo": true,
+    "fuera_95_multiplicativo": true,
+    "fuera_998_multiplicativo": true
+   }
+  ]
+ },
+ "riesgo": {
+  "meses con NO capturado": {
+   "con_dato_de_riesgo": 22127,
+   "riesgo_feminicida": 800,
+   "pct_riesgo": 3.6154923848691642,
+   "riesgo_sin_carpeta_pct": 40.625,
+   "sin_riesgo_sin_carpeta_pct": 50.911989496881894,
+   "alto_riesgo": 3134,
+   "alto_riesgo_sin_carpeta_pct": 40.87428206764518
+  },
+  "todos, suponiendo sin dato = no": {
+   "con_dato_de_riesgo": 54000,
+   "riesgo_feminicida": 2344,
+   "pct_riesgo": 4.340740740740741,
+   "riesgo_sin_carpeta_pct": 40.401023890784984,
+   "sin_riesgo_sin_carpeta_pct": 55.70311290072789,
+   "alto_riesgo": 6748,
+   "alto_riesgo_sin_carpeta_pct": 40.66390041493776
+  },
+  "por_anio_meses_validos": [
+   {
+    "anio": 2020,
+    "n": 170,
+    "sin_carpeta": 0.4529411764705882
+   },
+   {
+    "anio": 2021,
+    "n": 367,
+    "sin_carpeta": 0.37874659400544963
+   },
+   {
+    "anio": 2022,
+    "n": 263,
+    "sin_carpeta": 0.4144486692015209
+   }
+  ],
+  "intervalo_riesgo_sin_carpeta": {
+   "unidad": "atenciones (la base no identifica personas)",
+   "pct": 40.625,
+   "n": 800,
+   "agencias": 58,
+   "semiamplitud_binomial_pp": 3.403373211792971,
+   "semiamplitud_agrupada_agencia_pp": 6.339630981832786,
+   "efecto_de_diseno": 3.469834860430428,
+   "semiamplitud_agrupada_agencia_mes_pp": 4.7120590104301945,
+   "grupos_agencia_mes": 200,
+   "ic95_bootstrap_por_agencia_pct": [
+    35.008165829145725,
+    47.58429333421213
+   ],
+   "filas_con_perfil_repetido_en_misma_agencia_mes": 24
+  },
+  "diferencia_dentro_de_agencia": {
+   "sin_carpeta_con_riesgo_menos_sin_riesgo_pp": -17.430440214333405,
+   "cruda_pp": -10.286989496881894,
+   "agencias": 58,
+   "metodo": "Mantel-Haenszel de diferencia de riesgos por agencia"
+  },
+  "heterogeneidad_entre_agencias_con_riesgo": {
+   "agencias_con_20_o_mas": 12,
+   "phi": 4.0248501990278065,
+   "min_sin_carpeta": 0.17647058823529416,
+   "max_sin_carpeta": 0.6805555555555556
+  }
+ }
+}
