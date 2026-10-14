@@ -911,9 +911,6 @@ function actoEvaluabilidad(D) {
 
   const disenos = [
     ["real", "Como se hizo: 5 meses", E.composicion_observada.potencia],
-    ["12 meses", "Escalonado en 12 meses", E.pisos["12 meses"].potencia],
-    ["trimestral", "Cuatro grupos, cada 3 meses", E.pisos.trimestral.potencia],
-    ["espera", "Mitad y mitad, 12 meses", E.pisos.espera.potencia],
     ["estados", "Por estados, mitad y mitad", E.estados.potencia],
   ];
   const efectos = Object.keys(E.composicion_observada.potencia).map(Number).sort((a, b) => a - b);
@@ -921,9 +918,6 @@ function actoEvaluabilidad(D) {
   // elegido. Es la misma cifra que la curva de la derecha: potDe(pot, r), redondeada igual.
   const enFrase = {
     real: "el calendario real de 5 meses",
-    "12 meses": "la llegada escalonada en 12 meses",
-    trimestral: "cuatro grupos de llegada, uno cada 3 meses",
-    espera: "el calendario mitad y mitad de 12 meses",
     estados: "el calendario por estados, mitad y mitad",
   };
   let sel = "real";
@@ -956,17 +950,16 @@ function actoEvaluabilidad(D) {
       frase.innerHTML = `Con un aumento real de +${R}% y ${enFrase[sel]}, esta evaluación lo habría visto en
         <b class="si">${si} de cada 100</b> intentos. ` +
         (no === 0 ? "No lo habría pasado por alto en ninguno." : `En <b class="no">${no}</b> lo habría pasado por alto.`) +
-        (sel === "estados" ? " Aquí el aumento se aplica a todo el estado. No se compara directo con los otros calendarios (acto&nbsp;5)." : "");
+        (sel === "estados" ? " Aquí el aumento se aplica a todo el estado. No se compara directo con el calendario real (acto&nbsp;5)." : "");
       vara.textContent = si >= 80
         ? "Pasa la vara de 80 de cada 100 que se pide para confiar en una evaluación."
         : `Le faltan ${80 - si} para la vara de 80 de cada 100 que se pide para confiar en una evaluación.`;
       vara.className = `evals-vara ${si >= 80 ? "pasa" : "falta"}`;
     }
-    const enCiudad = disenos.filter(([k]) => k !== "estados");
-    const ok = enCiudad.filter(([, , pot]) => potDe(pot, r) >= 0.8).length;
-    document.getElementById("titulo-potencia").textContent = ok === 0
-      ? `Con un aumento de ${Math.round(r * 100)}%, ningún calendario dentro de la ciudad lo detecta 8 de cada 10 veces`
-      : `Con un aumento de ${Math.round(r * 100)}%, ${ok} de ${enCiudad.length} calendarios dentro de la ciudad lo detectan 8 de cada 10 veces`;
+    const ok = potDe(disenos[0][2], r) >= 0.8;
+    document.getElementById("titulo-potencia").textContent = ok
+      ? `Con un aumento de ${Math.round(r * 100)}%, el calendario real sí lo detecta 8 de cada 10 veces`
+      : `Con un aumento de ${Math.round(r * 100)}%, el calendario real no lo detecta 8 de cada 10 veces`;
     if (chPot) {
       chPot.options.plugins.marca = r;
       chPot.data.datasets.forEach((d, i) => { d.borderWidth = disenos[i][0] === sel ? 3.5 : 1.4; });

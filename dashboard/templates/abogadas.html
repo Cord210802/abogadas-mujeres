@@ -32,8 +32,6 @@
 {% set plac = dis.placebos_en_el_tiempo %}
 {% set p_estratos = inf.sensibilidad_estratos.values() | map(attribute="p") | list %}
 {% set p_ci = inf.sensibilidad_estratos.values() | map(attribute="p_colas_iguales") | list %}
-{% set alt = [ev.pisos["12 meses"], ev.pisos.trimestral, ev.pisos.espera] %}
-{% set alt_mde = alt | map(attribute="mde_interpolado") | list %}
 {% set ns = namespace(dc=none) %}
 {% for b in pr.descomposicion_bases %}{% if "despliegue completo" in b.base %}{% set ns.dc = b %}{% endif %}{% endfor %}
 {% set dc = ns.dc %}
@@ -641,8 +639,8 @@ ninguna hubiera existido sin ellas, el aumento no podría pasar de {{ sp(techo.e
 
 <div class="rejilla">
   <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">¿Lo resolvía otro calendario de llegada? Mueve el control para suponer un aumento y ver cuántas de cada 100
-evaluaciones lo habrían detectado con cada forma de desplegar el programa.</p>
+    <p class="tarjeta-contexto">Mueve el control para suponer un aumento y ver cuántas de cada 100 evaluaciones lo habrían detectado
+con el calendario real o con una expansión sorteada por estados.</p>
     <h3 id="titulo-potencia">Si el programa hubiera aumentado las carpetas</h3>
     <div class="potencia-control">
       <label class="etiqueta-campo" for="slider-efecto">Aumento supuesto: <span class="valor-anio" id="efecto-val">20%</span></label>
@@ -661,10 +659,9 @@ evaluaciones lo habrían detectado con cada forma de desplegar el programa.</p>
     </div>
     <div class="tarjeta-pie">Cada círculo es una evaluación simulada: se finge la llegada del programa sobre datos de años sin abogadas,
 se suma el aumento supuesto y se aplica el mismo método. La línea punteada de la gráfica marca 80 de cada 100,
-lo que se pide para confiar en una evaluación. Los cuatro primeros calendarios cuentan carpetas por agencia en
-la Ciudad de México. Ninguna forma de escalonar las agencias de la ciudad resuelve el problema por sí sola. El
-calendario por estados cuenta carpetas por estado con el censo de fiscalías del INEGI. El aumento se aplica a
-todo el estado, así que no se compara directamente con los otros (acto&nbsp;5).</div>
+lo que se pide para confiar en una evaluación. El calendario real cuenta carpetas por agencia en la Ciudad de México.
+El calendario por estados cuenta carpetas por estado con el censo de fiscalías del INEGI. El aumento se
+aplica a todo el estado, así que no se compara directamente con el real (acto&nbsp;5).</div>
   </div>
 
 </div>
@@ -678,8 +675,6 @@ todo el estado, así que no se compara directamente con los otros (acto&nbsp;5).
   Después conté en cuántas lo detecta. Un efecto de 10% se habría detectado
   {{ (real.potencia["0.1"] * 100)|round|int }} de cada 100 veces y uno de 20%,
   {{ (real.potencia["0.2"] * 100)|round|int }} de cada 100.</p>
-  <p>Otros calendarios quedan entre {{ p(alt_mde|min) }} y {{ p(alt_mde|max) }}. Reparten las unidades en orden
-  alfabético. Con ese mismo reparto el real da {{ p(ev.pisos.real.mde_interpolado) }}, así que ninguno lo mejora.</p>
   <p>El mínimo detectable describe el diseño, no la estimación. El {{ sp1(ev.efecto_estimado) }} sí supera el umbral de
   la prueba real del acto 2: en valor absoluto, {{ p1(inf.nula_abs_q95) }} o más solo aparece en 5 de cada
   100 sorteos.</p>
