@@ -95,7 +95,7 @@
     <div class="act">I · La pregunta</div>
     <aside class="notes">
         (40 s) La primera es la pregunta clásica de impacto. La segunda es mi aporte: calcular el efecto mínimo detectable del despliegue real.
-        En las dos evaluaciones comparables que pude consultar completas no encontré que lo reporten. No decir "ninguna evaluación lo reporta".
+        En la evaluación comparable que pude consultar completa, la de India, no encontré que lo reporten. No decir "ninguna evaluación lo reporta".
         Alcance: agencias territoriales, violencia familiar, marzo a mayo de 2019. Quedan fuera las fiscalías especializadas, la calidad de la atención y la violencia misma.
         El cliente: la Secretaría de las Mujeres del Gobierno de México y las instancias estatales.
     </aside>
@@ -298,7 +298,7 @@
                 <tr><td class="k">S3 · Registro parejo</td><td>Catálogo de delitos de 2019 y efecto de mes.</td><td>El catálogo no tocó violencia familiar. El efecto de mes absorbe lo que le pasa a toda la ciudad.</td></tr>
                 <tr><td class="k">S4 · Denuncias nuevas</td><td>Traslado entre agencias vecinas.</td><td>No se descarta. Contra las unidades sin vecina con abogadas, el efecto de marzo baja de +62.8% a +44.6%.</td></tr>
                 <tr><td class="k amber">S5 · Mismo ritmo</td><td>Tendencias previas y efecto por cohorte de llegada.</td><td>No se sostiene limpio. Lo muestro en la pregunta 1.</td></tr>
-                <tr><td class="k">S6 · Turno intercambiable</td><td>Repetir la prueba con otro número de grupos de tamaño.</td><td>Con uno, tres o nueve grupos el p sigue bajo 0.05.</td></tr>
+                <tr><td class="k">S6 · Turno intercambiable</td><td>Repetir la prueba con otro número de grupos de tamaño.</td><td>Con uno, tres o nueve grupos el p sigue bajo 0.05. Dentro de cada grupo las grandes siguen entrando antes, así que se cumple solo en parte.</td></tr>
             </table>
         </div>
         <div class="act">II · Cómo lo medí</div>
@@ -434,8 +434,8 @@
         </div>
         <div class="act">III · ¿Aumentaron las carpetas?</div>
         <aside class="notes">
-            Si preguntan por qué Poisson y no logaritmos: con conteos chicos y varianza que depende de la media, el logaritmo sesga (Santos Silva y Tenreyro 2006).
-            Si preguntan por qué permutación: no depende de la varianza Poisson, que es demasiado chica (2.43 veces). El valor p cuenta también el calendario observado (Phipson y Smyth).
+            Si preguntan por qué Poisson y no logaritmos: hay meses con cero carpetas y el logaritmo de cero no existe. Con conteos chicos el logaritmo además amplifica el ruido de las unidades chicas.
+            Si preguntan por qué permutación: no necesita suponer que la varianza es la de una Poisson. El valor p cuenta también el calendario observado: (102 + 1) / (5,000 + 1) = 0.021.
         </aside>
     </section>
 </section>
@@ -473,7 +473,7 @@
         (45 s) Leer las tres etiquetas de arriba. Cada barra cuenta cuántos repartos dieron ese efecto. La mayoría cae cerca de cero. Las barras claras son las colas, tan extremas como lo observado.
         Cómo leer el p: si el programa no tuviera efecto y las fechas se hubieran sorteado dentro de los grupos de tamaño, un resultado igual o más extremo saldría en 2.1% de los sorteos.
         NO es "la probabilidad de que sea azar".
-        Sorteo dentro de tres grupos de tamaño porque las agencias grandes entraron antes (correlación −0.37). Con uno, tres o nueve grupos el p va de 0.021 a 0.036.
+        Sorteo dentro de tres grupos de tamaño porque las agencias grandes entraron antes (correlación −0.37). Con uno, tres o nueve grupos el p sigue bajo 0.05.
     </aside>
 </section>
 
@@ -674,8 +674,7 @@
             Los intervalos son anchos, así que no afirman que hubiera tendencia previa (Roth 2022). Pero impiden descartarla.
             Qué son los porcentajes: para cada mes previo, cuántas carpetas de más abrieron las unidades por recibir abogadas contra lo que espera el modelo de efectos fijos. 0% es sin diferencia. Quité de la gráfica el +27.7% porque viene de otro modelo y confundía.
             H3 no se puede confirmar. S5 no se sostiene limpio.
-            La prueba de anticipación (sacar 1 o 2 meses previos del entrenamiento) mantiene el efecto en +38% y +52%. La anticipación o un error de fecha no explican la subida.
-            Nunca decir "la subida previa se debe a anticipación". Lo que no se puede descartar es que la cohorte de marzo ya viniera divergiendo de las demás desde noviembre de 2018.
+                        Nunca decir "la subida previa se debe a anticipación". Lo que no se puede descartar es que la cohorte de marzo ya viniera divergiendo de las demás desde noviembre de 2018.
         </aside>
     </section>
 </section>
@@ -854,9 +853,9 @@
         </div>
     <div class="act">IV · ¿Se podía saber?</div>
     <aside class="notes">
-        (40 s) El 69% sale de separar en logaritmos el cambio del numerador y del denominador. Sin las atenciones que no anotan tipo de violencia, la conversión va de 26.7% a 51.6%.
+        (40 s) El 69% sale de separar en logaritmos el cambio del numerador y del denominador. 
         El periodo final es septiembre de 2021 a marzo de 2022.
-        Entre agencias va de 3.3% a 38.3%. Difieren entre sí más de lo que explica su tamaño: la varianza es 36.7 veces la binomial.
+        Entre agencias va de 3.3% a 38.3%. Difieren entre sí más de lo que explica su tamaño.
         No las presento como atípicas ni de peor desempeño. Nunca decir "el embudo identifica agencias con peor desempeño".
         La unidad es la atención, no la mujer. "Sin carpeta" no significa "sin atención".
         Primer camino: el propio registro. Si no sirve, queda el diseño, que es lo siguiente. Versión corta si voy tarde: decirla en 20 segundos.
@@ -915,7 +914,7 @@
         Techo: en las celdas del efecto se abrieron 2,793 carpetas. 1,330 pasaron por una abogada (47.6%). Aunque ninguna de esas se hubiera abierto sin ella, quedan 1,463.
         El efecto no puede pasar de 2,793/1,463 − 1 = +91%. El +28% implica que 46% de las carpetas con abogada no habrían existido sin ella.
         El MDE describe el diseño, no califica la estimación. El +27.7% sí es significativo en la permutación (p 0.021).
-        Con potencia menor a 80%, un resultado significativo tiende a exagerar el efecto verdadero.
+        Si preguntan por qué es significativo si queda bajo el MDE: con un efecto verdadero de 27.7% la prueba lo detectaría cerca de 2 de cada 3 veces. Este caso cayó del lado que rechaza.
         Nunca decir "el estimado no se distingue del azar". Cuidado: el MDE es 32%, no 28%.
     </aside>
 </section>
@@ -951,7 +950,7 @@
             La razón es el ruido: sin programa una agencia cambia entre −46% y +64% de un año a otro.
             Si citan India (+29% en denuncias): un efecto así lo vería cerca de 71 de cada 100 veces.
             Por eso un resultado nulo tampoco habría probado que el programa no funciona.
-            Con 16 fechas ficticias el MDE va de 25% a 50%, mediana 31%.
+            
             Antes de la demo verificar que el deslizador marque 40 de 100 con 20%.
         </aside>
     </section>
@@ -1018,7 +1017,7 @@
             <div class="crow fragment rise">
                 <div class="cc what"><span class="card-num">3</span><div><p class="t">El conteo de cada agencia cambia mucho de un año a otro, aun sin programa</p><p class="fig">−46% a +64%</p></div></div>
                 <div class="cc caused"><p>Un efecto tenía que ser de 32% o más para verse con seguridad.</p></div>
-                <div class="cc fix"><span class="fixchip a">Ningún calendario solo</span><p>Más unidades sí podrían, con la recomendación 2.</p></div>
+                <div class="cc fix"><span class="fixchip a">Recomendación 2</span><p>Escalonar por agencia da más unidades y podría bajar el umbral, aunque no lo simulé.</p></div>
             </div>
             <div class="crow fragment rise">
                 <div class="cc what"><span class="card-num">4</span><div><p class="t">El registro perdió el "no"</p><p class="fig">13 meses</p></div></div>
@@ -1112,7 +1111,7 @@
         </div>
         <div class="act">V · Qué recomiendo</div>
         <aside class="notes">
-            Con los 27 estados de serie completa el MDE estatal es 14.4%. Las cifras de potencia suponen un efecto parejo entre estados.
+            Las cifras de potencia suponen un efecto parejo entre estados.
             Con la heterogeneidad que vi entre cohortes de llegada, el MDE del promedio probablemente sería mayor.
             Si preguntan "¿y si todos arrancaron en mayo de 2025?": entonces no hay estados sin programa. La recomendación 2 pasa a ser la principal.
         </aside>
@@ -1138,7 +1137,7 @@
             </div>
             <div class="step-row fragment rise">
                 <span class="step-badge">3</span>
-                <div class="step-content"><p class="bold">El deslizador de potencia</p><p>Elegir un efecto y ver con qué frecuencia lo detecta cada calendario.</p></div>
+                <div class="step-content"><p class="bold">El deslizador de potencia</p><p>Elegir un efecto y ver con qué frecuencia lo detecta el calendario real y un sorteo por estados.</p></div>
             </div>
             <div class="step-row fragment rise">
                 <span class="step-badge">4</span>
@@ -1166,7 +1165,7 @@
     <aside class="notes">
         (20 s) Repetir la tesis: +28% es un indicio positivo que no es concluyente. El diseño solo veía efectos de 32% o más.
         Lo que lo impidió se toma en cuenta antes de que arranque la expansión.
-        Preguntas probables y respuesta corta en thesis_audit/07_DEFENSE_QUESTIONS.md y TEORIA_Y_NUMEROS.md.
+        
     </aside>
 </section>
 

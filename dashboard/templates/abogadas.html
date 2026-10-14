@@ -188,7 +188,7 @@ que las abogadas aumentaran las carpetas, pero no alcanza para atribuírselo.</p
         marzo, el efecto queda en {{ sp1(c.robustez.sin_cohorte_de_marzo) }}.</li>
       <li><b>Las agencias de comparación también se movieron.</b> Las que todavía no tenían abogadas
         abrieron menos carpetas que un año antes: {{ sp(cc.por_mes[0].interanual_sin_programa) }} en marzo
-        y {{ sp(cc.por_mes[1].interanual_sin_programa) }} en abril. Una parte de la diferencia viene de esa caída.</li>
+        y {{ sp(cc.por_mes[1].interanual_sin_programa) }} en abril. Buena parte de la diferencia viene de esa caída.</li>
       <li><b>No se puede descartar que ya vinieran subiendo.</b> Una prueba aparte estima los tres meses
         previos a la llegada. Sus cifras crecen conforme se acerca la fecha:
         {{ sp(bjs.K3.adelantos_pct[2] / 100) }}, {{ sp(bjs.K3.adelantos_pct[1] / 100) }} y
@@ -289,7 +289,7 @@ el efecto de marzo baja de {{ sp(cc.marzo_por_vecindad.efecto_marzo_todos) }} a
       <aside class="kpi-tarjeta dato-lateral">
         <span class="etq">Unidades sin programa, marzo y abril de 2019</span>
         <div class="kpi">{{ sp(cc.por_mes[0].interanual_sin_programa) }} y {{ sp(cc.por_mes[1].interanual_sin_programa) }}</div>
-        <p>contra el año anterior. El {{ sp1(e.vf.efecto) }} mide cuánto más subieron unas que otras. Una parte
+        <p>contra el año anterior. El {{ sp1(e.vf.efecto) }} mide cuánto más subieron unas que otras. Buena parte
 viene de que las agencias sin abogadas cayeron. Si algunas denuncias se mudaron de una agencia vecina a
 otra con abogadas, el efecto estaría inflado. Los datos no permiten demostrarlo ni descartarlo.</p>
       </aside>
@@ -315,7 +315,7 @@ otra con abogadas, el efecto estaría inflado. Los datos no permiten demostrarlo
   <p>Si el programa no hubiera tenido efecto y las fechas se hubieran sorteado entre unidades de tamaño
   parecido, un resultado igual o más extremo aparecería con p = {{ d3(inf.permutacion_por_tamano.p) }}. Los
   rangos plausibles al 95% dependen de lo que se supone. Invirtiendo el sorteo van de
-  {{ sp(inf.inversion.ic95_valor_absoluto[0]) }} a {{ sp(inf.inversion.ic95_valor_absoluto[1]) }}.
+  {{ sp(inf.inversion.ic95_valor_absoluto[0]) }} a {{ sp(inf.inversion.ic95_valor_absoluto[1]) }}, suponiendo el mismo efecto en todas las unidades.
   Remuestreando unidades van de {{ sp1(inf.bootstrap.ic95[0]) }} a {{ sp(inf.bootstrap.ic95[1]) }}
   (bootstrap) o de {{ sp(inf.jackknife.ic95_t[0]) }} a {{ sp(inf.jackknife.ic95_t[1]) }} (jackknife).
   Estos dos tocan el cero.</p>

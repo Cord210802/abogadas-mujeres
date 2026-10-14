@@ -587,7 +587,8 @@ vinieran subiendo antes de recibir a sus abogadas.</p></div>
       agencia con abogadas en su alcaldía, el efecto de marzo baja de
       {{ sp1(cc.marzo_por_vecindad.efecto_marzo_todos) }} a
       {{ sp1(cc.marzo_por_vecindad.efecto_marzo_solo_controles_lejanos) }}. Baja, pero sigue grande. Esas
-      vecinas ya venían cayendo antes del lanzamiento.</p>
+      vecinas ya venían cayendo antes del lanzamiento. Puede ser traslado o un cambio propio de las
+      comparaciones. No lo puedo separar.</p>
     <p class="sup-veredicto"><i class="sello-punto no-confirma"></i>Entre agencias no se descarta</p>
   </div>
 
@@ -623,7 +624,7 @@ vinieran subiendo antes de recibir a sus abogadas.</p></div>
           meses y {{ d2(bjs.K6.p_chi2) }} con seis). Uno por uno crecen conforme se acerca la fecha:
           {{ sp(bjs.K3.adelantos_pct[2] / 100) }}, {{ sp(bjs.K3.adelantos_pct[1] / 100) }} y
           {{ sp(bjs.K3.adelantos_pct[0] / 100) }} en los meses −3, −2 y −1. El último supera al efecto
-          estimado, aunque viene de otro modelo. La subida previa viene de la cohorte de marzo. Los errores
+          estimado, aunque viene de otro modelo. La subida previa se concentra en la cohorte de marzo. Los errores
           son grandes, así que no afirman que hubiera tendencia previa. Tampoco permiten descartarla.</p>
         <p class="sup-veredicto"><i class="sello-punto no-confirma"></i>H3 no se puede confirmar. Es la limitación más seria</p>
         <p><a href="{{ url_for('abogadas') }}#acto2">Ver los meses previos en la evaluación</a></p>
@@ -640,7 +641,8 @@ vinieran subiendo antes de recibir a sus abogadas.</p></div>
           de tamaño, el turno no tuvo que ver con nada más que moviera las carpetas. De ahí sale la prueba de
           azar. Si el orden siguiera otro criterio, el valor p sería demasiado optimista.</p>
         <p class="sup-riesgo">Repetí la prueba con uno y con nueve grupos de tamaño. El p sigue por debajo de
-          0.05.</p>
+          0.05. Pero dentro de cada grupo las grandes siguen entrando antes, así que el turno solo es
+          intercambiable en parte.</p>
       </div>
       <div>
         <p>Para el mínimo detectable supongo además que los meses de {{ mes(sim.meses[0]) }} a
@@ -648,7 +650,7 @@ vinieran subiendo antes de recibir a sus abogadas.</p></div>
         <p class="sup-riesgo">Con la fecha principal el mínimo detectable es {{ p(real.mde_interpolado) }}, por encima del {{ sp1(e.vf.efecto) }}.</p>
       </div>
     </div>
-    <p class="sup-veredicto"><i class="sello-punto confirma"></i>El p resiste otras agrupaciones</p>
+    <p class="sup-veredicto"><i class="sello-punto no-confirma"></i>El p resiste otras agrupaciones. El supuesto se cumple solo en parte</p>
   </div>
 </div>
 

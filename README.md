@@ -26,8 +26,9 @@ o más.
 | `grafs/abogadas/` | Los resultados del análisis (`resultados.json` por paso). De aquí leen el reporte y el dashboard |
 | `data/` | Los tres archivos de entrada del análisis, ya listos para usarse |
 
-Ninguna cifra del reporte, del dashboard ni de la presentación se escribe a mano. Todas salen de los
-`resultados.json`, que produce el análisis con semillas fijas.
+Ninguna cifra del reporte ni del dashboard se escribe a mano. Todas salen de los `resultados.json`, que
+produce el análisis con semillas fijas. La presentación tiene sus cifras escritas en el HTML, copiadas de
+esos mismos archivos.
 
 ```
 scripts/abogadas/run.py  ->  grafs/abogadas/*/resultados.json  ->  reporte/reporte.qmd
