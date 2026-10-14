@@ -601,7 +601,7 @@ Queda la segunda pregunta: si el diseño podía distinguir del azar un efecto co
 
 ```{python}
 #| label: fig-potencia
-#| fig-cap: "Probabilidad de que la prueba del análisis detecte un efecto verdadero de cada tamaño, según el calendario de entrada. Las curvas azules simulan las agencias de la ciudad con un lanzamiento ficticio en marzo de 2018. La roja simula los estados sorteados en dos grupos, con el efecto medido sobre el total de cada estado. El punto sobre la línea de 80\\% marca el MDE de cada calendario. La curva \"como se hizo\" conserva cuántas unidades de cada tercil de tamaño entran en cada cohorte de llegada. Cada punto resume 2,000 simulaciones."
+#| fig-cap: "Potencia de la prueba según el tamaño del efecto y el calendario de entrada. Azul: agencias de la ciudad. Rojo: estados sorteados en dos grupos. El punto sobre la línea de 80\\% marca el MDE de cada calendario."
 disenos = [(PO, 'como se hizo', BLUE_DARK, '-'),
            (PI['12 meses'], '12 cohortes de llegada', BLUE, (0, (4, 1.6))),
            (PI['trimestral'], '4 grupos', BLUE_MID, (0, (5, 1.4, 1, 1.4))),
