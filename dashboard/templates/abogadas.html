@@ -205,8 +205,7 @@ que las abogadas aumentaran las carpetas, pero no alcanza para atribuírselo.</p
         {{ sp1(e.robos.efecto) }}, con un rango plausible que llega a lo más a {{ sp(e.robos.ic95[1]) }}.</li>
       <li><b>Un sorteo de fechas rara vez da un resultado así.</b> Si las fechas de llegada se sortearan
         entre agencias de tamaño parecido, un resultado así de extremo saldría en 1 de cada
-        {{ (1 / inf.permutacion_por_tamano.p)|round|int }} sorteos. Con otras variantes de la prueba sale
-        hasta en 1 de cada {{ (1 / p_ci|max)|round|int }}.</li>
+        {{ (1 / inf.permutacion_por_tamano.p)|round|int }} sorteos.</li>
       <li><b>El método no fabrica efectos de este tamaño.</b> Al fingir la llegada en {{ plac.vf.n }} fechas
         de años sin programa, {{ plac.vf.alcanzan_el_efecto }} llegan al {{ sp1(e.vf.efecto) }}.</li>
       <li><b>No depende de una sola unidad.</b> Al quitar una a la vez, el efecto va de
@@ -245,8 +244,8 @@ Valor p = ({{ pt.b }} + 1) / ({{ n(pt.n) }} + 1) = {{ d3(pt.p) }}.</div>
     <p class="sub-h3">Se proyecta la tendencia y la estacionalidad de 2016 a febrero de 2019 hacia adelante. Es la comparación que suele presentarse en informes oficiales.</p>
     <div class="lienzo"><canvas id="ch-ciudad"></canvas></div>
     <div class="tarjeta-pie">Carpetas de violencia familiar al mes en las agencias territoriales, contra lo que predecía su tendencia
-      de 2016 a febrero de 2019. Parece un éxito, pero no permite atribuirlo: ese año cambió el gobierno, la
-      Procuraduría se volvió Fiscalía y hubo grandes movilizaciones feministas. Sin agencias que esperaran su
+      de 2016 a febrero de 2019. Parece un éxito, pero no permite atribuirlo. En diciembre de 2018 cambió el gobierno de la ciudad, en 2019
+      hubo grandes movilizaciones feministas y en enero de 2020 la Procuraduría se volvió Fiscalía. Sin agencias que esperaran su
       turno, no hay forma de separar una cosa de la otra. Que se parezca al {{ sp1(e.vf.efecto) }} no confirma nada.</div>
   </div>
 </div>
@@ -316,8 +315,7 @@ otra con abogadas, el efecto estaría inflado. Los datos no permiten demostrarlo
   (p = {{ d2(bjs.K3.p_chi2) }} con tres meses, {{ d2(bjs.K6.p_chi2) }} con seis). Uno por uno crecen
   conforme se acerca la fecha. El del mes −1 es mayor que el efecto estimado, aunque viene de otro modelo.</p>
   <p>Si el programa no hubiera tenido efecto y las fechas se hubieran sorteado entre unidades de tamaño
-  parecido, un resultado igual o más extremo aparecería con p = {{ d3(inf.permutacion_por_tamano.p) }}
-  (de {{ d3(p_estratos|min) }} a {{ d3(p_estratos|max) }} según cuántos grupos de tamaño se usen). Los
+  parecido, un resultado igual o más extremo aparecería con p = {{ d3(inf.permutacion_por_tamano.p) }}. Los
   rangos plausibles al 95% dependen de lo que se supone. Invirtiendo el sorteo van de
   {{ sp(inf.inversion.ic95_valor_absoluto[0]) }} a {{ sp(inf.inversion.ic95_valor_absoluto[1]) }}.
   Remuestreando unidades van de {{ sp1(inf.bootstrap.ic95[0]) }} a {{ sp(inf.bootstrap.ic95[1]) }}
@@ -331,8 +329,6 @@ otra con abogadas, el efecto estaría inflado. Los datos no permiten demostrarlo
     <div class="segmentado" id="sel-delito">
       <button data-k="vf" class="activo">Violencia familiar</button>
       <button data-k="robos">Robos</button>
-      <button data-k="amenazas">Amenazas</button>
-      <button data-k="sexuales">Delitos sexuales</button>
     </div>
     <div class="lienzo"><canvas id="ch-evento"></canvas></div>
     <div class="tarjeta-pie" id="pie-evento"></div>
@@ -355,9 +351,7 @@ las fechas muchas veces y comparé.</p>
       <span class="etq">Si el programa no hubiera hecho nada</span>
       <div class="kpi">1 de cada {{ (1 / inf.permutacion_por_tamano.p)|round|int }}</div>
       <p>sorteos de fechas producirían un efecto igual o más extremo. Supone que, sin programa, cualquier reparto
-de fechas dentro de cada grupo de tamaño era igual de probable. Con otro número de grupos va de 1 de cada
-{{ (1 / p_estratos|max)|round|int }} a 1 de cada {{ (1 / p_estratos|min)|round|int }}. Si se miden las dos
-colas por separado en lugar del valor absoluto, el p sube hasta {{ d3(p_ci|max) }} y deja de ser poco común.</p>
+de fechas dentro de cada grupo de tamaño era igual de probable. Con uno o nueve grupos sigue siendo poco común.</p>
       </aside>
     </div>
   </div>
@@ -459,8 +453,7 @@ efecto cambia mucho. No es un error de cálculo. Es una diferencia de supuestos.
         <p class="pelt-veredicto" id="pelt-regla-texto"></p>
       </div>
     </div>
-    <div class="tarjeta-pie">Cómo se hizo: el detector es el método de puntos de cambio PELT (Killick, Fearnhead
-      y Eckley, 2012), aplicado a la serie mensual de cada unidad de enero de 2017 a febrero de 2020. Con el
+    <div class="tarjeta-pie">Cómo se hizo: el detector es el método de puntos de cambio PELT, aplicado a la serie mensual de cada unidad de enero de 2017 a febrero de 2020. Con el
       criterio elegido, en series simuladas estables marca escalones falsos en {{ pp(fpe.iid[kfp] * 100) }} de cada 100 series. En series con
       una tendencia suave, en {{ pp(fpe.tendencia_8pct_anual[kfp] * 100) }} de cada 100. Si
       {# 28% fijo: lo dice el nombre de la llave choque_comun_28_marzo_2019 #}
@@ -485,12 +478,7 @@ efecto cambia mucho. No es un error de cálculo. Es una diferencia de supuestos.
           {{ qv.unidades_con_quiebre_en_llegada }} a {{ k5 }}. Si todas las fechas se corren un mes antes, el detector
           cuenta {{ ptem["-1"].unidades }} unidades, tantas como con las fechas reales (p = {{ d3(ptem["-1"].p) }},
           contra {{ d3(qv.p) }}). Los escalones se concentran alrededor de la llegada, sin que el mes exacto se
-          distinga del anterior.<br><br>
-          Además, {{ mag.mayores_a_100pct }} de los {{ mag.n }} escalones contados son de más del doble (mediana
-          {{ sp(mag.mediana) }}). Se parecen más a reorganizaciones administrativas que a un efecto de
-          {{ sp1(e.vf.efecto) }}. Contando solo escalones de hasta +100%, se observan
-          {{ mag.acotado.hasta_100pct.unidades }} contra {{ "%.0f"|format(mag.acotado.hasta_100pct.esperado) }}
-          esperados (p = {{ d2(mag.acotado.hasta_100pct.p) }}).</div>
+          distinga del anterior.</div>
       </div>
       <aside class="kpi-tarjeta dato-lateral">
         <span class="etq">Ajustado por las {{ wy.especificaciones }} variantes probadas</span>
@@ -554,14 +542,9 @@ si hay riesgo de que la mujer sea asesinada.</p>
       <div class="paso-barra-fila"><span class="paso-etq">Con riesgo de feminicidio</span>
         <div class="paso-barra"><span style="width: {{ riesgo.riesgo_sin_carpeta_pct }}%; background: var(--dato-prog)"></span></div>
         <span class="paso-val">{{ "%.0f"|format(riesgo.riesgo_sin_carpeta_pct) }}</span></div>
-      <div class="paso-barra-fila"><span class="paso-etq">Sin ese riesgo</span>
-        <div class="paso-barra"><span style="width: {{ riesgo.sin_riesgo_sin_carpeta_pct }}%; background: var(--dato-ref)"></span></div>
-        <span class="paso-val">{{ "%.0f"|format(riesgo.sin_riesgo_sin_carpeta_pct) }}</span></div>
     </div>
-    <div class="tarjeta-pie">Los casos de mayor peligro sí terminan más seguido en carpeta. Comparando dentro de cada agencia, la
-      diferencia con el resto es de {{ pp(-dif.sin_carpeta_con_riesgo_menos_sin_riesgo_pp) }} puntos. Aun así,
-      {{ pp(ir.pct) }} de cada 100 atenciones con riesgo terminan sin carpeta (rango plausible de
-      {{ pp(ir.ic95_bootstrap_por_agencia_pct[0]) }} a {{ pp(ir.ic95_bootstrap_por_agencia_pct[1]) }}). Entre las
+    <div class="tarjeta-pie">Comparando dentro de cada agencia, los casos de mayor peligro sí terminan más seguido en carpeta. Aun así,
+      {{ pp(ir.pct) }} de cada 100 atenciones con riesgo terminan sin carpeta. Entre las
       {{ het.agencias_con_20_o_mas }} agencias con al menos 20 de esas atenciones, la proporción va de
       {{ pp(het.min_sin_carpeta * 100) }} a {{ pp(het.max_sin_carpeta * 100) }} de cada 100. La base cuenta
       atenciones, no personas. Tampoco dice por qué no se abrió la carpeta, que pudo ser decisión de la mujer.
@@ -610,18 +593,11 @@ si hay riesgo de que la mujer sea asesinada.</p>
     <p class="tarjeta-contexto">Si la conversión no mide qué tan bien trabajan las abogadas, ¿de qué depende
 que una atención termine en carpeta? Debería depender del caso. También depende de la agencia.</p>
     <h3>La conversión va de {{ p(emb.min) }} a {{ p(emb.max) }} según la agencia, más de lo que explica su tamaño</h3>
-    <p class="sub-h3">Cada punto es una agencia. Las líneas marcan el rango esperado al 95% (guiones) y al 99.8% (puntos) si las agencias solo difirieran en la medida habitual entre ellas. Con anillo blanco, las que salen del 95%.</p>
+    <p class="sub-h3">Cada punto es una agencia. Las líneas marcan el rango que se esperaría por su número de atenciones. Con anillo blanco, las que salen de él.</p>
     <div class="lienzo"><canvas id="ch-embudo"></canvas></div>
     <div class="tarjeta-pie">Cómo se hizo: se calculó la conversión de cada agencia con al menos 100 atenciones
-(marzo de 2019 a marzo de 2020) y se comparó con el promedio de {{ p(emb.p0) }}. Las agencias difieren mucho
-más de lo que produciría el azar: la varianza es unas {{ pp(emb.sobredispersion) }} veces la esperada. Con
-límites que no lo toman en cuenta, {{ emb.fuera_998 }} agencias quedarían fuera del 99.8%. Por eso los límites
-incluyen una variación habitual entre agencias de {{ "%.1f"|format(emb.aditivo.tau * 100) }} puntos (ajuste
-de Spiegelhalter). Con ellos, {{ emb.aditivo.fuera_95 }} de {{ emb.unidades }} agencias quedan fuera del 95%
-y {{ emb.aditivo.fuera_998 }} fuera del 99.8%. Con el ajuste multiplicativo son {{ emb.multiplicativo.fuera_95 }}
-y {{ emb.multiplicativo.fuera_998 }}. Por azar este procedimiento deja fuera casi el mismo número de agencias.
-Por eso el embudo no señala agencias atípicas. Lo que muestra es que las agencias convierten distinto, más
-de lo que explica su tamaño. Al pasar el cursor se identifica cada agencia.</div>
+(marzo de 2019 a marzo de 2020) y se comparó con lo que se esperaría por su número de atenciones. Las
+diferencias siguen siendo mayores de lo que explica su tamaño. Al pasar el cursor se identifica cada agencia.</div>
   </div>
   </div>
 </details>
@@ -648,20 +624,17 @@ límites: el piso que el diseño alcanza a ver y el techo que permite el registr
         <div class="z bajo" style="width: {{ real.mde_interpolado * 100 }}%"><span>se ve menos de 8 de cada 10 veces</span></div>
         <div class="z medio" style="left: {{ real.mde_interpolado * 100 }}%; width: {{ ([techo.efecto_maximo, 1]|min - real.mde_interpolado) * 100 }}%"><span>se ve 8 de cada 10 veces o más</span></div>
         <div class="z fuera" style="left: {{ [techo.efecto_maximo, 1]|min * 100 }}%" title="No cabe en el registro: más que el techo lógico"></div>
-        <div class="rango" style="left: {{ vent.minimo * 100 }}%; width: {{ (vent.maximo - vent.minimo) * 100 }}%" title="Mínimo detectable según la fecha ficticia"></div>
       </div>
       <div class="m estimado" style="left: {{ ev.efecto_estimado * 100 }}%"><b>estimado {{ sp1(ev.efecto_estimado) }}</b></div>
       <div class="m piso" style="left: {{ real.mde_interpolado * 100 }}%"><b>mínimo detectable {{ p(real.mde_interpolado) }}</b></div>
       <div class="m techo" style="left: {{ [techo.efecto_maximo * 100, 100]|min }}%"><b>techo {{ sp(techo.efecto_maximo) }}</b></div>
       <div class="regla-eje"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
     </div>
-    <p class="regla2-nota"><i class="clave-rango"></i>el mínimo detectable según la fecha ficticia: de {{ p(vent.minimo) }} a {{ p(vent.maximo) }}</p>
     <div class="tarjeta-pie"><b>Techo.</b> En esos meses, {{ n(techo.carpetas_programa_vf) }} de las {{ n(techo.carpetas_vf) }} carpetas de
 violencia familiar pasaron por una abogada ({{ p1(techo.parte_de_carpetas_vf_con_abogada) }}). Aunque
 ninguna hubiera existido sin ellas, el aumento no podría pasar de {{ sp(techo.efecto_maximo) }}.
 <b>Mínimo detectable.</b> Es el aumento más chico que este despliegue detecta 8 de cada 10 veces:
-{{ p(real.mde_interpolado) }}. La franja muestra cómo cambia según el año que se use de base, de
-{{ p(vent.minimo) }} a {{ p(vent.maximo) }}.</div>
+{{ p(real.mde_interpolado) }}.</div>
   </div>
 
 </div>
@@ -705,20 +678,11 @@ todo el estado, así que no se compara directamente con los otros (acto&nbsp;5).
   Después conté en cuántas lo detecta. Un efecto de 10% se habría detectado
   {{ (real.potencia["0.1"] * 100)|round|int }} de cada 100 veces y uno de 20%,
   {{ (real.potencia["0.2"] * 100)|round|int }} de cada 100.</p>
-  <p>Como la respuesta depende del periodo base, repetí la simulación con {{ vent.ventanas }} fechas
-  ficticias de llegada, de septiembre de 2017 a diciembre de 2018. El mínimo detectable va de {{ p(vent.minimo) }} a
-  {{ p(vent.maximo) }} (mediana {{ p(vent.mediana) }}). Con la fecha principal es
-  {{ p(real.mde_interpolado) }} (intervalo de simulación {{ p1(real.mde_interpolado_ic_mc[0]) }} a
-  {{ p1(real.mde_interpolado_ic_mc[1]) }}).</p>
-  <p>Otros calendarios quedan entre {{ p(alt_mde|min) }} y {{ p(alt_mde|max) }}. Con la mediana de las
-  fechas, el escalonado en 12 meses queda en {{ p(ev.pisos["12 meses"].ventanas.mediana) }}, el trimestral
-  en {{ p(ev.pisos.trimestral.ventanas.mediana) }} y el real en {{ p(vent.mediana) }}. Ninguno domina
-  claramente. Los calendarios alternos reparten las unidades en orden alfabético. Con ese mismo reparto,
-  el real da {{ p(ev.pisos.real.mde_interpolado) }}.</p>
+  <p>Otros calendarios quedan entre {{ p(alt_mde|min) }} y {{ p(alt_mde|max) }}. Reparten las unidades en orden
+  alfabético. Con ese mismo reparto el real da {{ p(ev.pisos.real.mde_interpolado) }}, así que ninguno lo mejora.</p>
   <p>El mínimo detectable describe el diseño, no la estimación. El {{ sp1(ev.efecto_estimado) }} sí supera el umbral de
   la prueba real del acto 2: en valor absoluto, {{ p1(inf.nula_abs_q95) }} o más solo aparece en 5 de cada
-  100 sorteos. Pero con esta potencia, las estimaciones que resultan significativas tienden a exagerar el
-  efecto real.</p>
+  100 sorteos.</p>
 
   {% set nsd = namespace(k=0) %}
   {% for u in ev.deriva.por_unidad %}{% if u.cambio > real.mde_interpolado or u.cambio < -real.mde_interpolado %}{% set nsd.k = nsd.k + 1 %}{% endif %}{% endfor %}

@@ -2,10 +2,13 @@
 // Los números llegan resueltos desde el servidor (bloque JSON en la plantilla). Aquí solo se
 // dibuja la celda de ejemplo y se maneja el índice: no se calcula nada.
 
-const AZUL = "#3E6BE6";
-const AZUL_CLARO = "#8FB0FF";
-const ROJO = "#F25555";
-const TINTA = "#F4F4F4";
+// Misma paleta que /abogadas, leída de los tokens del CSS: verde = observado con programa,
+// pizarra = esperado sin programa. Ningún color decorativo.
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const PROG = css("--dato-prog");
+const REF = css("--dato-ref");
+const REF_CLARO = css("--dato-ref-claro");
+const TINTA_MEDIA = css("--tinta-media") || "#C6C6C6";
 
 Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
 Chart.defaults.font.size = 13;
@@ -22,7 +25,7 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 const fmtMes = (m) => `${MESES[+m.slice(5, 7) - 1]} ${m.slice(0, 4)}`;
 
 // Línea vertical punteada con etiqueta, igual que en la página de la evaluación.
-function lineaVertical(etiquetas, valor, texto, color = ROJO) {
+function lineaVertical(etiquetas, valor, texto, color = TINTA_MEDIA) {
   return {
     id: `v-${Math.random().toString(36).slice(2)}`,
     afterDatasetsDraw(chart) {
@@ -59,12 +62,12 @@ function celdaDeEjemplo(ej) {
     data: {
       labels: etq,
       datasets: [
-        { label: "Esperado sin programa (contrafactual)", data: ej.serie.map((d) => d.contrafactual),
-          borderColor: AZUL_CLARO, borderDash: [4, 4], borderWidth: 1.8, pointRadius: 0 },
+        { label: "Esperado sin programa", data: ej.serie.map((d) => d.contrafactual),
+          borderColor: REF_CLARO, borderDash: [4, 4], borderWidth: 1.8, pointRadius: 0 },
         { label: "Observado", data: ej.serie.map((d) => d.observado),
-          borderColor: TINTA, borderWidth: 2.4, tension: 0.2,
-          pointRadius: (ctx) => (ej.serie[ctx.dataIndex].programa ? 4 : 2.5),
-          pointBackgroundColor: (ctx) => (ej.serie[ctx.dataIndex].programa ? ROJO : AZUL) },
+          borderColor: PROG, borderWidth: 2.4, tension: 0.2,
+          pointRadius: (ctx) => (ej.serie[ctx.dataIndex].programa ? 4.5 : 2.5),
+          pointBackgroundColor: (ctx) => (ej.serie[ctx.dataIndex].programa ? PROG : REF) },
       ],
     },
     plugins: [lineaVertical(etq, ej.entrada, "llegan las abogadas")],
@@ -95,7 +98,7 @@ function indice() {
   }, { rootMargin: "0px 0px -70% 0px" });
   botones.forEach((b) => obs.observe(document.getElementById(b.dataset.ir)));
 
-  const piezas = document.querySelectorAll(".tarjeta, .acto-veredicto, .puente");
+  const piezas = document.querySelectorAll(".tarjeta, .acto-marco, .cierre-met");
   const rev = new IntersectionObserver((ents) => ents.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("visible"); rev.unobserve(e.target); }
   }), { threshold: 0.08 });

@@ -810,7 +810,8 @@ p.formula.bloque {
 .etq-mundo { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-suave); }
 .caja-mundo .cond { margin: 4px 0 8px; font-size: 14px; color: var(--tinta-media); }
 .cifra-mundo { font-size: 46px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: var(--tinta); }
-.cifra-mundo.interrogante { color: var(--rojo); }
+.cifra-mundo.obs { color: var(--dato-prog); }
+.cifra-mundo.interrogante { color: var(--dato-ref-claro); }
 .unidad-mundo { font-size: 13px; color: var(--tinta-suave); }
 .vs { align-self: center; font-size: 14px; color: var(--tinta-suave); font-style: italic; }
 
@@ -824,11 +825,11 @@ p.formula.bloque {
   padding: 9px 6px; border-radius: 8px; text-align: center; font-size: 11.5px;
   border: 1px solid var(--borde); background: var(--fondo-suave); color: var(--tinta-suave);
 }
-.lt-celda.control { border-color: rgba(62, 107, 230, .45); color: var(--azul-claro); background: rgba(62, 107, 230, .12); }
-.lt-celda.tratada { border-color: rgba(242, 85, 85, .45); color: var(--rojo); background: var(--rojo-fondo); }
+.lt-celda.control { border-color: var(--dato-ref); color: var(--dato-ref-claro); background: var(--dato-ref-fondo); }
+.lt-celda.tratada { border-color: rgba(92, 196, 110, .45); color: var(--dato-prog); background: var(--dato-prog-fondo); }
 .lt-total { margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--borde); }
 .lt-celda.conteo { font-size: 16px; font-weight: 700; color: var(--tinta); background: transparent; border-color: var(--borde-fuerte); }
-.lt-celda.conteo.insuficiente { color: var(--rojo); border-color: rgba(242, 85, 85, .45); }
+.lt-celda.conteo.insuficiente { color: var(--dato-cautela); border-color: rgba(245, 165, 36, .5); }
 
 /* 3. tendencias paralelas */
 .paralelas { display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: center; }
@@ -837,19 +838,19 @@ p.formula.bloque {
 .par-etq { font-size: 14px; color: var(--tinta-media); }
 .par-antes, .par-despues { font-size: 26px; font-weight: 700; text-align: center; }
 .par-antes { color: var(--tinta-suave); }
-.par-despues { color: var(--azul-claro); }
+.par-despues { color: var(--dato-ref-claro); }
 .par-flecha { font-size: 13px; color: var(--tinta-suave); font-family: var(--mono); }
 
 /* 4. las dos vías de comparación */
 .dos-vias { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; }
 .via { padding: 18px 20px 6px; border-radius: 12px; border: 1px solid var(--borde);
   background: var(--fondo-suave); border-top-width: 3px; }
-.via.mala { border-top-color: var(--rojo); }
-.via.buena { border-top-color: var(--verde); }
+.via.mala { border-top-color: var(--dato-cautela); }
+.via.buena { border-top-color: var(--tinta-media); }
 .via-etq { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
   text-transform: uppercase; margin-bottom: 16px; }
-.via.mala .via-etq { color: var(--rojo); }
-.via.buena .via-etq { color: var(--verde); }
+.via.mala .via-etq { color: var(--dato-cautela); }
+.via.buena .via-etq { color: var(--tinta); }
 .via-texto { margin: 16px 0 12px; font-size: 14.5px; color: var(--tinta-media); line-height: 1.5; }
 .mini-lt { display: flex; flex-direction: column; gap: 8px; }
 .mini-fila { display: grid; grid-template-columns: 116px repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; }
@@ -857,14 +858,15 @@ p.formula.bloque {
 .mini-etq i { display: block; font-style: normal; font-size: 11px; color: var(--tinta-suave); }
 .mini-celda { padding: 8px 4px; border-radius: 7px; text-align: center; font-size: 12px;
   border: 1px solid transparent; }
-.mini-celda.control { background: rgba(62, 107, 230, .14); color: var(--azul-claro); }
-.mini-celda.tratada { background: var(--rojo-fondo); color: var(--rojo); }
+.mini-celda.control { background: var(--dato-ref-fondo); color: var(--dato-ref-claro); }
+.mini-celda.tratada { background: var(--dato-prog-fondo); color: var(--dato-prog); }
 .mini-celda.usada { border-color: currentColor; font-weight: 700; }
 .leyenda-mini { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; font-size: 13px; color: var(--tinta-suave); }
 .leyenda-mini span { display: inline-flex; align-items: center; gap: 7px; }
 .lm { width: 14px; height: 14px; border-radius: 4px; border: 1px solid transparent; }
-.lm.control { background: rgba(62, 107, 230, .14); }
-.lm.tratada { background: var(--rojo-fondo); }
+.lm.control { background: var(--dato-ref-fondo); border-color: var(--dato-ref); }
+.lm.tratada { background: var(--dato-prog-fondo); border-color: rgba(92, 196, 110, .45); }
+.lm.insuficiente { border-color: var(--dato-cautela); }
 .lm.usada { border-color: var(--tinta-media); }
 
 /* 4. los tres pasos del estimador */
@@ -881,7 +883,7 @@ p.formula.bloque {
 .formula-visual { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
   padding: 20px 12px; border-radius: 12px; background: var(--fondo-suave); border: 1px solid var(--borde); }
 .fv-parte { text-align: center; font-size: 15px; font-weight: 700; color: var(--tinta); line-height: 1.35; }
-.fv-parte.azul { color: var(--azul-claro); }
+.fv-parte.azul { color: var(--dato-ref-claro); }
 .fv-parte i { font-weight: 400; font-style: normal; font-size: 13px; color: var(--tinta-suave); }
 .fv-op { font-size: 22px; color: var(--tinta-suave); font-family: var(--mono); }
 .ejemplo-caja { margin-top: 16px; padding: 16px 18px; border-radius: 12px; border: 1px dashed var(--borde-fuerte); }
@@ -909,14 +911,14 @@ p.formula.bloque {
 .ciclo-paso { display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: center;
   padding: 12px 16px; border-radius: 10px; background: var(--fondo-suave); border: 1px solid var(--borde);
   font-size: 15px; color: var(--tinta-media); }
-.ciclo-paso.azul { border-color: rgba(62, 107, 230, .35); }
+.ciclo-paso.azul { border-color: var(--dato-ref); }
 .ciclo-paso.fin { border-color: rgba(92, 196, 110, .35); }
 .cp-n { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center;
   font-family: var(--mono); font-size: 13px; background: var(--fondo-hover); color: var(--tinta-suave); }
-.ciclo-paso.azul .cp-n { color: var(--azul-claro); }
+.ciclo-paso.azul .cp-n { color: var(--dato-ref-claro); }
 .ciclo-paso.fin .cp-n { color: var(--verde); }
 .ciclo-flecha { text-align: center; font-size: 14px; color: var(--tinta-suave); }
-.ciclo-vuelta { color: var(--azul-claro); font-size: 13px; }
+.ciclo-vuelta { color: var(--dato-ref-claro); font-size: 13px; }
 
 /* 7. la celda de ejemplo: gráfica ancha con la cuenta al lado */
 .celda-ejemplo { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: stretch; }
@@ -927,10 +929,10 @@ p.formula.bloque {
 .cc-etq { font-size: 14px; color: var(--tinta-media); }
 .cc-etq i { display: block; font-style: normal; font-size: 12px; color: var(--tinta-suave); }
 .cc-val { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
-.cc-val.obs { color: var(--tinta); }
-.cc-val.cf { color: var(--azul-claro); }
+.cc-val.obs { color: var(--dato-prog); }
+.cc-val.cf { color: var(--dato-ref-claro); }
 .cc-fila.cc-resultado { border-bottom: 0; }
-.cc-val.res { font-size: 36px; color: var(--rojo); }
+.cc-val.res { font-size: 36px; color: var(--dato-prog); }
 .cc-aviso { margin: 10px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--fondo-suave);
   font-size: 13.5px; color: var(--tinta-suave); line-height: 1.5; }
 
@@ -965,22 +967,39 @@ p.formula.bloque {
 .bf-barra { background: var(--fondo-suave); border-radius: 8px; overflow: hidden; }
 .bf-relleno { display: flex; align-items: center; justify-content: flex-end; height: 46px; padding-right: 14px;
   border-radius: 8px; font-weight: 700; font-size: 18px; transition: width .8s ease; }
-.bf-relleno.obs { background: rgba(242, 85, 85, .28); color: var(--rojo); }
-.bf-relleno.cf { background: rgba(62, 107, 230, .28); color: var(--azul-claro); }
+.bf-relleno.obs { background: rgba(92, 196, 110, .26); color: var(--dato-prog); }
+.bf-relleno.cf { background: rgba(125, 147, 178, .3); color: var(--dato-ref-claro); }
 .bf-resultado { display: flex; align-items: baseline; justify-content: flex-end; gap: 14px;
   padding-top: 14px; border-top: 1px solid var(--borde); }
 .bf-cuenta { font-family: var(--mono); font-size: 15px; color: var(--tinta-suave); }
-.bf-valor { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; color: var(--rojo); }
+.bf-valor { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; color: var(--dato-prog); }
 
 /* 8. supuestos */
-.tarjeta.supuesto { border-top: 2px solid var(--ambar); }
+.tarjeta.supuesto { border-top: 2px solid var(--borde-fuerte); }
 .sup-etq { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--ambar); margin-bottom: 10px; }
+  color: var(--tinta-suave); margin-bottom: 10px; }
 .tarjeta.supuesto h3 { margin-bottom: 12px; }
 .tarjeta.supuesto p { margin: 0 0 10px; color: var(--tinta-media); font-size: 15px; }
 .sup-riesgo { padding: 12px 14px; border-radius: 10px; background: var(--fondo-suave); font-size: 14px !important; }
 .sup-riesgo strong { color: var(--tinta); }
 .sutva { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.sup-etq.ref { color: var(--dato-ref-claro); display: block; }
+.sup-veredicto { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0 !important;
+  font-size: 14.5px !important; font-weight: 600; color: var(--tinta) !important; }
+.sup-veredicto .sello-punto { margin-left: 0; flex: none; }
+.tarjeta.supuesto .paralelas { margin: 4px 0 14px; }
+.metrica dd.obs { color: var(--dato-prog); }
+.metrica dd.esp { color: var(--dato-ref-claro); }
+.tabla-intervalos { font-size: 14.5px; }
+.tabla-intervalos td { vertical-align: top; color: var(--tinta-media); }
+.tabla-intervalos td b { color: var(--tinta); font-weight: 600; }
+.tabla-intervalos td.rango { white-space: nowrap; color: var(--tinta); }
+.tabla-intervalos td.rango.cero { color: var(--dato-cautela); }
+.tiles-met { margin: 22px 0 18px; }
+.cierre-met { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  margin: 36px 0 8px; padding: 22px 26px; border: 1px solid var(--borde); border-radius: var(--radio); background: var(--fondo-tarjeta); }
+.cierre-met p { margin: 0; flex: 1 1 420px; color: var(--tinta-media); }
+.cierre-met .btn { flex: none; }
 
 @media (max-width: 1040px) {
   .mundos { grid-template-columns: minmax(0, 1fr); }

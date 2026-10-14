@@ -158,7 +158,7 @@
             <div class="card q2 fragment rise">
                 <p class="tq">Pregunta 2 · <b>¿Se podía saber?</b></p>
                 <div class="trow"><span class="box"></span><p class="q">¿La conversión mide el desempeño?<span class="sub">el atajo que ofrece el propio registro</span></p><p class="code">H5</p></div>
-                <div class="trow"><span class="box"></span><p class="q">¿El diseño detectaba 20% a 30%?<span class="sub">lo que reportan programas parecidos</span></p><p class="code">H6</p></div>
+                <div class="trow"><span class="box"></span><p class="q">¿El diseño detectaba 20% a 30%?<span class="sub">cerca de lo encontrado en India</span></p><p class="code">H6</p></div>
             </div>
         </div>
     </div>
@@ -296,9 +296,9 @@
                 <tr><td class="k">S1 · Carpeta = denuncia</td><td>No es verificable con estos datos. Los robos detectan un cambio de registro general.</td><td>Si el programa además redujo la violencia, el efecto subestima el aumento de la denuncia.</td></tr>
                 <tr><td class="k">S2 · Fecha bien medida</td><td>Cruce con la Fiscalía y otra regla de llegada: primer mes con 10 atenciones.</td><td>775 de 809 celdas cuadran. Con la otra regla el efecto es +20.7%.</td></tr>
                 <tr><td class="k">S3 · Registro parejo</td><td>Catálogo de delitos de 2019 y efecto de mes.</td><td>El catálogo no tocó violencia familiar. El efecto de mes absorbe lo que le pasa a toda la ciudad.</td></tr>
-                <tr><td class="k">S4 · Denuncias nuevas</td><td>Traslado desde sedes especializadas y entre agencias vecinas.</td><td>Desde sedes especializadas no aparece (+29.0% contra +28.7%). Entre vecinas no se descarta.</td></tr>
+                <tr><td class="k">S4 · Denuncias nuevas</td><td>Traslado entre agencias vecinas.</td><td>No se descarta. Contra las unidades sin vecina con abogadas, el efecto de marzo baja de +62.8% a +44.6%.</td></tr>
                 <tr><td class="k amber">S5 · Mismo ritmo</td><td>Tendencias previas y efecto por cohorte de llegada.</td><td>No se sostiene limpio. Lo muestro en la pregunta 1.</td></tr>
-                <tr><td class="k">S6 · Turno intercambiable</td><td>Correlación entre tamaño y fecha dentro de grupos de tamaño.</td><td>Sigue entre −0.24 y −0.37. Con uno, tres o nueve grupos el p sigue bajo 0.05.</td></tr>
+                <tr><td class="k">S6 · Turno intercambiable</td><td>Repetir la prueba con otro número de grupos de tamaño.</td><td>Con uno, tres o nueve grupos el p sigue bajo 0.05.</td></tr>
             </table>
         </div>
         <div class="act">II · Cómo lo medí</div>
@@ -391,7 +391,7 @@
                 </div>
                 <div class="iter fragment rise">
                     <svg class="ico"><use href="#i-loop"/></svg>
-                    <span>Alterno los dos cálculos hasta que dejan de cambiar. Es el estimador de máxima verosimilitud Poisson.</span>
+                    <span>Alterno los dos cálculos hasta que dejan de cambiar.</span>
                 </div>
             </div>
             <p class="example fragment rise">Ejemplo: en una agencia de Venustiano Carranza, en marzo de 2019, se esperaban 21.1 carpetas y se abrieron 38.</p>
@@ -416,7 +416,7 @@
             <div class="grid-2">
                 <div class="card compact">
                     <h3>Modelo sin programa</h3>
-                    <p>E[Y<sub>it</sub>(0)] = a<sub>i</sub> · b<sub>t</sub>, Poisson por cuasi máxima verosimilitud. Exige la media bien especificada, no la varianza Poisson. Son conteos con ceros, cerca de 16 carpetas por unidad al mes.</p>
+                    <p>E[Y<sub>it</sub>(0)] = a<sub>i</sub> · b<sub>t</sub>, Poisson porque son conteos pequeños, con meses en cero: cerca de 16 carpetas por unidad al mes.</p>
                 </div>
                 <div class="card compact">
                     <h3>Efecto</h3>
@@ -424,7 +424,7 @@
                 </div>
                 <div class="card compact">
                     <h3>Por qué no efectos fijos de dos vías</h3>
-                    <p>Con adopción escalonada usa unidades ya tratadas como control. Si el efecto varía entre cohortes de llegada puede dar el signo equivocado (Goodman-Bacon 2021, de Chaisemartin y D'Haultfœuille 2020).</p>
+                    <p>Con adopción escalonada usa unidades ya tratadas como control. Si el efecto varía entre cohortes de llegada puede dar el signo equivocado (Goodman-Bacon 2021).</p>
                 </div>
                 <div class="card compact">
                     <h3>Inferencia</h3>
@@ -678,31 +678,6 @@
             Nunca decir "la subida previa se debe a anticipación". Lo que no se puede descartar es que la cohorte de marzo ya viniera divergiendo de las demás desde noviembre de 2018.
         </aside>
     </section>
-    <section class="q1">
-        <div class="slide-header">
-            <p class="kicker">Para el jurado técnico</p>
-            <h2>¿Y si cada cohorte tiene su <span class="green">propia tendencia</span>?</h2>
-            <hr class="separator">
-        </div>
-        <div class="slide-body">
-            <table class="model-table tight">
-                <tr><th style="width:46%">Tendencia lineal por cohorte de llegada, ajustada desde</th><th style="width:20%">Efecto</th><th>Lectura</th></tr>
-                <tr><td>2017</td><td class="num">+35%</td><td>Sube</td></tr>
-                <tr><td>Enero de 2018</td><td class="num">+26%</td><td>Casi igual que sin tendencia</td></tr>
-                <tr><td>Julio de 2018</td><td class="num">+4%</td><td>Desaparece</td></tr>
-                <tr><td>Septiembre de 2018</td><td class="num">−3%</td><td>Desaparece</td></tr>
-                <tr><td>Noviembre de 2018</td><td class="num">+3%</td><td>Desaparece</td></tr>
-            </table>
-            <div class="caution"><p><b>Con 4 a 8 meses esas tendencias son muy imprecisas.</b> Con 6 meses el intervalo bootstrap va de −27% a +42%. La diferencia con la estimación sin tendencia no se distingue de cero.</p></div>
-        <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Mismo estimador con una tendencia lineal por cohorte de llegada, ajustada desde distintas fechas</span> · <span class="dat">FGJ CDMX</span></p>
-        </div>
-        <div class="act">III · ¿Aumentaron las carpetas?</div>
-        <aside class="notes">
-            El resultado depende de un supuesto que los datos no pueden probar: si cada cohorte de llegada traía su propia tendencia o no.
-            Con tendencias largas el efecto se mantiene. Con tendencias cortas casi desaparece, pero esas tendencias son muy imprecisas.
-            Esto refuerza que el resultado no es concluyente. Fuente: thesis_audit/04_ML_AUDIT.md sección 6 y 02_CAUSAL_INFERENCE_AUDIT.md A1-01.
-        </aside>
-    </section>
 </section>
 
 <section class="q1">
@@ -794,7 +769,7 @@
                 <text x="896.2" y="236" text-anchor="middle">+30%</text>
             </svg>
             <div class="legend"><span><i class="on"></i>con programa</span><span><i class="ref"></i>sin programa todavía</span></div>
-            <div class="note-box"><p>Las 21 sin programa con una vecina tratada cayeron −38.3%. Las demás, −9.9%. Puede ser traslado entre vecinas (S4) o un choque propio (S5). No lo puedo separar.</p></div>
+            <div class="note-box"><p>Si comparo solo contra las unidades sin vecina con abogadas, el efecto de marzo baja de +62.8% a +44.6%. Puede ser traslado entre vecinas (S4) o un choque propio (S5). No lo puedo separar.</p></div>
         <p class="srcline"><span class="lab">Cómo lo obtuve</span><span class="how">Carpetas de cada mes contra el mismo mes de 2018, por grupo</span> · <span class="dat">FGJ CDMX</span></p>
         </div>
         <div class="act">III · ¿Aumentaron las carpetas?</div>

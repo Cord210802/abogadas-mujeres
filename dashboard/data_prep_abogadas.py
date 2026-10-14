@@ -201,8 +201,11 @@ def main():
                 "mde_interpolado": a4["pisos_composicion_observada"]["mde_interpolado"],
                 "mde_interpolado_ic_mc": a4["pisos_composicion_observada"]["mde_interpolado_ic_mc"],
                 "nula_abs_q95": a4["pisos_composicion_observada"]["nula_abs_q95"],
+                "replicas_por_efecto": a4["pisos_composicion_observada"]["replicas_por_efecto"],
                 "ventanas": {k: a4["pisos_por_ventana"]["real_composicion_observada"][k]
                              for k in ("ventanas", "minimo", "mediana", "maximo")}},
+            # Periodo sin programa y fecha ficticia de llegada de la simulacion de potencia (/metodologia).
+            "mundo_simulado": {k: a4["mundo_simulado"][k] for k in ("meses", "inicio_simulado", "ventanas")},
             "techo_celdas_del_estimando": {k: v for k, v in a4["techo_celdas_del_estimando"].items()},
             "techo_muestra": {k: v for k, v in a4["techo_muestra_a02"].items()},
             "estados": {"mde": a4["expansion_estados"]["mitad_y_mitad"]["mde"],
