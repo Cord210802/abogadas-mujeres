@@ -281,7 +281,7 @@ function actoEfecto(D) {
     });
   }
   const selDel = document.getElementById("sel-delito");
-  selDel.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+  if (selDel) selDel.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
     selDel.querySelectorAll("button").forEach((x) => x.classList.toggle("activo", x === b));
     evento(b.dataset.k);
   }));
@@ -421,6 +421,7 @@ function actoEfecto(D) {
   // --- explorador por agencia
   const PN = D.panel;
   const sel = document.getElementById("sel-agencia");
+  if (!sel) return;
   const orden = PN.unidades.map((u, i) => ({ u, i, tot: PN.vf[i].reduce((a, b) => a + b, 0) })).sort((a, b) => nombre(a.u).localeCompare(nombre(b.u), "es"));
   orden.forEach(({ u, i }) => { const o = document.createElement("option"); o.value = i; o.textContent = `${nombre(u)} · llegan en ${fmtMes(PN.entrada[i])}`; sel.appendChild(o); });
   const inicial = orden.reduce((a, b) => (b.tot > a.tot ? b : a));
@@ -462,7 +463,7 @@ function lineaEnValor(valor, texto, color = TINTA) {
 
 function actoQuiebres(D) {
   const Q = D.quiebres;
-  if (!Q) return;
+  if (!Q || !document.getElementById("pelt-mosaico")) return;
   const A = Q.agencias;
 
   // --- A1: el detector trabajando sobre una agencia real. Los tramos son el promedio de cada segmento
@@ -677,7 +678,7 @@ function actoPrograma(D) {
     chConv = new Chart(document.getElementById("ch-conversion"), cfg);
   }
   const selC = document.getElementById("sel-conv");
-  selC.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+  if (selC) selC.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
     selC.querySelectorAll("button").forEach((x) => x.classList.toggle("activo", x === b));
     conv(b.dataset.v);
   }));
@@ -823,11 +824,7 @@ function sorteoEnVivo(D) {
   const textoContador = (k, t) => `${miles(k)} de ${miles(N)} repartos · <b>${t}</b> llegan tan lejos como lo observado`;
   function textoFinal() {
     contador.innerHTML = textoContador(N, colaAlta + colaBaja);
-    resultado.innerHTML = `Solo <b>${colaAlta + colaBaja} de ${miles(N)}</b> repartos llegan hasta aquí:
-      ${colaAlta} suben ${signo(obs / 100, 1)} o más y ${colaBaja} bajan ${pct(obs / 100, 1)} o más.
-      Si las abogadas no hubieran hecho nada, un resultado así saldría en 1 de cada ${Math.round(1 / T.p)} repartos.
-      Por eso es difícil achacarlo a cómo cayeron las fechas. El sorteo no resuelve lo de arriba: todo viene de las
-      agencias de marzo, las de comparación también cambiaron y no se puede descartar que ya vinieran subiendo.`;
+    resultado.innerHTML = `Solo <b>${colaAlta + colaBaja} de ${miles(N)}</b> repartos llegan hasta aquí: ${colaAlta} suben ${signo(obs / 100, 1)} o más y ${colaBaja} bajan ${pct(obs / 100, 1)} o más.`;
     resultado.classList.add("visible");
   }
 
@@ -922,6 +919,7 @@ function actoEvaluabilidad(D) {
   };
   let sel = "real";
   const selCal = document.getElementById("sel-calendario");
+  if (!selCal) return;
   selCal.innerHTML = disenos.map(([k, et]) => `<button data-k="${k}" class="${k === sel ? "activo" : ""}" aria-pressed="${k === sel}">${et}</button>`).join("");
   const rejilla = document.getElementById("evals-rejilla");
   rejilla.innerHTML = Array.from({ length: 100 }, (_, i) => `<i class="eval-c" style="--i:${i}"></i>`).join("");
@@ -1062,12 +1060,169 @@ function indice() {
   piezas.forEach((p) => { p.classList.add("revelar"); rev.observe(p); });
 }
 
+// ================================================================ ¿cuántas son nuevas?
+// Si x de las carpetas con abogada son nuevas, sin programa habría habido observadas menos x,
+// así que el efecto es observadas / (observadas − x) − 1. Con x = todas sale el techo.
+function carpetasNuevas() {
+  const raiz = document.getElementById("nuevas");
+  const slider = document.getElementById("slider-nuevas");
+  if (!raiz || !slider) return;
+  const obs = +raiz.dataset.obs, prog = +raiz.dataset.prog, esperado = +raiz.dataset.esperado, mde = +raiz.dataset.mde;
+  const xEst = obs - esperado;
+  const xMde = obs - obs / (1 + mde);
+  const num = document.getElementById("nv-num"), ef = document.getElementById("nv-efecto"), zona = document.getElementById("nv-zona");
+  function pintar(x) {
+    num.textContent = `${miles(x)} de ${miles(prog)}`;
+    ef.textContent = signo(obs / (obs - x) - 1, 1);
+    zona.textContent = x >= prog ? "Es el techo: todas serían nuevas."
+      : x >= xMde ? "El diseño lo vería 8 de cada 10 veces o más."
+      : Math.abs(x - xEst) <= 10 ? `Es el efecto estimado: ${pct(xEst / prog)} de esas carpetas serían nuevas.`
+      : "Por debajo de lo que el diseño detecta con confianza.";
+  }
+  slider.addEventListener("input", () => pintar(+slider.value));
+  slider.value = Math.round(xEst);
+  pintar(+slider.value);
+}
+
+// ================================================================ tendencias
+// Suma simple de carpetas por grupo (sin modelo), cada serie con su promedio de 2018 = 100.
+function actoTendencias(D) {
+  const T = D.tendencias, cv = document.getElementById("ch-tendencia");
+  if (!T || !cv) return;
+  const meses = T.meses;
+  const idx2018 = meses.map((m, i) => (m.startsWith("2018") ? i : -1)).filter((i) => i >= 0);
+  const indice = (xs) => {
+    const base = idx2018.reduce((a, i) => a + xs[i], 0) / idx2018.length;
+    return xs.map((v) => (v / base) * 100);
+  };
+  const ini = meses.indexOf("2019-03"), fin = meses.indexOf("2019-05");
+  const franja = {
+    id: "franja",
+    beforeDatasetsDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      const x0 = scales.x.getPixelForValue(ini) - 6, x1 = scales.x.getPixelForValue(fin) + 6;
+      ctx.save();
+      ctx.fillStyle = "rgba(92, 196, 110, 0.10)";
+      ctx.fillRect(x0, chartArea.top, x1 - x0, chartArea.bottom - chartArea.top);
+      ctx.fillStyle = VERDE; ctx.font = "600 12px 'DM Sans', sans-serif";
+      ctx.fillText("llegan las abogadas", x0 + 4, chartArea.top - 6);
+      ctx.restore();
+    },
+  };
+  let ch = null;
+  function pintar(k) {
+    const marzo = indice(T.marzo[k]), despues = indice(T.despues[k]);
+    const datos = {
+      labels: meses,
+      datasets: [
+        { label: `Recibieron abogadas en marzo de 2019 (${T.marzo.unidades} unidades)`, data: marzo, borderColor: VERDE, backgroundColor: VERDE, borderWidth: 3, pointRadius: 0, tension: 0.3 },
+        { label: `Las recibieron después (${T.despues.unidades} unidades)`, data: despues, borderColor: PIZARRA_CLARO, backgroundColor: PIZARRA_CLARO, borderWidth: 2, pointRadius: 0, tension: 0.3 },
+      ],
+    };
+    if (ch) { ch.data = datos; ch.update(); return; }
+    ch = new Chart(cv, {
+      type: "line", data: datos, plugins: [franja],
+      options: {
+        layout: { padding: { top: 18 } },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "top", align: "start", labels: { boxWidth: 14, boxHeight: 3 } },
+          tooltip: { callbacks: { title: (it) => fmtMes(meses[it[0].dataIndex]), label: (i) => `${i.dataset.label.split(" (")[0]}: ${i.raw.toFixed(0)}` } },
+        },
+        scales: {
+          x: { ticks: { autoSkip: false, maxRotation: 0, callback: (v, i) => (meses[i].endsWith("-01") ? meses[i].slice(0, 4) : "") }, grid: { display: false } },
+          y: { title: { display: true, text: "Promedio de 2018 = 100" } },
+        },
+      },
+    });
+  }
+  const sel = document.getElementById("sel-tendencia");
+  sel.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+    sel.querySelectorAll("button").forEach((x) => x.classList.toggle("activo", x === b));
+    pintar(b.dataset.k);
+  }));
+  alVer(cv, () => pintar("vf"));
+}
+
+// ================================================================ expansión nacional
+// Ejemplo de sorteo de estados en dos oleadas, dentro de grupos de tamaño (como a04.estados).
+// Generador con semilla para que la primera vista sea siempre la misma.
+function generadorSemilla(a) {
+  return () => {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function actoExpansion(D) {
+  const M = D.expansion_mapa, el = document.getElementById("mapa-mx");
+  if (!M || !el) return;
+  const GRUPO = ["chicos", "medianos", "grandes"];
+  const est = Object.fromEntries(M.estados.map((e) => [e.cve, e]));
+  const mapa = L.map(el, { zoomControl: false, scrollWheelZoom: false, dragging: false, doubleClickZoom: false, boxZoom: false, keyboard: false, attributionControl: false, zoomSnap: 0.1 });
+  let capa = null, ola = {}, semilla = 7;
+
+  function sortear() {
+    const azar = generadorSemilla(semilla);
+    ola = {};
+    let impar = 0;
+    [0, 1, 2].forEach((g) => {
+      const xs = M.estados.filter((e) => e.grupo === g).map((e) => e.cve);
+      for (let i = xs.length - 1; i > 0; i--) { const j = Math.floor(azar() * (i + 1)); [xs[i], xs[j]] = [xs[j], xs[i]]; }
+      // Mitad y mitad. Si el grupo es impar, el estado de más se alterna entre oleadas.
+      let k = Math.floor(xs.length / 2);
+      if (xs.length % 2) { k += impar; impar = 1 - impar; }
+      xs.forEach((c, i) => { ola[c] = i < k ? 1 : 2; });
+    });
+  }
+  const estilo = (f) => {
+    const c = f.properties.cve;
+    if (!est[c]) return { color: "#555", weight: 1, dashArray: "3 3", fillColor: "#2A2A2A", fillOpacity: 1 };
+    return ola[c] === 1
+      ? { color: "#111", weight: 1, fillColor: VERDE, fillOpacity: 0.85 }
+      : { color: "#111", weight: 1, fillColor: PIZARRA, fillOpacity: 0.55 };
+  };
+  function pintar() {
+    if (capa) capa.setStyle(estilo);
+    const n1 = Object.values(ola).filter((o) => o === 1).length;
+    document.getElementById("ola1").textContent = n1;
+    document.getElementById("ola2").textContent = Object.keys(ola).length - n1;
+    const filas = [2, 1, 0].map((g) => {
+      const xs = M.estados.filter((e) => e.grupo === g);
+      const a = xs.filter((e) => ola[e.cve] === 1).length;
+      return `<tr><th>Estados ${GRUPO[g]}</th><td class="t-ola1">${a}</td><td class="t-ola2">${xs.length - a}</td></tr>`;
+    });
+    document.getElementById("tabla-grupos").innerHTML =
+      `<thead><tr><th></th><th>Primera</th><th>Segunda</th></tr></thead><tbody>${filas.join("")}</tbody>`;
+  }
+  fetch("/static/data/estados_mx.geojson").then((r) => r.json()).then((g) => {
+    capa = L.geoJSON(g, {
+      style: estilo,
+      onEachFeature: (f, lyr) => {
+        const e = est[f.properties.cve];
+        lyr.bindTooltip(() => (e
+          ? `<b>${e.nombre}</b><br>Estado ${GRUPO[e.grupo].slice(0, -1)}<br>${ola[e.cve] === 1 ? "Primera oleada" : "Segunda oleada, un año después"}`
+          : `<b>${f.properties.nombre}</b><br>Ya tiene el programa`), { sticky: true });
+      },
+    }).addTo(mapa);
+    mapa.fitBounds(capa.getBounds(), { padding: [6, 6] });
+    pintar();
+  });
+  sortear();
+  pintar();
+  document.getElementById("btn-sorteo-estados").addEventListener("click", () => { semilla += 1; sortear(); pintar(); });
+}
+
 fetch("/static/data/abogadas.json").then((r) => r.json()).then((D) => {
   prepararNombres(D);
   indice();
   actoDespliegue(D);
   actoEfecto(D);
-  actoQuiebres(D);
+  actoTendencias(D);
+  actoExpansion(D);
   actoPrograma(D);
   actoEvaluabilidad(D);
+  carpetasNuevas();
 });

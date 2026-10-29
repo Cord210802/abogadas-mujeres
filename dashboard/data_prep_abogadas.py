@@ -82,6 +82,69 @@ def quiebres(a5):
     }
 
 
+def tendencias(a2):
+    """Carpetas al mes de la cohorte de marzo contra las unidades que entraron despues.
+
+    Suma simple, sin modelo, para la grafica de tendencias de /abogadas. Usa las mismas
+    unidades y meses del analisis (a2["panel"]). "resto" son las carpetas de todos los demas
+    delitos de la unidad (total menos violencia familiar), la comparacion de la llave
+    razon_vf_vs_resto_de_delitos. Sale la unidad con meses sin registro de la Fiscalia (IZP-7,
+    6 meses al final) para que las sumas comparen siempre las mismas unidades.
+    """
+    import polars as pl
+    A = a2["panel"]
+    p = (pl.read_parquet(ROOT / "data" / "interim" / "abogadas" / "panel.parquet")
+         .with_columns(pl.col("mes").cast(pl.Utf8).str.slice(0, 7).alias("m"))
+         .filter(pl.col("unidad").is_in(A["unidades"]) & pl.col("m").is_in(A["meses"])))
+    incompletas = p.filter(pl.col("fgj_sin_registro") & (pl.col("m") >= pl.col("entrada").cast(pl.Utf8).str.slice(0, 7)))["unidad"].unique().to_list()
+    p = p.filter(~pl.col("unidad").is_in(incompletas)).with_columns(
+        (pl.col("total") - pl.col("vf")).alias("resto"),
+        pl.when(pl.col("entrada").cast(pl.Utf8).str.slice(0, 7) == "2019-03").then(pl.lit("marzo")).otherwise(pl.lit("despues")).alias("grupo"))
+    g = p.group_by("grupo", "m").agg(pl.col("vf").sum(), pl.col("robos").sum(), pl.col("resto").sum()).sort("m")
+    out = {"meses": A["meses"], "excluidas": incompletas}
+    for grupo in ("marzo", "despues"):
+        x = g.filter(pl.col("grupo") == grupo)
+        out[grupo] = {k: x[k].cast(pl.Float64).to_list() for k in ("vf", "robos", "resto")}
+        out[grupo]["unidades"] = p.filter(pl.col("grupo") == grupo)["unidad"].n_unique()
+    return out
+
+
+# Claves de entidad del INEGI para el mapa de la expansion.
+ENTIDADES = {
+    "01": "Aguascalientes", "02": "Baja California", "03": "Baja California Sur", "04": "Campeche",
+    "05": "Coahuila", "06": "Colima", "07": "Chiapas", "08": "Chihuahua", "09": "Ciudad de México",
+    "10": "Durango", "11": "Guanajuato", "12": "Guerrero", "13": "Hidalgo", "14": "Jalisco",
+    "15": "México", "16": "Michoacán", "17": "Morelos", "18": "Nayarit", "19": "Nuevo León",
+    "20": "Oaxaca", "21": "Puebla", "22": "Querétaro", "23": "Quintana Roo", "24": "San Luis Potosí",
+    "25": "Sinaloa", "26": "Sonora", "27": "Tabasco", "28": "Tamaulipas", "29": "Tlaxcala",
+    "30": "Veracruz", "31": "Yucatán", "32": "Zacatecas",
+}
+
+
+def expansion_mapa():
+    """Estados de la simulacion por estados (a04.estados) con su grupo de tamaño.
+
+    Mismo filtro que a04: delitos de violencia familiar del CNPJE, sin la Ciudad de Mexico y
+    solo estados con todos los años positivos. El grupo es el tercil del primer año, como
+    estratos(Ys[:, 0]) en a04. Solo alimenta un EJEMPLO de sorteo en el mapa.
+    """
+    import polars as pl
+    c = pl.read_parquet(ROOT / "data" / "interim" / "cnpje" / "cnpje_carpetas_delitos.parquet")
+    x = (c.filter(pl.col("tipdelit_e_desc") == "Violencia familiar")
+         .with_columns(pl.col("totalca1").cast(pl.Float64, strict=False).alias("n"))
+         .filter(pl.col("cve_ent") != "09")
+         .pivot(on="anio_dato", index="cve_ent", values="n", aggregate_function="sum").sort("cve_ent"))
+    anios = sorted(k for k in x.columns if k != "cve_ent")
+    Y = x.select(anios).to_numpy()
+    ok = np.isfinite(Y).all(1) & (Y > 0).all(1)
+    cve = [k for k, o in zip(x["cve_ent"].to_list(), ok) if o]
+    t0 = Y[ok][:, 0]
+    grupo = np.digitize(t0, np.quantile(t0, [1 / 3, 2 / 3]))
+    return {"anio_tamano": anios[0],
+            "estados": [{"cve": k, "nombre": ENTIDADES[k], "vf": float(v), "grupo": int(g)}
+                        for k, v, g in zip(cve, t0, grupo)]}
+
+
 def main():
     a1, a2, a3, a4 = leer("01_limpieza"), leer("02_efecto"), leer("03_programa"), leer("04_evaluabilidad")
     a5 = leer("05_quiebres") if (G / "05_quiebres" / "resultados.json").exists() else None
@@ -172,6 +235,8 @@ def main():
                 "robos": a2["regla_exclusion_ventana_completa"]["resultados"]["robos"]["efecto"]},
         },
         "panel": a2["panel"],
+        "tendencias": tendencias(a2),
+        "expansion_mapa": expansion_mapa(),
         "programa": {
             "serie": a3["serie"], "periodos": a3["periodos"], "descomposicion": a3["descomposicion"],
             "auc": a3["modelo"]["auc"], "modelo_n": [a3["modelo"]["n_entrenamiento"], a3["modelo"]["n_prueba"]],

@@ -1291,3 +1291,120 @@ p.formula.bloque {
   .sorteo-resultado { transition: none; transform: none; }
   .evals-rejilla .eval-c, .evals-clave .eval-c { transition: none; }
 }
+
+/* ======================= /abogadas: vista corta (todo cabe en 1440x800) ======================= */
+.pag-abogadas .portada { margin-bottom: 14px; }
+.pag-abogadas .portada .titulo-pagina { font-size: 30px; max-width: 40ch; }
+.pag-abogadas .portada .titulo-segunda { display: block; font-size: 20px; margin-top: 6px; }
+.pag-abogadas .portada .bajada { margin: 10px auto 0; font-size: 16px; }
+.pag-abogadas .resumen-30 { padding: 20px 24px; margin-bottom: 8px; }
+.pag-abogadas .r30-cifra { padding: 14px 16px; gap: 4px; }
+.pag-abogadas .r30-val { font-size: 34px; }
+.pag-abogadas .r30-etq { font-size: 14px; }
+.pag-abogadas .r30-cifras { margin-bottom: 16px; }
+.pag-abogadas .respuesta p { font-size: 17px; }
+.pag-abogadas .seccion-titulo { margin: 28px 0 10px; font-size: 21px; }
+.pag-abogadas .acto-marco { margin-bottom: 14px; padding: 16px 22px; }
+.pag-abogadas .acto-marco.qa .acto-veredicto { font-size: 16px; line-height: 1.45; }
+.pag-abogadas .rejilla + .rejilla { margin-top: 18px; }
+.pag-abogadas .tarjeta { padding: 20px 24px; }
+.pag-abogadas .tarjeta h3 { margin-bottom: 12px; font-size: 18px; }
+.pag-abogadas .tarjeta .sub-h3 { margin: -6px 0 10px; }
+.pag-abogadas .tarjeta-pie { margin-top: 8px; font-size: 13px; }
+.pag-abogadas #pie-evento, .pag-abogadas #pie-conversion { display: none; }
+.pag-abogadas .lienzo { min-height: 260px; }
+.pag-abogadas .lienzo-bajo { min-height: 220px; }
+.pag-abogadas .sorteo-lienzo { min-height: 250px; }
+.pag-abogadas .despliegue { gap: 20px; }
+.pag-abogadas #mapa-despliegue { height: 430px; }
+.pag-abogadas .despliegue-panel { gap: 12px; }
+.pag-abogadas .kpi-tarjeta .kpi { font-size: 36px; margin: 6px 0 8px; }
+.pag-abogadas .dividida { gap: 28px; }
+.pag-abogadas .regla2 { height: 160px; }
+.pag-abogadas .regla2 .regla-eje { top: 136px; }
+.pag-abogadas .potencia-control { margin-bottom: 10px; }
+.pag-abogadas .tarjeta-evals .potencia-grid { gap: 24px; }
+.pag-abogadas .evals-rejilla { max-width: 230px; gap: 5px; }
+.pag-abogadas .evals-frase { font-size: 15px; margin: 2px 0 0; }
+.pag-abogadas .tarjeta-evals .lienzo { min-height: 250px; }
+.pag-abogadas .conv-salto { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.pag-abogadas .cs-val { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; }
+.pag-abogadas .cs-val.prog { color: var(--dato-prog); }
+.pag-abogadas .cs-val.ref { color: var(--dato-ref-claro); }
+.pag-abogadas .cs-flecha { font-size: 26px; color: var(--tinta-suave); }
+.pag-abogadas .descomp-barra span { padding: 0 10px; font-size: 13px; }
+.pag-abogadas .nuevas { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--borde); }
+.pag-abogadas .nuevas input[type=range] { width: 100%; max-width: 520px; display: block; margin: 8px 0; }
+.pag-abogadas .nuevas-lectura { margin: 0; font-size: 15px; color: var(--tinta-media); }
+.pag-abogadas .nuevas-lectura b { color: var(--dato-prog); }
+/* seis pruebas */
+.pag-abogadas .pruebas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.pag-abogadas .pruebas li { display: grid; grid-template-columns: 38px minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; align-items: center; padding: 11px 0; border-top: 1px solid var(--borde); font-size: 15px; }
+.pag-abogadas .pruebas li:first-child { border-top: 0; }
+.pag-abogadas .pruebas .h { font-size: 13px; color: var(--tinta-suave); }
+.pag-abogadas .pruebas .v { font-weight: 700; padding-left: 12px; border-left: 4px solid; }
+.pag-abogadas .pruebas .d { color: var(--tinta-suave); font-size: 14px; }
+.pag-abogadas .pruebas .ok .v { color: var(--verde); }
+.pag-abogadas .pruebas .duda .v { color: var(--ambar); }
+.pag-abogadas .pruebas .mal .v { color: var(--rojo); }
+.pag-abogadas .balance { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.pag-abogadas .balance .lado { padding: 4px 0 4px 18px; border-left: 4px solid; }
+.pag-abogadas .balance .fav { border-color: var(--verde); }
+.pag-abogadas .balance .con { border-color: var(--ambar); }
+.pag-abogadas .balance h3 { margin-bottom: 8px; }
+.pag-abogadas .balance .fav h3 { color: var(--verde); }
+.pag-abogadas .balance .con h3 { color: var(--ambar); }
+.pag-abogadas .balance ul { margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.55; }
+.pag-abogadas .cierre-balance { margin: 14px 0 0; font-size: 17px; font-weight: 600; }
+.pag-abogadas .nota-final { margin: 14px 0 0; font-size: 15px; color: var(--tinta-media); }
+.pag-abogadas .nota-final a { color: var(--verde); }
+.pag-abogadas .rec-texto { font-size: 14px; }
+@media (max-width: 760px) {
+  .pag-abogadas .portada .titulo-pagina { font-size: 24px; }
+  .pag-abogadas .pruebas li { grid-template-columns: 30px minmax(0, 1fr); gap: 4px 10px; }
+  .pag-abogadas .pruebas .v, .pag-abogadas .pruebas .d { grid-column: 2; }
+  .pag-abogadas .balance { grid-template-columns: 1fr; gap: 16px; }
+  .pag-abogadas #mapa-despliegue { height: 320px; }
+  .pag-abogadas .tarjeta { padding: 16px; }
+  .pag-abogadas .cs-val { font-size: 32px; }
+}
+.pag-abogadas .tarjeta-evals .lienzo { min-height: 220px; }
+.pag-abogadas .evals-rejilla { max-width: 200px; }
+
+/* ---------- /abogadas: tendencias, cien evaluaciones fijas y mapa de la expansión */
+.pag-abogadas .fila-titulo { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.pag-abogadas .fila-titulo h3 { margin: 0; flex: 1 1 280px; }
+.pag-abogadas .segmentado.compacto { grid-auto-columns: auto; }
+.pag-abogadas .segmentado.compacto button { padding: 7px 14px; font-size: 13.5px; }
+.pag-abogadas .cien-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 8px 0 4px; }
+.pag-abogadas .cien { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.pag-abogadas .cien .evals-rejilla { max-width: 220px; width: 100%; gap: 5px; }
+.pag-abogadas .cien-val { margin-top: 10px; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; color: var(--dato-prog); }
+.pag-abogadas .cien-etq { font-size: 14px; color: var(--tinta-suave); }
+.pag-abogadas .expansion { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+.pag-abogadas #mapa-mx { height: 400px; border-radius: 12px; background: var(--fondo-suave); }
+.pag-abogadas .expansion-panel { display: flex; flex-direction: column; gap: 14px; }
+.pag-abogadas .expansion-panel .contador { margin: 0; }
+.pag-abogadas .tabla-grupos { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pag-abogadas .tabla-grupos th, .pag-abogadas .tabla-grupos td { padding: 6px 8px; border-bottom: 1px solid var(--borde); text-align: left; }
+.pag-abogadas .tabla-grupos thead th { color: var(--tinta-suave); font-weight: 500; font-size: 12.5px; }
+.pag-abogadas .tabla-grupos td { font-family: var(--mono); text-align: center; }
+.pag-abogadas .tabla-grupos .t-ola1 { color: var(--dato-prog); }
+.pag-abogadas .tabla-grupos .t-ola2 { color: var(--dato-ref-claro); }
+.pag-abogadas .leyenda-puntos .pt.ola1 { background: var(--dato-prog); border-color: var(--dato-prog); }
+.pag-abogadas .leyenda-puntos .pt.ola2 { background: var(--dato-ref); border-color: var(--dato-ref); opacity: .8; }
+.pag-abogadas .leyenda-puntos .pt.cdmx { background: #2A2A2A; border: 1px dashed #777; }
+.pag-abogadas .expansion-nota { margin: 0; font-size: 14px; color: var(--tinta-media); }
+.pag-abogadas .leaflet-container { background: var(--fondo-suave); }
+@media (max-width: 760px) {
+  .pag-abogadas .cien-trio { grid-template-columns: 1fr; }
+  .pag-abogadas .expansion { grid-template-columns: 1fr; }
+  .pag-abogadas #mapa-mx { height: 280px; }
+}
+.pag-abogadas #mapa-mx { position: relative; isolation: isolate; z-index: 0; }
+/* /metodologia: la línea de tiempo de cohortes cabe en una pantalla de 800 px de alto */
+.tarjeta-calendario .linea-tiempo { gap: 4px; }
+.tarjeta-calendario .lt-celda { padding-top: 6px; padding-bottom: 6px; }
+.tarjeta-calendario .lt-etq i { display: inline; margin-left: 5px; }
+.lt-celda.control { height: auto; font-size: 11.5px; padding: 9px 6px; }
+.tarjeta-calendario .lt-celda.control { padding-top: 6px; padding-bottom: 6px; }

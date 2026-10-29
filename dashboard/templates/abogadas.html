@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% block titulo %}Abogadas de las Mujeres · ¿funcionó? · Denuncia CDMX{% endblock %}
+{% block titulo %}Abogadas de las Mujeres · lo que dicen los datos · Denuncia CDMX{% endblock %}
 
 {# Ninguna cifra se escribe a mano: todas vienen de static/data/abogadas.json, que arma
-   dashboard/data_prep_abogadas.py con los resultados de scripts/abogadas/. #}
+   dashboard/data_prep_abogadas.py con los resultados de scripts/abogadas/.
+   Vista corta, para quien decide. El detalle técnico vive en /metodologia. #}
 {% macro n(x) %}{{ "{:,}".format(x|round|int) }}{% endmacro %}
 {% macro p(x) %}{{ ("%.0f"|format(x * 100)).replace("-", "−") }}%{% endmacro %}
 {% macro p1(x) %}{{ ("%.1f"|format(x * 100)).replace("-", "−") }}%{% endmacro %}
@@ -11,31 +12,21 @@
 {% macro pp(x) %}{{ ("%.0f"|format(x)).replace("-", "−") }}{% endmacro %}
 {% macro d2(x) %}{{ "%.2f"|format(x) }}{% endmacro %}
 {% macro d3(x) %}{{ "%.3f"|format(x) }}{% endmacro %}
-{% set MESC = {"01":"ene","02":"feb","03":"mar","04":"abr","05":"may","06":"jun","07":"jul","08":"ago","09":"sep","10":"oct","11":"nov","12":"dic"} %}
-{% macro fm(x) %}{{ MESC[x[5:7]] }} {{ x[:4] }}{% endmacro %}
 {% set e = c.efecto %}
 {% set ev = c.evaluabilidad %}
 {% set pr = c.programa %}
 {% set inf = c.inferencia %}
 {% set dis = c.diseno %}
-{% set riesgo = pr.riesgo["meses con NO capturado"] %}
-{# "real" = el despliegue tal como ocurrio: conserva cuantas unidades de cada tercil de tamano
-   entran en cada cohorte de llegada, y en cada replica se sortean las fechas dentro del tercil.
-   ev.pisos.real solo conserva los tamanos de las cohortes y reparte las agencias en orden
-   alfabetico, asi que su composicion por tercil no es la observada. El reporte usa esta. #}
+{# "real" = el despliegue tal como ocurrio (composicion por tercil observada). El reporte usa esta. #}
 {% set real = ev.composicion_observada %}
-{% set vent = real.ventanas %}
 {% set techo = ev.techo_celdas_del_estimando %}
 {% set dil = ev.estados.dilucion %}
 {% set sin_prog = c.despliegue.sin_programa_por_mes %}
 {% set cc = dis.contraste_controles %}
-{% set plac = dis.placebos_en_el_tiempo %}
-{% set p_estratos = inf.sensibilidad_estratos.values() | map(attribute="p") | list %}
-{% set p_ci = inf.sensibilidad_estratos.values() | map(attribute="p_colas_iguales") | list %}
-{% set ns = namespace(dc=none) %}
-{% for b in pr.descomposicion_bases %}{% if "despliegue completo" in b.base %}{% set ns.dc = b %}{% endif %}{% endfor %}
-{% set dc = ns.dc %}
+{% set bjs = dis.tendencias_previas.vf %}
+{% set pt = inf.permutacion_por_tamano %}
 {% set d = pr.descomposicion %}
+{% set co = c.por_cohorte %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet.css') }}">
@@ -44,72 +35,59 @@
 {% endblock %}
 
 {% block contenido %}
+{% set rb = inf.bootstrap.ic95[0] <= 0 %}
+{% set rj = inf.jackknife.ic95_t[0] <= 0 %}
+{% set tocan = (1 if rb else 0) + (1 if rj else 0) %}
+{% set pal = {0: "ninguno", 1: "uno", 2: "dos", 3: "tres"} %}
+<div class="pag-abogadas">
+
 <header class="portada">
-<h1 class="titulo-pagina">¿Las abogadas en el Ministerio Público hicieron que se abrieran más carpetas por violencia familiar?
+<h1 class="titulo-pagina">¿Las abogadas hicieron que se abrieran más carpetas por violencia familiar?
   <span class="titulo-segunda">¿Y alcanzaban los datos para saberlo?</span></h1>
-<p class="bajada">En marzo de 2019 la Ciudad de México puso abogadas de la Secretaría de las Mujeres en las agencias del Ministerio Público para acompañar a las mujeres que llegan a denunciar. De 2019 a 2022 dieron
-{{ n(c.resumen.atenciones) }} atenciones y acompañaron {{ n(c.resumen.carpetas_programa) }} carpetas.
-En 2025 el programa empezó a replicarse en el país. No encontré una evaluación publicada de su efecto.
-Aquí lo mido con los datos del propio programa y de la Fiscalía.</p>
+<p class="bajada">Ciudad de México, marzo a mayo de 2019, {{ c.resumen.unidades_analisis }} unidades del Ministerio Público.</p>
 </header>
 
-<section class="resumen-30" id="resumen" aria-labelledby="r30-t">
-  <p class="antetitulo" id="r30-t">En 30 segundos</p>
+<section class="resumen-30" id="resumen" aria-label="Resumen">
   <div class="r30-cifras">
     <div class="r30-cifra prog">
       <span class="r30-val">{{ sp1(e.vf.efecto) }}</span>
-      <span class="r30-etq">más carpetas de violencia familiar de las esperadas tras la llegada de las abogadas</span>
-      <span class="r30-nota">{{ n(e.vf.observado) }} contra {{ n(e.vf.contrafactual) }} en los {{ c.resumen.meses_medibles }} meses que se pueden medir</span>
+      <span class="r30-etq">carpetas de violencia familiar más que las esperadas</span>
+      <span class="r30-nota">{{ n(e.vf.observado) }} contra {{ n(e.vf.contrafactual) }}</span>
+    </div>
+    <div class="r30-cifra prog">
+      <span class="r30-val">{{ pt.b }} de {{ n(pt.n) }}</span>
+      <span class="r30-etq">sorteos de fechas dan un resultado así de extremo</span>
+      <span class="r30-nota">p = {{ d3(pt.p) }}</span>
     </div>
     <div class="r30-cifra cautela">
       <span class="r30-val">{{ sp1(c.robustez.sin_cohorte_de_marzo) }}</span>
-      <span class="r30-etq">es el efecto si se quitan las {{ c.por_cohorte[0].unidades }} unidades de la cohorte de marzo</span>
-      <span class="r30-nota">todo el aumento sale de ellas (acto 2)</span>
+      <span class="r30-etq">es el efecto sin la cohorte de llegada de marzo</span>
+      <span class="r30-nota">todo viene de ella</span>
     </div>
     <div class="r30-cifra cautela">
       <span class="r30-val">{{ p(real.mde_interpolado) }}</span>
-      <span class="r30-etq">es el aumento más chico que este despliegue detecta con confianza</span>
-      <span class="r30-nota">el {{ sp1(e.vf.efecto) }} queda por debajo (acto 4)</span>
-    </div>
-    <div class="r30-cifra cautela">
-      <span class="r30-val">{{ pp(d.parte_por_menos_atenciones_pct) }}%</span>
-      <span class="r30-etq">del salto en la conversión del programa viene de que hubo menos atenciones</span>
-      <span class="r30-nota">su propia métrica no sirve para evaluarlo (acto 3)</span>
+      <span class="r30-etq">es el aumento más chico que el diseño detecta con confianza</span>
+      <span class="r30-nota">el {{ sp1(e.vf.efecto) }} queda debajo</span>
     </div>
   </div>
-  <div class="respuesta"><p><b>Respuesta:</b> hay un indicio, no una prueba. Se observaron {{ p1(e.vf.efecto) }} más carpetas
-  de violencia familiar de las esperadas, pero no se le pueden atribuir al programa de forma concluyente. Todo el
-  aumento viene de las agencias que entraron en marzo de 2019. Las agencias con las que se compara también cambiaron
-  en esos meses. Además, con este despliegue solo se detectan con confianza aumentos de {{ p(real.mde_interpolado) }} o más.</p></div>
-  <p class="r30-accion"><b>Qué hacer:</b> la cifra con la que el programa mide su éxito tampoco sirve para evaluarlo.
-  La expansión nacional se podría evaluar si se diseña antes de arrancar: entrada sorteada por estados, llegada
-  escalonada por agencia y un registro completo (<a href="#acto5">acto 5</a>).</p>
+  <div class="respuesta"><p><b>Respuesta:</b> hay un indicio, no una prueba. Compatible con que las abogadas aumentaran las carpetas. No alcanza para atribuírselo.</p></div>
 </section>
 
 <nav class="pills pegado indice-actos" id="indice" aria-label="Recorrido">
   <button data-ir="resumen" class="activo">Resumen</button>
-  <button data-ir="acto1"><b>1</b>¿Cuándo llegaron?<i class="sello-punto confirma" title="Queda demostrado"></i></button>
-  <button data-ir="acto2"><b>2</b>¿Subieron las carpetas?<i class="sello-punto no-concluye" title="No concluye"></i></button>
-  <button data-ir="acto3"><b>3</b>¿Sirve la cifra del programa?<i class="sello-punto no-confirma" title="No lo confirma"></i></button>
+  <button data-ir="acto1"><b>1</b>Llegada<i class="sello-punto confirma" title="Queda demostrado"></i></button>
+  <button data-ir="acto2"><b>2</b>Efecto<i class="sello-punto no-concluye" title="No concluye"></i></button>
+  <button data-ir="acto3"><b>3</b>Pruebas<i class="sello-punto no-confirma" title="No lo confirma"></i></button>
   <button data-ir="acto4"><b>4</b>¿Se podía saber?<i class="sello-punto simulacion" title="Lo indica la simulación"></i></button>
-  <button data-ir="acto5"><b>5</b>¿Qué hacer?</button>
+  <button data-ir="acto5"><b>5</b>Qué hacer</button>
   <div class="progreso" aria-hidden="true"><span id="progreso-barra"></span></div>
 </nav>
 
 <!-- ============================================================ ACTO 1 -->
-<h2 class="seccion-titulo" id="acto1"><span class="n">1</span>¿Cuándo llegaron las abogadas a cada agencia?</h2>
-<div class="acto-marco qa">
-<p class="acto-veredicto confirma">Entre marzo y agosto de 2019 las abogadas llegaron a todas las agencias territoriales. Las más
-grandes entraron primero. Cada mes quedaban menos agencias sin abogadas para comparar:
-{{ sin_prog["2019-03"] }} en marzo, {{ sin_prog["2019-04"] }} en abril, {{ sin_prog["2019-05"] }} en mayo
-y {{ sin_prog["2019-06"] }} en junio. Desde junio ya no alcanzan para comparar. Por eso el efecto solo se
-puede medir en {{ c.resumen.meses_medibles }} meses: marzo, abril y mayo de 2019.</p>
-</div>
-
+<h2 class="seccion-titulo" id="acto1"><span class="n">1</span>Las abogadas llegaron a todas las agencias en cinco meses</h2>
+<div class="acto-marco qa"><p class="acto-veredicto confirma">Las más grandes entraron primero. Solo se puede medir en {{ c.resumen.meses_medibles }} meses, mientras quedan agencias sin abogadas para comparar.</p></div>
 <div class="rejilla">
-  <div class="tarjeta span-4">
-    <h3>En cinco meses llegaron a todas las agencias. Las más grandes, primero</h3>
-    <p class="sub-h3">Cada círculo es una unidad: una agencia o un par de agencias que comparten abogadas. Su tamaño indica las atenciones que dio. El botón reproduce la secuencia.</p>
+  <div class="tarjeta span-4 tarjeta-mapa">
     <div class="despliegue">
       <div id="mapa-despliegue"></div>
       <div class="despliegue-panel">
@@ -120,107 +98,57 @@ puede medir en {{ c.resumen.meses_medibles }} meses: marzo, abril y mayo de 2019
         <input type="range" id="slider-mes" min="0" max="7" value="0" step="1" aria-label="Mes">
         <div class="contador">
           <div><span class="contador-val" id="cont-con">0</span><span class="contador-etq">unidades con abogadas</span></div>
-          <div><span class="contador-val ref" id="cont-sin">0</span><span class="contador-etq">unidades sin programa para comparar</span></div>
+          <div><span class="contador-val ref" id="cont-sin">0</span><span class="contador-etq">sin programa para comparar</span></div>
         </div>
         <p class="leyenda-texto" id="caption-mes"></p>
         <div class="leyenda-puntos">
-          <span><i class="pt ref"></i>sin abogadas (comparación)</span>
+          <span><i class="pt ref"></i>sin abogadas</span>
           <span><i class="pt llega"></i>llegan este mes</span>
           <span><i class="pt ya"></i>ya tenían</span>
         </div>
       </div>
     </div>
-    <div class="tarjeta-pie">La posición es aproximada: el punto medio de dónde ocurrieron los delitos denunciados en esa agencia
-      de 2017 a 2019. El portal no publica la dirección de las agencias. El conteo de comparación usa las
-      {{ c.resumen.unidades_analisis }} unidades con registros estables.</div>
   </div>
 </div>
-
-<details class="detalle tecnico-bloque">
-  <summary>Cómo reconstruí el calendario</summary>
-  <p>El programa no publica su calendario. Lo reconstruí: la fecha de llegada de cada agencia es el
-  primer mes en que aparece una atención suya en el registro. Después vinculé los nombres de agencia
-  que usa el programa con las claves de la Fiscalía. Las {{ c.resumen.etiquetas_programa }} etiquetas
-  quedaron en {{ c.resumen.unidades }} unidades. Una unidad es una agencia, o un par de agencias que
-  comparten abogadas. De ellas, {{ c.resumen.unidades_analisis }} tienen registros estables antes de la
-  llegada y entran al análisis.</p>
-  <p>Para comparar un mes hacen falta al menos {{ c.metodologia.minimo_sin_programa }} unidades sin
-  programa. Que las grandes entraran primero se mide con una correlación de rangos entre tamaño y fecha
-  de llegada: {{ "%.2f"|format(c.despliegue.balance.spearman_entrada_vs_tamano) | replace("-", "−") }}
-  (p = {{ "%.3f"|format(c.despliegue.balance.spearman_p) }}). Por eso las comparaciones se hacen entre
-  unidades de tamaño parecido.</p>
-</details>
 
 <!-- ============================================================ ACTO 2 -->
-{# Puntos de cambio (PELT): quiebres() devuelve None si falta el resultado. #}
-{% set q = c.quiebres %}
-{% if q %}
-{% set qa = q.agencias %}
-{% set qv = qa.vf %}
-{% set sv = qv.sensibilidad_ventana %}
-{% set wy = qv.westfall_young %}
-{% set mag = qv.magnitudes_en_ventana %}
-{% set ptem = qv.placebo_temporal %}
-{% set pot = q.validacion.potencia.tipica_mediana %}
-{% set prueba = q.validacion.prueba %}
-{% set kfp = "%.1f"|format(q.metodo.k_agencias) %}
-{% set fpe = q.validacion.falsos_escenarios %}
-{% set k5 = (qv.sensibilidad_k["5.0"].proporcion * qa.n)|round|int %}
-{% endif %}
-{% set prev = e.vf.evento | selectattr("e", "lt", 0) | list %}
-{% set prev_ok = prev | rejectattr("efecto", "none") | list %}
-{% set bjs = dis.tendencias_previas.vf %}
-<h2 class="seccion-titulo" id="acto2"><span class="n">2</span>¿Subieron las carpetas donde llegaron las abogadas?</h2>
-<div class="acto-marco qa">
-<p class="acto-veredicto no-concluye">Sí subieron. En los {{ c.resumen.meses_medibles }} meses medibles, las agencias con abogadas abrieron
-{{ n(e.vf.observado) }} carpetas de violencia familiar. Sin el programa se esperaban
-{{ n(e.vf.contrafactual) }}. Son {{ sp1(e.vf.efecto) }}. Es un indicio, no una prueba: es compatible con
-que las abogadas aumentaran las carpetas, pero no alcanza para atribuírselo.</p>
-</div>
-
-<div class="rejilla listas-acto">
-  <div class="tarjeta span-2">
-    <h3>Por qué no alcanza</h3>
-    <ol class="historia">
-      <li><b>Todo viene de las agencias de marzo.</b> Las {{ c.por_cohorte[0].unidades }} unidades que
-        entraron en marzo suben {{ sp(c.por_cohorte[0].efecto) }}. Las de abril quedan en
-        {{ sp1(c.por_cohorte[1].efecto) }} y las de mayo en {{ sp1(c.por_cohorte[2].efecto) }}. Sin las de
-        marzo, el efecto queda en {{ sp1(c.robustez.sin_cohorte_de_marzo) }}.</li>
-      <li><b>Las agencias de comparación también se movieron.</b> Las que todavía no tenían abogadas
-        abrieron menos carpetas que un año antes: {{ sp(cc.por_mes[0].interanual_sin_programa) }} en marzo
-        y {{ sp(cc.por_mes[1].interanual_sin_programa) }} en abril. Buena parte de la diferencia viene de esa caída.</li>
-      <li><b>No se puede descartar que ya vinieran subiendo.</b> Una prueba aparte estima los tres meses
-        previos a la llegada. Sus cifras crecen conforme se acerca la fecha:
-        {{ sp(bjs.K3.adelantos_pct[2] / 100) }}, {{ sp(bjs.K3.adelantos_pct[1] / 100) }} y
-        {{ sp(bjs.K3.adelantos_pct[0] / 100) }}. Son muy imprecisas y juntas no se distinguen del azar.
-        Tampoco permiten descartar que esas agencias hubieran subido sin abogadas. Es la limitación más seria.</li>
-    </ol>
-  </div>
-  <div class="tarjeta span-2">
-    <h3>Lo que el resultado resiste</h3>
-    <ol class="historia">
-      <li><b>Los robos no subieron igual.</b> Las abogadas no atienden robos. Con el mismo cálculo suben
-        {{ sp1(e.robos.efecto) }}, con un rango plausible que llega a lo más a {{ sp(e.robos.ic95[1]) }}.</li>
-      <li><b>Un sorteo de fechas rara vez da un resultado así.</b> Si las fechas de llegada se sortearan
-        entre agencias de tamaño parecido, un resultado así de extremo saldría en 1 de cada
-        {{ (1 / inf.permutacion_por_tamano.p)|round|int }} sorteos.</li>
-      <li><b>El método no fabrica efectos de este tamaño.</b> Al fingir la llegada en {{ plac.vf.n }} fechas
-        de años sin programa, {{ plac.vf.alcanzan_el_efecto }} llegan al {{ sp1(e.vf.efecto) }}.</li>
-      <li><b>No depende de una sola unidad.</b> Al quitar una a la vez, el efecto va de
-        {{ sp1(inf.jackknife.min) }} a {{ sp1(inf.jackknife.max) }}.</li>
-    </ol>
+<h2 class="seccion-titulo" id="acto2"><span class="n">2</span>Subieron {{ sp1(e.vf.efecto) }}, pero solo donde llegaron en marzo</h2>
+<div class="acto-marco qa"><p class="acto-veredicto no-concluye">{{ n(e.vf.observado) }} carpetas contra {{ n(e.vf.contrafactual) }} esperadas. Los robos no subieron igual.</p></div>
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <div class="fila-titulo">
+      <h3>Carpetas al mes: las agencias de marzo contra las que entraron después</h3>
+      <div class="segmentado compacto" id="sel-tendencia">
+        <button data-k="vf" class="activo">Violencia familiar</button>
+        <button data-k="robos">Robos</button>
+        <button data-k="resto">Resto de delitos</button>
+      </div>
+    </div>
+    <p class="sub-h3">Cada línea suma las carpetas de su grupo, con su promedio de 2018 igual a 100. La franja marca marzo a mayo de 2019.</p>
+    <div class="lienzo"><canvas id="ch-tendencia" role="img" aria-label="Carpetas al mes por grupo de agencias"></canvas></div>
   </div>
 </div>
 
-{% set pt = inf.permutacion_por_tamano %}
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <div class="dividida">
+      <div class="dividida-grafica">
+        <h3>No se repite: el efecto está en la cohorte de marzo</h3>
+        <div class="lienzo lienzo-bajo"><canvas id="ch-cohortes"></canvas></div>
+        <div class="tarjeta-pie">Mismo cálculo por cohorte de llegada. La de marzo pesa {{ p(co[0].peso) }} del resultado.</div>
+      </div>
+      <aside class="kpi-tarjeta dato-lateral">
+        <span class="etq">Sin la cohorte de marzo</span>
+        <div class="kpi">{{ sp1(c.robustez.sin_cohorte_de_marzo) }}</div>
+        <p>Abril queda en {{ sp1(co[1].efecto) }} y mayo en {{ sp1(co[2].efecto) }}.</p>
+      </aside>
+    </div>
+  </div>
+</div>
+
 <div class="rejilla">
   <div class="tarjeta span-4 sorteo" id="sorteo">
-    <p class="tarjeta-contexto">¿Y si el aumento salió por cómo cayeron las fechas? Para probarlo repartí al azar las fechas reales de
-llegada entre agencias de tamaño parecido. En cada reparto volví a calcular el efecto. Si las abogadas no
-hubieran hecho nada, cualquier reparto daría un resultado igual de válido que el real.</p>
-    <h3>El sorteo en vivo: ¿qué tan seguido el azar llega al {{ sp1(e.vf.efecto) }}?</h3>
-    <p class="sub-h3">Cada punto es un reparto al azar de las fechas reales de llegada entre agencias de tamaño parecido. Cae en el efecto que habría dado ese reparto.
-Los puntos claros son los que llegan tan lejos como lo observado, hacia arriba o hacia abajo.</p>
+    <h3>Sorteo en vivo: el azar llega al {{ sp1(e.vf.efecto) }} en {{ pt.b }} de {{ n(pt.n) }} repartos de fechas</h3>
     <div class="sorteo-control">
       <button class="btn" id="btn-sorteo" data-n="{{ n(pt.n) }}">Sortear {{ n(pt.n) }} veces</button>
       <span class="sorteo-contador" id="sorteo-contador" aria-live="off"></span>
@@ -228,566 +156,179 @@ Los puntos claros son los que llegan tan lejos como lo observado, hacia arriba o
     <div class="lienzo sorteo-lienzo"><canvas id="cv-sorteo" role="img"
       aria-label="Distribución de {{ n(pt.n) }} repartos al azar de las fechas de llegada. {{ pt.b }} llegan tan lejos como el {{ sp1(e.vf.efecto) }} observado."></canvas></div>
     <p class="sorteo-resultado" id="sorteo-resultado" aria-live="polite"></p>
-    <div class="tarjeta-pie">Los puntos son los {{ n(pt.n) }} repartos que ya se calcularon. Repetir cambia el orden en que caen, no el resultado.
-Se cuentan los dos lados porque una caída igual de grande también habría sido un resultado llamativo.
-Las barras agrupan de 2 en 2 puntos porcentuales. En las dos que cruzan una línea solo se iluminan los repartos que de verdad
-la pasan. Nota técnica: prueba de permutación por terciles de tamaño, de dos colas en valor absoluto.
-Valor p = ({{ pt.b }} + 1) / ({{ n(pt.n) }} + 1) = {{ d3(pt.p) }}.</div>
   </div>
 </div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <h3>La ciudad quedó {{ "%.0f"|format(c.ciudad.exceso_post_pct) }}% por encima de su tendencia desde marzo de 2019. Sin agencias de comparación no se le puede atribuir al programa</h3>
-    <p class="sub-h3">Se proyecta la tendencia y la estacionalidad de 2016 a febrero de 2019 hacia adelante. Es la comparación que suele presentarse en informes oficiales.</p>
-    <div class="lienzo"><canvas id="ch-ciudad"></canvas></div>
-    <div class="tarjeta-pie">Carpetas de violencia familiar al mes en las agencias territoriales, contra lo que predecía su tendencia
-      de 2016 a febrero de 2019. Parece un éxito, pero no permite atribuirlo. En diciembre de 2018 cambió el gobierno de la ciudad, en 2019
-      hubo grandes movilizaciones feministas y en enero de 2020 la Procuraduría se volvió Fiscalía. Sin agencias que esperaran su
-      turno, no hay forma de separar una cosa de la otra. Que se parezca al {{ sp1(e.vf.efecto) }} no confirma nada.</div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Para medir el efecto comparé, en el mismo mes, unidades que ya tenían abogadas contra unidades que
-todavía no. Si el programa fuera la causa, el aumento debería verse en las tres cohortes de llegada.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>No se repite: todo el efecto está en las unidades de marzo</h3>
-        <div class="lienzo lienzo-bajo"><canvas id="ch-cohortes"></canvas></div>
-        <div class="tarjeta-pie">Mismo cálculo, separando las unidades por mes de llegada. Las de marzo son las más grandes, llegaron con
-          el lanzamiento público del programa y pesan {{ p(c.por_cohorte[0].peso) }} del resultado. Sin ellas, el
-          efecto queda en {{ sp1(c.robustez.sin_cohorte_de_marzo) }}.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-      <span class="etq">Robos, que las abogadas no atienden</span>
-      <div class="kpi">{{ sp(e.robos.efecto) }}</div>
-      <p>Con el mismo cálculo, los robos casi no se mueven. Si algo hubiera cambiado todo el registro de la
-Fiscalía, también habrían subido. Su pequeño aumento ya aparecía en años sin programa: al fingir la
-llegada en {{ plac.robos.n }} fechas anteriores, subieron en {{ plac.robos.positivos }}. Se puede ver
-en el detalle técnico, en la gráfica con el botón «Robos».</p>
-      </aside>
-    </div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">El efecto compara dos grupos en los mismos meses. Por eso importa qué pasó con las agencias que
-servían de comparación.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>Las agencias de comparación también cambiaron: cayeron en marzo y abril</h3>
-        <p class="sub-h3">Cambio en carpetas de violencia familiar contra el mismo mes de 2018, en unidades con y sin abogadas.</p>
-        <div class="lienzo lienzo-bajo"><canvas id="ch-controles" role="img" aria-label="Cambio anual de carpetas en unidades con y sin programa"></canvas></div>
-        <div class="tarjeta-pie">Suma simple de carpetas de cada grupo en cada mes de 2019 contra el mismo mes de 2018, sin modelo.
-Si como comparación se usan solo las agencias sin programa que no son vecinas de una que ya lo tenía,
-el efecto de marzo baja de {{ sp(cc.marzo_por_vecindad.efecto_marzo_todos) }} a
-{{ sp(cc.marzo_por_vecindad.efecto_marzo_solo_controles_lejanos) }}.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-        <span class="etq">Unidades sin programa, marzo y abril de 2019</span>
-        <div class="kpi">{{ sp(cc.por_mes[0].interanual_sin_programa) }} y {{ sp(cc.por_mes[1].interanual_sin_programa) }}</div>
-        <p>contra el año anterior. El {{ sp1(e.vf.efecto) }} mide cuánto más subieron unas que otras. Buena parte
-viene de que las agencias sin abogadas cayeron. Si algunas denuncias se mudaron de una agencia vecina a
-otra con abogadas, el efecto estaría inflado. Los datos no permiten demostrarlo ni descartarlo.</p>
-      </aside>
-    </div>
-  </div>
-</div>
-
-<details class="detalle tecnico-bloque">
-  <summary>Cómo se estimó lo esperado y todas las pruebas estadísticas</summary>
-  <p>Lo que habría pasado sin abogadas no se observa. Hay que estimarlo. Usé el método de imputación de
-  Borusyak, Jaravel y Spiess (2024). Con los meses en que cada unidad aún no tenía programa se aprende
-  su nivel normal de carpetas. Con las unidades que todavía no tenían abogadas se aprende cuánto sube o
-  baja la ciudad cada mes. El nivel por el pulso del mes da las carpetas esperadas. Como son conteos, el
-  modelo es una regresión Poisson. El paso a paso está en
-  <a href="{{ url_for('metodologia') }}">Metodología</a>.</p>
-  <p>El método supone que, sin abogadas, cada unidad habría seguido el ritmo de las que aún no las
-  tenían. Se revisa en los meses previos a la llegada. Solo {{ prev_ok|length }} de esos
-  {{ prev|length }} meses tienen suficientes unidades sin programa para que el estimador principal los
-  mida. En ellos da {{ sp1(e.vf.adelantos_total) }} en conjunto. Los tres más cercanos a la llegada se
-  revisan con una regresión aparte. La prueba conjunta no rechaza que no haya tendencia previa
-  (p = {{ d2(bjs.K3.p_chi2) }} con tres meses, {{ d2(bjs.K6.p_chi2) }} con seis). Uno por uno crecen
-  conforme se acerca la fecha. El del mes −1 es mayor que el efecto estimado, aunque viene de otro modelo.</p>
-  <p>Si el programa no hubiera tenido efecto y las fechas se hubieran sorteado entre unidades de tamaño
-  parecido, un resultado igual o más extremo aparecería con p = {{ d3(inf.permutacion_por_tamano.p) }}. Los
-  rangos plausibles al 95% dependen de lo que se supone. Invirtiendo el sorteo van de
-  {{ sp(inf.inversion.ic95_valor_absoluto[0]) }} a {{ sp(inf.inversion.ic95_valor_absoluto[1]) }}, suponiendo el mismo efecto en todas las unidades.
-  Remuestreando unidades van de {{ sp1(inf.bootstrap.ic95[0]) }} a {{ sp(inf.bootstrap.ic95[1]) }}
-  (bootstrap) o de {{ sp(inf.jackknife.ic95_t[0]) }} a {{ sp(inf.jackknife.ic95_t[1]) }} (jackknife).
-  Estos dos tocan el cero.</p>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <h3>Mes a mes, contra las unidades que aún no tenían abogadas</h3>
-    <p class="sub-h3">Cada barra dice cuánto se alejaron las carpetas de lo esperado ese mes. Antes de la llegada (pizarra) deberían rondar el cero. Después (verde) deberían subir si el programa funciona. Los meses sin barra no tienen suficientes unidades sin programa para compararse. En violencia familiar, los círculos ámbar de esos meses vienen de una prueba aparte.</p>
-    <div class="segmentado" id="sel-delito">
-      <button data-k="vf" class="activo">Violencia familiar</button>
-      <button data-k="robos">Robos</button>
-    </div>
-    <div class="lienzo"><canvas id="ch-evento"></canvas></div>
-    <div class="tarjeta-pie" id="pie-evento"></div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Con tan pocas unidades y meses, un resultado así podría deberse a cómo cayeron las fechas. Por eso sorteé
-las fechas muchas veces y comparé.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>Si las fechas se hubieran sorteado, el {{ sp1(e.vf.efecto) }} sería poco común</h3>
-        <div class="lienzo"><canvas id="ch-permutacion"></canvas></div>
-        <div class="tarjeta-pie">Cómo se hizo: las fechas de llegada reales se repartieron al azar entre unidades de tamaño parecido,
-          {{ n(inf.permutacion_por_tamano.n) }} veces. En cada reparto se recalculó el efecto. Así se distribuirían los
-          efectos si el programa no hubiera hecho nada. En pizarra claro, los sorteos que llegan tan lejos como el observado, hacia arriba o hacia abajo. La línea verde marca el observado.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-      <span class="etq">Si el programa no hubiera hecho nada</span>
-      <div class="kpi">1 de cada {{ (1 / inf.permutacion_por_tamano.p)|round|int }}</div>
-      <p>sorteos de fechas producirían un efecto igual o más extremo. Supone que, sin programa, cualquier reparto
-de fechas dentro de cada grupo de tamaño era igual de probable. Con uno o nueve grupos sigue siendo poco común.</p>
-      </aside>
-    </div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">El sorteo deja fijas las unidades y mueve las fechas. Otra forma de medir la incertidumbre es preguntarse
-qué pasaría con otras agencias: remuestrearlas o quitarlas de una en una. Las respuestas no coinciden.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>Solo el rango que sortea fechas excluye el cero</h3>
-        <p class="sub-h3">Rangos al 95% para el efecto. La línea verde es el estimado. La punteada blanca, el cero.</p>
-        <div class="lienzo lienzo-bajo"><canvas id="ch-intervalos" role="img" aria-label="Intervalos de confianza del efecto con tres métodos"></canvas></div>
-        <div class="tarjeta-pie">Cómo se hizo: la inversión de la permutación busca qué efectos, sumados a las unidades con programa, dejarían de ser raros en los repartos de fechas. El bootstrap remuestrea unidades con reemplazo ({{ n(inf.bootstrap.replicas) }} réplicas. En {{ inf.bootstrap.replicas_que_pierden_un_mes }} de ellas un mes deja de poder medirse). El jackknife quita una unidad a la vez.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-        <span class="etq">Lo que separa a los intervalos</span>
-        <div class="kpi">{{ sp(inf.inversion.ic95_valor_absoluto[0]) }} contra {{ sp(inf.jackknife.ic95_t[0]) }}</div>
-        <p>es el límite inferior cuando se sortean fechas y cuando se quitan unidades. Los que mueven las unidades
-tocan el cero porque el resultado depende de pocas unidades grandes de marzo. Al quitarlas o repetirlas, el
-efecto cambia mucho. No es un error de cálculo. Es una diferencia de supuestos.</p>
-      </aside>
-    </div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Si el método produjera efectos de este tamaño aunque no hubiera programa, aparecerían también en años sin abogadas. Por eso se fingió la llegada, con el mismo calendario, entre {{ plac.vf.placebos | map(attribute="meses_antes") | min }} y {{ plac.vf.placebos | map(attribute="meses_antes") | max }} meses antes de la real.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>En {{ plac.vf.n }} lanzamientos ficticios, ninguno llega al {{ sp1(e.vf.efecto) }}</h3>
-        <p class="sub-h3">Efecto que da el método con cada fecha ficticia de lanzamiento, en violencia familiar. Las líneas verdes marcan el efecto observado, hacia arriba y hacia abajo.</p>
-        <div class="lienzo lienzo-bajo"><canvas id="ch-placebos" role="img" aria-label="Efecto estimado con lanzamientos ficticios del programa"></canvas></div>
-        <div class="tarjeta-pie">Cómo se hizo: se tomaron solo meses sin programa, se movió el calendario real hacia atrás un mes a la vez y se estimó el efecto con el mismo método. En promedio dan {{ sp1(plac.vf.media) }}. El más alejado de cero, {{ p(plac.vf.max_abs) }} en valor absoluto.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-        <span class="etq">Lanzamientos ficticios que igualan el efecto</span>
-        <div class="kpi">{{ plac.vf.alcanzan_el_efecto }} de {{ plac.vf.n }}</div>
-        <p>El método no fabrica efectos de este tamaño en violencia familiar cuando no hay programa. Eso descarta un defecto del método, pero no un cambio que haya coincidido con la llegada real.</p>
-      </aside>
-    </div>
-  </div>
-</div>
-
-{% if q %}
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Queda una forma exploratoria, añadida después del resultado principal, de distinguir el programa de un cambio
-      en toda la ciudad. Si el aumento se debe a las abogadas, cada unidad debería subir en su propio mes de llegada.
-      Si se debe a la ciudad, todas subirían en el mismo mes del calendario.</p>
-    <h3>Un detector de escalones revisó, una por una, las {{ qa.n }} unidades</h3>
-    <div class="pelt-fila pelt-demo">
-      <div class="pelt-grafica">
-        <div class="lienzo"><canvas id="ch-pelt-ejemplo" role="img" aria-label="Serie mensual de una agencia con los tramos de nivel que encontró el detector"></canvas></div>
-      </div>
-      <div class="pelt-paso">
-        <span class="pelt-num">1</span>
-        <h4>Qué hace el detector</h4>
-        <p>Recibe la serie mensual de una unidad sin saber cuándo llegaron las abogadas y la divide en tramos
-          de nivel estable (línea blanca). Solo marca un escalón si el cambio se sostiene y es mayor que la
-          variación normal de un mes a otro. Después se revisa si el escalón cae en la franja clara: el mes de
-          llegada o el siguiente.</p>
-        <div class="segmentado lista" id="sel-pelt-ejemplo" role="group" aria-label="Agencia de ejemplo"></div>
-        <p class="pelt-nota" id="pelt-ejemplo-texto"></p>
-      </div>
-    </div>
-
-    <div class="pelt-selector">
-      <span>Contar en</span>
-      <div class="segmentado" id="sel-quiebres" role="group" aria-label="Delito que se cuenta">
-        <button data-k="vf" class="activo" aria-pressed="true">Violencia familiar</button>
-        <button data-k="robos" aria-pressed="false">Robos, que las abogadas no atienden</button>
-      </div>
-    </div>
-    <div class="pelt-fila pelt-resultado">
-      <div class="pelt-paso">
-        <span class="pelt-num">2</span>
-        <h4>Qué encontró en cada unidad</h4>
-        <div class="mosaico" id="pelt-mosaico" aria-label="Resultado del detector en cada agencia"></div>
-        <div class="mosaico-leyenda">
-          <span><i class="cuadro alza-llegada"></i><span><b id="pelt-n-llegada"></b> <span id="pelt-t-llegada">suben</span> al llegar las abogadas</span></span>
-          <span><i class="cuadro alza-otro"></i><span><b id="pelt-n-otro"></b> <span id="pelt-t-otro">suben</span> en otro mes</span></span>
-          <span><i class="cuadro sin"></i><span><b id="pelt-n-sin"></b> no <span id="pelt-t-sin">suben</span></span></span>
-        </div>
-      </div>
-      <div class="pelt-paso">
-        <span class="pelt-num">3</span>
-        <h4>¿Es más de lo que daría el sorteo de fechas?</h4>
-        <p>Se repartieron las fechas de llegada al azar entre unidades de tamaño parecido y se volvió a contar.</p>
-        <div class="azar-regla" id="pelt-regla" aria-hidden="true">
-          <div class="azar-pista"><div class="azar-banda" id="pelt-banda"></div>
-            <div class="azar-marca habitual" id="pelt-habitual"><span></span></div>
-            <div class="azar-marca observado" id="pelt-observado"><span></span></div>
-          </div>
-          <div class="azar-ejes" id="pelt-ejes"></div>
-        </div>
-        <p class="pelt-veredicto" id="pelt-regla-texto"></p>
-      </div>
-    </div>
-    <div class="tarjeta-pie">Cómo se hizo: el detector es el método de puntos de cambio PELT, aplicado a la serie mensual de cada unidad de enero de 2017 a febrero de 2020. Con el
-      criterio elegido, en series simuladas estables marca escalones falsos en {{ pp(fpe.iid[kfp] * 100) }} de cada 100 series. En series con
-      una tendencia suave, en {{ pp(fpe.tendencia_8pct_anual[kfp] * 100) }} de cada 100. Si
-      {# 28% fijo: lo dice el nombre de la llave choque_comun_28_marzo_2019 #}
-      toda la ciudad hubiera subido 28% en marzo de 2019, la prueba lo confundiría con el programa en
-      {{ p1(prueba.choque_comun_28_marzo_2019.rechaza_al_5) }} de las simulaciones. Son los mismos datos que el
-      {{ sp1(e.vf.efecto) }}, analizados con otro método, no una prueba independiente.</div>
-  </div>
-</div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">El conteo depende de decisiones que no se fijaron antes de ver los datos: cuántos meses alrededor de la llegada se
-      consideran y qué tan grande debe ser un cambio para contarlo. Se repitió la prueba variando ambas. También con las fechas de llegada corridas.</p>
-    <div class="dividida">
-      <div class="dividida-grafica">
-        <h3>El resultado depende de la definición. Con las fechas corridas un mes antes da lo mismo</h3>
-        <p class="sub-h3">Cada barra indica cuántos de cada 100 repartos al azar igualan o superan el conteo observado con esa definición. La línea marca 5 de cada 100. En verde, la definición principal. En ámbar, las fechas corridas un mes antes.</p>
-        <div class="lienzo lienzo-alto"><canvas id="ch-quiebres-fragilidad" role="img" aria-label="Repartos al azar que igualan el resultado con cada definición"></canvas></div>
-        <div class="tarjeta-pie">Cómo se hizo: se repitió la prueba con cada definición. Contando solo el mes de llegada,
-          {{ (sv.e0.p * 100)|round|int }} de cada 100 repartos igualan el resultado. Incluyendo el mes anterior,
-          {{ (sv["e-1a1"].p * 100)|round(1) }}. Con criterios mucho más estrictos, las unidades con aumento bajan de
-          {{ qv.unidades_con_quiebre_en_llegada }} a {{ k5 }}. Si todas las fechas se corren un mes antes, el detector
-          cuenta {{ ptem["-1"].unidades }} unidades, tantas como con las fechas reales (p = {{ d3(ptem["-1"].p) }},
-          contra {{ d3(qv.p) }}). Los escalones se concentran alrededor de la llegada, sin que el mes exacto se
-          distinga del anterior.</div>
-      </div>
-      <aside class="kpi-tarjeta dato-lateral">
-        <span class="etq">Ajustado por las {{ wy.especificaciones }} variantes probadas</span>
-        <div class="kpi">p = {{ d2(wy.p_principal_ajustado) }}</div>
-        <p>contra {{ d3(wy.p_principal) }} sin ajustar. Se probaron {{ wy.especificaciones }} combinaciones de ventana y criterio. Al tomar en cuenta que se eligió una entre ellas, la definición principal deja de ser poco común bajo el sorteo. Por eso el análisis es exploratorio. Además, si el {{ sp1(e.vf.efecto) }} fuera real en todas las unidades, solo {{ (prueba.programa_28.rechaza_al_5 * 100)|round|int }} de cada 100 simulaciones lo detectarían con esta prueba: con unidades de unas {{ n(pot.nivel) }} carpetas al mes, un aumento de ese tamaño se confunde con la variación normal.</p>
-      </aside>
-    </div>
-  </div>
-</div>
-{% endif %}
-</details>
 
 <!-- ============================================================ ACTO 3 -->
-{% set ini = pr.periodos[0] %}
-{% set fin = pr.periodos[-1] %}
-{% set het = pr.riesgo.heterogeneidad_entre_agencias_con_riesgo %}
-{% set ir = pr.riesgo.intervalo_riesgo_sin_carpeta %}
-{% set dif = pr.riesgo.diferencia_dentro_de_agencia %}
-{% set emb = pr.embudo %}
-<h2 class="seccion-titulo" id="acto3"><span class="n">3</span>¿La cifra del propio programa sirve para saber si funcionó?</h2>
-<div class="acto-marco qa">
-<p class="acto-veredicto no-confirma">No. El programa mide su éxito con la <b>conversión</b>: de cada 100 atenciones, cuántas terminan en
-carpeta. Pasó de {{ p(d.conversion_inicio) }} a {{ p(d.conversion_fin) }}. Parece una mejora, pero sobre
-todo refleja que hubo menos atenciones. Entre {{ pp(d.parte_por_menos_atenciones_pct) }}% y
-{{ pp(dc.parte_por_menos_atenciones_pct) }}% del salto viene de ahí, según el periodo que se tome como
-base. Además, con el mismo programa la conversión va de {{ p(emb.min) }} a {{ p(emb.max) }} según la
-agencia. Mezcla cuántas atenciones se registran, qué casos llegan y diferencias entre agencias. No se
-puede leer como desempeño.</p>
+<h2 class="seccion-titulo" id="acto3"><span class="n">3</span>De seis pruebas, dos pasan, una no se confirma y tres fallan</h2>
+<div class="acto-marco qa"><p class="acto-veredicto no-confirma">Un indicio a favor, pero el diseño no permite atribuirlo.</p></div>
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <ul class="pruebas" id="pruebas">
+      <li class="ok"><b class="h">H1</b><span class="q">¿Hay más carpetas de las esperadas?</span><span class="v">Sí, en el signo</span><span class="d">{{ sp1(e.vf.efecto) }}, p = {{ d3(pt.p) }}</span></li>
+      <li class="ok"><b class="h">H2</b><span class="q">¿Otros delitos subieron igual?</span><span class="v">No, la prueba pasa</span><span class="d">robos {{ sp1(e.robos.efecto) }}, hasta {{ sp(e.robos.ic95[1]) }}</span></li>
+      <li class="duda"><b class="h">H3</b><span class="q">¿Nada subía antes de que llegaran?</span><span class="v">No lo puedo confirmar</span><span class="d">{{ sp(bjs.K3.adelantos_pct[2] / 100) }}, {{ sp(bjs.K3.adelantos_pct[1] / 100) }}, {{ sp(bjs.K3.adelantos_pct[0] / 100) }}, p = {{ d2(bjs.K3.p_chi2) }}</span></li>
+      <li class="mal"><b class="h">H4</b><span class="q">¿Pasa en todas las cohortes de llegada?</span><span class="v">No, solo en marzo</span><span class="d">{{ sp1(co[0].efecto) }}, {{ sp1(co[1].efecto) }}, {{ sp1(co[2].efecto) }}</span></li>
+      <li class="mal"><b class="h">H5</b><span class="q">¿La conversión mide el desempeño?</span><span class="v">No</span><span class="d">{{ pp(d.parte_por_menos_atenciones_pct) }}% del salto es por menos atenciones</span></li>
+      <li class="mal"><b class="h">H6</b><span class="q">¿El diseño detectaba 20% a 30%?</span><span class="v">No, solo {{ p(real.mde_interpolado) }} o más</span><span class="d">el estimado queda debajo</span></li>
+    </ul>
+  </div>
 </div>
 
 <div class="rejilla">
   <div class="tarjeta span-4">
-    <h3>La conversión pasó de {{ p(d.conversion_inicio) }} a {{ p(d.conversion_fin) }}. {{ pp(d.parte_por_menos_atenciones_pct) }}% de ese salto viene de que hubo menos atenciones</h3>
-    <div class="descomp-barra" role="img" aria-label="De dónde viene el salto en la conversión">
-      <span class="cautela" style="width: {{ d.parte_por_menos_atenciones_pct }}%">menos atenciones · {{ pp(d.parte_por_menos_atenciones_pct) }}%</span>
-      <span class="prog" style="width: {{ d.parte_por_mas_carpetas_pct }}%">más carpetas · {{ pp(d.parte_por_mas_carpetas_pct) }}%</span>
+    <div class="balance">
+      <div class="lado fav">
+        <h3>A favor</h3>
+        <ul>
+          <li>{{ sp1(e.vf.efecto) }} de carpetas sobre lo esperado</li>
+          <li>{{ pt.b }} de {{ n(pt.n) }} sorteos llegan igual de lejos</li>
+          <li>Los robos no subieron igual</li>
+          <li>De {{ sp(inf.jackknife.min) }} a {{ sp(inf.jackknife.max) }} quitando una agencia</li>
+        </ul>
+      </div>
+      <div class="lado con">
+        <h3>En contra</h3>
+        <ul>
+          <li>{{ pal[tocan]|capitalize }} de tres intervalos tocan el cero</li>
+          <li>No descarto que ya vinieran subiendo</li>
+          <li>Todo viene de la cohorte de marzo</li>
+          <li>Las de comparación cayeron {{ p(cc.por_mes[0].interanual_sin_programa|abs) }}</li>
+        </ul>
+      </div>
     </div>
-    <div class="tarjeta-pie">Con la base de marzo a diciembre de 2019. Con la del despliegue completo, de junio de 2019 a marzo de 2020, la parte por menos atenciones sube a {{ pp(dc.parte_por_menos_atenciones_pct) }}%.</div>
+    <p class="cierre-balance">Compatible con que las abogadas aumentaran las carpetas. No alcanza para atribuírselo.</p>
   </div>
 </div>
-
-<div class="rejilla">
-<div class="tarjeta span-4">
-    <h3>Las atenciones cayeron {{ pp(-d.cambio_atenciones_pct) }}% y las carpetas subieron {{ pp(d.cambio_carpetas_pct) }}%. Por eso la conversión se duplicó</h3>
-    <div class="segmentado" id="sel-conv">
-      <button data-v="conteos" class="activo">Atenciones y carpetas</button>
-      <button data-v="registro">Cómo se registró</button>
-    </div>
-    <div class="lienzo"><canvas id="ch-conversion"></canvas></div>
-    <div class="tarjeta-pie" id="pie-conversion"></div>
-  </div>
-</div>
-
-<div class="rejilla">
-<div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Si algo del caso debería pesar, es el peligro. El programa anota en cada atención
-si hay riesgo de que la mujer sea asesinada.</p>
-    <h3>Con riesgo de feminicidio, {{ "%.0f"|format(riesgo.riesgo_sin_carpeta_pct) }} de cada 100 atenciones terminan sin carpeta</h3>
-    <p class="sub-h3">Atenciones que terminan sin carpeta, de cada 100. Con ese riesgo hubo {{ n(riesgo.riesgo_feminicida) }} atenciones.</p>
-    <div class="embudo">
-      <div class="paso-barra-fila"><span class="paso-etq">Con riesgo de feminicidio</span>
-        <div class="paso-barra"><span style="width: {{ riesgo.riesgo_sin_carpeta_pct }}%; background: var(--dato-prog)"></span></div>
-        <span class="paso-val">{{ "%.0f"|format(riesgo.riesgo_sin_carpeta_pct) }}</span></div>
-    </div>
-    <div class="tarjeta-pie">Comparando dentro de cada agencia, los casos de mayor peligro sí terminan más seguido en carpeta. Aun así,
-      {{ pp(ir.pct) }} de cada 100 atenciones con riesgo terminan sin carpeta. Entre las
-      {{ het.agencias_con_20_o_mas }} agencias con al menos 20 de esas atenciones, la proporción va de
-      {{ pp(het.min_sin_carpeta * 100) }} a {{ pp(het.max_sin_carpeta * 100) }} de cada 100. La base cuenta
-      atenciones, no personas. Tampoco dice por qué no se abrió la carpeta, que pudo ser decisión de la mujer.
-      Solo se usan los meses desde junio de 2020 en que el "no" quedó registrado.</div>
-  </div>
-</div>
-
-{% set tr = c.resumen.hueco.tramos %}
-<div class="aviso-dato">
-  <strong>Un hueco en el registro.</strong> Durante {{ c.resumen.hueco_meses }} meses, en dos tramos
-  ({{ fm(tr[0].desde) }} a {{ fm(tr[0].hasta) }} y {{ fm(tr[1].desde) }} a {{ fm(tr[1].hasta) }}), el "no se
-  abrió carpeta" casi desaparece. Solo hay {{ c.resumen.hueco.no_en_hueco }} en total. En su lugar aparece
-  "sin dato". Esos meses se muestran aparte. Nunca se usan para calcular la conversión ni el riesgo.
-</div>
-
-<details class="detalle tecnico-bloque">
-  <summary>Cómo se separó el cambio en la conversión y cuánto pesa la agencia</summary>
-  <p>Usé el registro del programa: {{ n(c.resumen.atenciones) }} atenciones una por una, con agencia, tipo
-  de violencia, nivel de riesgo y si se abrió carpeta. Separé el cambio en la conversión en dos partes:
-  la que viene de abrir más carpetas y la que viene de registrar menos atenciones. Después comparé la
-  conversión de cada agencia contra la variación esperable entre agencias.</p>
-  <div class="tiles">
-    <div class="tile"><span class="tile-val">{{ p(d.conversion_inicio) }}</span><span class="tile-etq">conversión, mar a dic 2019</span><span class="tile-nota">{{ n(ini.carpetas_mes) }} carpetas de {{ n(ini.atenciones_mes) }} atenciones al mes</span></div>
-    <div class="tile"><span class="tile-val">{{ p(d.conversion_fin) }}</span><span class="tile-etq">conversión, sep 2021 a mar 2022</span><span class="tile-nota">{{ n(fin.carpetas_mes) }} carpetas de {{ n(fin.atenciones_mes) }} atenciones al mes</span></div>
-    <div class="tile"><span class="tile-val medio">{{ sp(d.cambio_atenciones_pct / 100) }}</span><span class="tile-etq">atenciones al mes</span><span class="tile-nota">se registran menos atenciones</span></div>
-    <div class="tile"><span class="tile-val">{{ sp(d.cambio_carpetas_pct / 100) }}</span><span class="tile-etq">carpetas al mes</span><span class="tile-nota">suben mucho menos de lo que sube la conversión</span></div>
-  </div>
-
-  <div class="rejilla">
-  <div class="tarjeta kpi-tarjeta span-2">
-    <span class="etq">Si solo hubieran bajado las atenciones</span>
-    <div class="kpi">{{ p(ini.carpetas_mes / fin.atenciones_mes) }}</div>
-    <p>sería la conversión con las mismas carpetas de 2019, sin abrir una sola más.
-      <b>Atender menos explica {{ pp(d.parte_por_menos_atenciones_pct) }}% del salto</b> con la base de marzo a diciembre de 2019 y {{ pp(dc.parte_por_menos_atenciones_pct) }}% con la base del despliegue completo, de junio de 2019 a marzo de 2020.</p>
-  </div>
-  <div class="tarjeta kpi-tarjeta span-2">
-    <span class="etq">Si solo hubieran subido las carpetas</span>
-    <div class="kpi">{{ p(fin.carpetas_mes / ini.atenciones_mes) }}</div>
-    <p>sería la conversión con tantas atenciones como en 2019. Abrir más carpetas explica el
-      {{ pp(d.parte_por_mas_carpetas_pct) }}% restante con la base de 2019. Con la del despliegue completo explica menos.</p>
-  </div>
-  </div>
-
-<div class="rejilla">
-  <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Si la conversión no mide qué tan bien trabajan las abogadas, ¿de qué depende
-que una atención termine en carpeta? Debería depender del caso. También depende de la agencia.</p>
-    <h3>La conversión va de {{ p(emb.min) }} a {{ p(emb.max) }} según la agencia, más de lo que explica su tamaño</h3>
-    <p class="sub-h3">Cada punto es una agencia. Las líneas marcan el rango que se esperaría por su número de atenciones. Con anillo blanco, las que salen de él.</p>
-    <div class="lienzo"><canvas id="ch-embudo"></canvas></div>
-    <div class="tarjeta-pie">Cómo se hizo: se calculó la conversión de cada agencia con al menos 100 atenciones
-(marzo de 2019 a marzo de 2020) y se comparó con lo que se esperaría por su número de atenciones. Las
-diferencias siguen siendo mayores de lo que explica su tamaño. Al pasar el cursor se identifica cada agencia.</div>
-  </div>
-  </div>
-</details>
 
 <!-- ============================================================ ACTO 4 -->
-<h2 class="seccion-titulo" id="acto4"><span class="n">4</span>¿Se podía saber con este despliegue?</h2>
-<div class="acto-marco qa">
-<p class="acto-veredicto simulacion">Solo si el efecto era grande. Con {{ c.resumen.unidades_analisis }} unidades de una sola ciudad, el análisis
-detecta con confianza, 8 de cada 10 veces, aumentos de {{ p(real.mde_interpolado) }} o más. El
-{{ sp1(ev.efecto_estimado) }} queda por debajo. Un aumento real de 20% se habría pasado por alto
-{{ ((1 - real.potencia["0.2"]) * 10)|round|int }} de cada 10 veces. La razón: aun sin programa, las carpetas de
-una agencia cambian mucho de un año a otro. En 9 de cada 10 unidades el cambio de 2017 a 2018 fue de
-{{ p(ev.deriva.cambio_2017_2018_percentiles.p5) }} a {{ sp(ev.deriva.cambio_2017_2018_percentiles.p95) }}.
-Esto no quiere decir que el aumento sea casualidad. Quiere decir que este despliegue no daba para estar seguros.</p>
-</div>
-
+<h2 class="seccion-titulo" id="acto4"><span class="n">4</span>El diseño solo veía aumentos de {{ p(real.mde_interpolado) }} o más</h2>
+<div class="acto-marco qa"><p class="acto-veredicto simulacion">Un aumento real de 20% se habría pasado por alto {{ ((1 - real.potencia["0.2"]) * 10)|round|int }} de cada 10 veces.</p></div>
 <div class="rejilla">
   <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Con esa variación, un aumento pequeño se confunde con el ruido. La regla muestra el estimado entre dos
-límites: el piso que el diseño alcanza a ver y el techo que permite el registro.</p>
-    <h3>El {{ sp1(ev.efecto_estimado) }} estimado queda debajo del {{ p(real.mde_interpolado) }} que el diseño detecta con confianza</h3>
+    <h3>El {{ sp1(ev.efecto_estimado) }} estimado queda debajo del {{ p(real.mde_interpolado) }} detectable</h3>
     <div class="regla2" id="regla">
       <div class="regla2-pista">
-        <div class="z bajo" style="width: {{ real.mde_interpolado * 100 }}%"><span>se ve menos de 8 de cada 10 veces</span></div>
-        <div class="z medio" style="left: {{ real.mde_interpolado * 100 }}%; width: {{ ([techo.efecto_maximo, 1]|min - real.mde_interpolado) * 100 }}%"><span>se ve 8 de cada 10 veces o más</span></div>
-        <div class="z fuera" style="left: {{ [techo.efecto_maximo, 1]|min * 100 }}%" title="No cabe en el registro: más que el techo lógico"></div>
+        <div class="z bajo" style="width: {{ real.mde_interpolado * 100 }}%"><span>no se ve</span></div>
+        <div class="z medio" style="left: {{ real.mde_interpolado * 100 }}%; width: {{ ([techo.efecto_maximo, 1]|min - real.mde_interpolado) * 100 }}%"><span>se ve 8 de cada 10 veces</span></div>
+        <div class="z fuera" style="left: {{ [techo.efecto_maximo, 1]|min * 100 }}%" title="No cabe en el registro"></div>
       </div>
       <div class="m estimado" style="left: {{ ev.efecto_estimado * 100 }}%"><b>estimado {{ sp1(ev.efecto_estimado) }}</b></div>
-      <div class="m piso" style="left: {{ real.mde_interpolado * 100 }}%"><b>mínimo detectable {{ p(real.mde_interpolado) }}</b></div>
+      <div class="m piso" style="left: {{ real.mde_interpolado * 100 }}%"><b>detectable {{ p(real.mde_interpolado) }}</b></div>
       <div class="m techo" style="left: {{ [techo.efecto_maximo * 100, 100]|min }}%"><b>techo {{ sp(techo.efecto_maximo) }}</b></div>
       <div class="regla-eje"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
     </div>
-    <div class="tarjeta-pie"><b>Techo.</b> En esos meses, {{ n(techo.carpetas_programa_vf) }} de las {{ n(techo.carpetas_vf) }} carpetas de
-violencia familiar pasaron por una abogada ({{ p1(techo.parte_de_carpetas_vf_con_abogada) }}). Aunque
-ninguna hubiera existido sin ellas, el aumento no podría pasar de {{ sp(techo.efecto_maximo) }}.
-<b>Mínimo detectable.</b> Es el aumento más chico que este despliegue detecta 8 de cada 10 veces:
-{{ p(real.mde_interpolado) }}.</div>
+    <div class="tarjeta-pie">El techo: {{ n(techo.carpetas_programa_vf) }} de {{ n(techo.carpetas_vf) }} carpetas pasaron por una abogada.</div>
+    <div class="nuevas" id="nuevas" data-obs="{{ techo.carpetas_vf }}" data-prog="{{ techo.carpetas_programa_vf }}" data-esperado="{{ e.vf.contrafactual }}" data-mde="{{ real.mde_interpolado }}">
+      <label class="etiqueta-campo" for="slider-nuevas">¿Cuántas de las {{ n(techo.carpetas_programa_vf) }} carpetas con abogada son nuevas? <span class="valor-anio" id="nv-num"></span></label>
+      <input type="range" id="slider-nuevas" min="0" max="{{ techo.carpetas_programa_vf }}" value="0" step="1">
+      <p class="nuevas-lectura">Efecto resultante <b id="nv-efecto"></b>. <span id="nv-zona"></span></p>
+    </div>
   </div>
-
 </div>
 
 <div class="rejilla">
   <div class="tarjeta span-4">
-    <p class="tarjeta-contexto">Mueve el control para suponer un aumento y ver cuántas de cada 100 evaluaciones lo habrían detectado
-con el calendario real o con una expansión sorteada por estados.</p>
-    <h3 id="titulo-potencia">Si el programa hubiera aumentado las carpetas</h3>
-    <div class="potencia-control">
-      <label class="etiqueta-campo" for="slider-efecto">Aumento supuesto: <span class="valor-anio" id="efecto-val">20%</span></label>
-      <input type="range" id="slider-efecto" min="0" max="12" value="3" step="1">
-    </div>
-    <div class="segmentado calendarios" id="sel-calendario" role="group" aria-label="Calendario de llegada"></div>
-    <div class="potencia-grid">
-      <div class="evals">
-        <p class="evals-etq">100 evaluaciones imaginarias con este calendario</p>
-        <div class="evals-rejilla" id="evals-rejilla" role="img"></div>
-        <div class="evals-clave"><span><i class="eval-c on"></i>lo habría visto</span><span><i class="eval-c"></i>lo habría pasado por alto</span></div>
-        <p class="evals-frase" id="evals-frase" aria-live="polite"></p>
-        <p class="evals-vara" id="evals-vara"></p>
+    <h3>Si el programa hubiera aumentado las carpetas, ¿cuántas de 100 evaluaciones como esta lo habrían visto?</h3>
+    <div class="cien-trio">
+      {% for r in ["0.1", "0.2", "0.3"] %}
+      {% set k = (real.potencia[r] * 100)|round|int %}
+      <div class="cien">
+        <div class="evals-rejilla" role="img" aria-label="{{ k }} de 100">{% for i in range(100) %}<i class="eval-c{{ ' on' if i < k else '' }}"></i>{% endfor %}</div>
+        <span class="cien-val">{{ k }} de 100</span>
+        <span class="cien-etq">con un aumento real de {{ (r|float * 100)|round|int }}%</span>
       </div>
-      <div class="lienzo"><canvas id="ch-potencia"></canvas></div>
+      {% endfor %}
     </div>
-    <div class="tarjeta-pie">Cada círculo es una evaluación simulada: se finge la llegada del programa sobre datos de años sin abogadas,
-se suma el aumento supuesto y se aplica el mismo método. La línea punteada de la gráfica marca 80 de cada 100,
-lo que se pide para confiar en una evaluación. El calendario real cuenta carpetas por agencia en la Ciudad de México.
-El calendario por estados cuenta carpetas por estado con el censo de fiscalías del INEGI. El aumento se
-aplica a todo el estado, así que no se compara directamente con el real (acto&nbsp;5).</div>
+    <p class="tarjeta-pie">Para confiar en una evaluación se piden 80 de 100. Con este calendario solo se alcanza con aumentos de {{ p(real.mde_interpolado) }} o más.</p>
   </div>
-
 </div>
 
-<details class="detalle tecnico-bloque">
-  <summary>Cómo se simuló y qué tan estable es el mínimo detectable</summary>
-  <p>Tomé las carpetas reales de enero de 2017 a febrero de 2019, cuando no había programa. Fingí que las
-  abogadas llegaban en marzo de 2018 con el calendario real: cuántas unidades entraron en cada cohorte de
-  llegada, con las fechas sorteadas entre unidades de tamaño parecido. Sumé un efecto conocido (10%, 20%,
-  30%...) y apliqué el mismo método y la misma prueba de sorteo del acto 2, miles de veces por cada tamaño.
-  Después conté en cuántas lo detecta. Un efecto de 10% se habría detectado
-  {{ (real.potencia["0.1"] * 100)|round|int }} de cada 100 veces y uno de 20%,
-  {{ (real.potencia["0.2"] * 100)|round|int }} de cada 100.</p>
-  <p>El mínimo detectable describe el diseño, no la estimación. El {{ sp1(ev.efecto_estimado) }} sí supera el umbral de
-  la prueba real del acto 2: en valor absoluto, {{ p1(inf.nula_abs_q95) }} o más solo aparece en 5 de cada
-  100 sorteos.</p>
-
-  {% set nsd = namespace(k=0) %}
-  {% for u in ev.deriva.por_unidad %}{% if u.cambio > real.mde_interpolado or u.cambio < -real.mde_interpolado %}{% set nsd.k = nsd.k + 1 %}{% endif %}{% endfor %}
 <div class="rejilla">
-  <div class="tarjeta span-2">
-    <h3>En una misma unidad las carpetas suben y bajan mucho de un mes a otro sin que nada cambie</h3>
-    <select class="control" id="sel-agencia" aria-label="Agencia"></select>
-    <div class="lienzo lienzo-bajo"><canvas id="ch-agencia"></canvas></div>
-    <div class="tarjeta-pie">Carpetas de violencia familiar al mes, de enero de 2017 a febrero de 2020. La línea vertical marca la
-      llegada de las abogadas. Contra esa variación de un mes a otro compite cualquier efecto.</div>
-  </div>
-  <div class="tarjeta span-2">
-    <h3>Sin programa, {{ nsd.k }} de {{ c.resumen.unidades_analisis }} unidades ya cambiaron más de {{ p(real.mde_interpolado) }} de un año a otro, hacia arriba o hacia abajo</h3>
-    <div class="lienzo lienzo-bajo"><canvas id="ch-deriva"></canvas></div>
-    <div class="tarjeta-pie">Cambio en carpetas de violencia familiar de 2017 a 2018, antes de las abogadas, en cada una de las
-      {{ c.resumen.unidades_analisis }} unidades. Resaltadas, las que se movieron más de
-      {{ p(real.mde_interpolado) }} sin ningún programa.</div>
+  <div class="tarjeta span-4">
+    <div class="dividida">
+      <div>
+        <h3>La conversión del programa tampoco sirve para evaluarlo</h3>
+        <div class="conv-salto">
+          <span class="cs-val ref">{{ p(d.conversion_inicio) }}</span>
+          <span class="cs-flecha">→</span>
+          <span class="cs-val prog">{{ p(d.conversion_fin) }}</span>
+        </div>
+        <p class="tarjeta-pie">de las atenciones terminan en carpeta, de 2019 a 2022</p>
+        <div class="descomp-barra" role="img" aria-label="De dónde viene el salto en la conversión">
+          <span class="cautela" style="width: {{ d.parte_por_menos_atenciones_pct }}%">menos atenciones · {{ pp(d.parte_por_menos_atenciones_pct) }}%</span>
+          <span class="prog" style="width: {{ d.parte_por_mas_carpetas_pct }}%">más carpetas · {{ pp(d.parte_por_mas_carpetas_pct) }}%</span>
+        </div>
+      </div>
+      <div class="dividida-grafica">
+        <div class="fila-titulo">
+          <h3>Atenciones y carpetas al mes</h3>
+          <div class="segmentado compacto" id="sel-conv">
+            <button data-v="conteos" class="activo">Conteos</button>
+            <button data-v="registro">Registro</button>
+          </div>
+        </div>
+        <div class="lienzo lienzo-bajo"><canvas id="ch-conversion"></canvas></div>
+        <div class="tarjeta-pie" id="pie-conversion"></div>
+      </div>
+    </div>
   </div>
 </div>
-</details>
 
 <!-- ============================================================ ACTO 5 -->
-<h2 class="seccion-titulo" id="acto5"><span class="n">5</span>¿Qué hacer en la expansión nacional?</h2>
-<div class="acto-marco qa">
-<p class="acto-veredicto simulacion">Diseñarla para que se pueda evaluar antes de que arranque en cada estado. Lo que impidió saberlo en la
-ciudad se decide al inicio: el orden de entrada, el calendario y el registro. Sortear qué estados entran
-primero no da más precisión. Da algo más importante: un grupo de comparación que no depende de que las
-agencias grandes entren primero ni de las reorganizaciones de una sola fiscalía.</p>
+<h2 class="seccion-titulo" id="acto5"><span class="n">5</span>Para la expansión nacional: decidir antes de arrancar</h2>
+<div class="rejilla">
+  <div class="tarjeta span-4">
+    <div class="fila-titulo">
+      <h3>Un ejemplo: sortear qué estados entran primero</h3>
+      <button class="btn" id="btn-sorteo-estados">Sortear otra vez</button>
+    </div>
+    <p class="sub-h3">El sorteo se hace dentro de grupos de estados de tamaño parecido. La segunda oleada entra un año después y mientras tanto sirve de comparación.</p>
+    <div class="expansion">
+      <div id="mapa-mx" role="img" aria-label="Mapa de México con un ejemplo de sorteo de estados en dos oleadas"></div>
+      <div class="expansion-panel">
+        <div class="contador">
+          <div><span class="contador-val" id="ola1">0</span><span class="contador-etq">estados en la primera oleada</span></div>
+          <div><span class="contador-val ref" id="ola2">0</span><span class="contador-etq">esperan un año y sirven de comparación</span></div>
+        </div>
+        <table class="tabla-grupos" id="tabla-grupos" aria-label="Estados por grupo de tamaño y oleada"></table>
+        <div class="leyenda-puntos">
+          <span><i class="pt ola1"></i>primera oleada</span>
+          <span><i class="pt ola2"></i>segunda oleada</span>
+          <span><i class="pt cdmx"></i>Ciudad de México, ya tiene el programa</span>
+        </div>
+        <p class="expansion-nota">Da un grupo de comparación limpio. No da más precisión: el mínimo detectable es {{ p(dil.mde_estatal_interpolado) }} del total estatal, cerca de {{ p(dil.efecto_local_equivalente_interpolado) }} en cada agencia con abogadas.</p>
+      </div>
+    </div>
+    <div class="tarjeta-pie">Ejemplo ilustrativo, no un calendario propuesto. Los grupos de tamaño salen de los delitos de violencia familiar que registró cada fiscalía en {{ c.expansion_mapa.anio_tamano }} (Censo Nacional de Procuración de Justicia Estatal, INEGI).</div>
+  </div>
 </div>
-
 <div class="rejilla">
   <div class="tarjeta">
     <span class="paso-num">1</span>
-    <h3 class="rec-titulo">Sortear qué estados entran primero</h3>
-    <p class="rec-texto">Dos oleadas a un año de distancia, sorteadas dentro de grupos de estados de tamaño
-      parecido. Da un grupo de comparación limpio. Su costo: la mitad de los estados espera un año.</p>
-    <p class="tile-nota">Viene de los actos 1 y 2: entraron primero las agencias grandes y las que esperaban también cambiaron.</p>
+    <h3 class="rec-titulo">Sortear estados en dos oleadas</h3>
   </div>
   <div class="tarjeta">
     <span class="paso-num">2</span>
-    <h3 class="rec-titulo">Escalonar por agencia y publicar el calendario</h3>
-    <p class="rec-texto">Dentro de cada estado, que las agencias entren en meses distintos, con la fecha
-      fijada por escrito. Con cientos de agencias escalonadas, el aumento mínimo que se puede detectar
-      podría bajar.</p>
-    <p class="tile-nota">Viene de los actos 1 y 4: en la ciudad la fecha se deduce del primer registro. Con {{ c.resumen.unidades_analisis }} unidades solo se detectan con confianza aumentos de {{ p(real.mde_interpolado) }} o más.</p>
+    <h3 class="rec-titulo">Escalonar por agencia con fecha por escrito</h3>
   </div>
   <div class="tarjeta">
     <span class="paso-num">3</span>
-    <h3 class="rec-titulo">Registrar lo que hoy falta desde el primer día</h3>
-    <p class="rec-texto">Folio, fecha exacta, clave oficial de la agencia, número de carpeta, un sí o no
-      obligatorio y el nivel de riesgo. Con eso cada atención se puede seguir hasta su carpeta.</p>
-    <p class="tile-nota">Viene del acto 3: durante {{ c.resumen.hueco_meses }} meses el "no se abrió carpeta" casi desaparece.</p>
+    <h3 class="rec-titulo">Seis campos desde el primer día</h3>
+    <p class="rec-texto">Folio, fecha, clave de agencia, carpeta, un sí o no obligatorio y el riesgo.</p>
   </div>
   <div class="tarjeta">
     <span class="paso-num">4</span>
     <h3 class="rec-titulo">Reportar atenciones y carpetas por separado</h3>
-    <p class="rec-texto">No usar la conversión como medida de éxito. Reportar atenciones y carpetas por
-      separado, cada una contra el total de violencia familiar de la agencia. Las encuestas que preguntan a las
-      mujeres si denunciaron no dependen de la fiscalía.</p>
-    <p class="tile-nota">Viene del acto 3: entre {{ pp(d.parte_por_menos_atenciones_pct) }}% y {{ pp(dc.parte_por_menos_atenciones_pct) }}% del salto en la conversión viene de que hubo menos atenciones.</p>
   </div>
 </div>
+<p class="nota-final">El detalle de cada cálculo está en <a href="{{ url_for('metodologia') }}">Metodología</a>.</p>
 
-<div class="aviso-dato">
-  <strong>Qué cambia el orden.</strong> Si la expansión ya arrancó en todos los estados al mismo tiempo,
-  no hay estados que esperen. Entonces escalonar por agencia pasa a ser lo principal.
 </div>
-
-<details class="detalle tecnico-bloque">
-  <summary>Por qué sortear estados da validez y no precisión</summary>
-  <p>Con la misma simulación probé medir por estado en lugar de por agencia: la mitad de los estados,
-  sorteada, recibe el programa en {{ ev.estados.anios[3] }} y la otra mitad espera hasta después de
-  {{ ev.estados.anios[-1] }}. Usé el censo de fiscalías del INEGI ({{ ev.estados.n }} estados, de
-  {{ ev.estados.anios[0] }} a {{ ev.estados.anios[-1] }}). La variable son los delitos de violencia
-  familiar registrados en carpetas.</p>
-  <p>Por estados, un aumento de 20% sobre el total estatal se detectaría
-  {{ (ev.estados.potencia["0.2"] * 10)|round|int }} de cada 10 veces. El mínimo detectable es de
-  {{ p(dil.mde_estatal_interpolado) }} ({{ p(ev.estados.sin_series_rotas) }} sin cuatro estados con series
-  rotas). Pero ese aumento se mide sobre todas las carpetas del estado. Si, como en la ciudad, las agencias
-  con programa concentran {{ p(dil.cobertura_territorial_vf_cdmx) }} de las carpetas de violencia familiar,
-  equivale a cerca de {{ p(dil.efecto_local_equivalente_interpolado) }} en las agencias cubiertas, casi lo
-  mismo que en la ciudad. Ese mínimo por agencia es el de la Ciudad de México. Con cientos de agencias
-  escalonadas en todo el país podría ser menor, aunque no lo simulé.</p>
-</details>
-
-<details class="detalle" style="margin-top: 28px">
-  <summary>El caso completo, en seis frases</summary>
-  <ol class="historia">
-    <li>Entre marzo y agosto de 2019 las abogadas llegaron a las {{ c.resumen.unidades }} unidades
-        territoriales. Las más grandes, primero.</li>
-    <li>En los {{ c.resumen.meses_medibles }} meses medibles, las agencias con abogadas abrieron
-        {{ sp1(e.vf.efecto) }} más carpetas de violencia familiar de las esperadas. Todo viene de las que
-        entraron en marzo. La comparación es contra agencias que también cayeron.</li>
-    <li>La conversión pasó de {{ p(pr.descomposicion.conversion_inicio) }} a
-        {{ p(pr.descomposicion.conversion_fin) }}, sobre todo porque hubo menos atenciones.</li>
-    <li>{{ "%.0f"|format(riesgo.riesgo_sin_carpeta_pct) }} de cada 100 atenciones con riesgo de feminicidio
-        terminaron sin carpeta, por razones que la base no registra. El riesgo sí eleva la probabilidad de
-        carpeta. Aun así, la parte sin carpeta va de {{ p(het.min_sin_carpeta) }} a {{ p(het.max_sin_carpeta) }} según la agencia.</li>
-    <li>Con {{ c.resumen.unidades_analisis }} unidades de una ciudad solo se detectan con confianza aumentos
-        de {{ p(real.mde_interpolado) }} o más. El estimado queda por debajo.</li>
-    <li>Sortear el orden de entrada de los estados en la expansión nacional no daría más precisión, pero sí
-        un grupo de comparación limpio.</li>
-  </ol>
-</details>
-
 {% endblock %}
 
 {% block fuentes %}Secretaría de las Mujeres de la CDMX (atenciones de las Abogadas de las Mujeres),
-Fiscalía General de Justicia de la CDMX (carpetas de investigación) y Censo Nacional de Procuración
-de Justicia Estatal (INEGI).{% endblock %}
+Fiscalía General de Justicia de la CDMX y Censo Nacional de Procuración de Justicia Estatal (INEGI).{% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/abogadas.js') }}"></script>
